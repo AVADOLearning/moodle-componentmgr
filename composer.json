@@ -1,0 +1,15 @@
+{
+    "autoload": {
+        "psr-4": {
+            "ComponentManager\\": "lib/"
+        }
+    },
+
+    "require": {
+        "psr/log": "1.0.*",
+        "symfony/config": "2.6.*",
+        "symfony/console": "2.6.*",
+        "symfony/dependency-injection": "2.6.*",
+        "symfony/monolog-bundle": "~2.4"
+    }
+}
