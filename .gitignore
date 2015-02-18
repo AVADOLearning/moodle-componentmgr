@@ -1,0 +1,3 @@
+# Composer manages our dependencies
+/composer.lock
+/vendor/
