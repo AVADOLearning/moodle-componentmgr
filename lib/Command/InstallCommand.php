@@ -80,6 +80,8 @@ HELP;
             ->setDescription('Installs a package')
             ->setHelp(static::HELP)
             ->setDefinition(new InputDefinition(array(
+                new InputArgument(static::ARG_COMPONENT,
+                                  InputArgument::REQUIRED),
                 new InputOption(static::OPT_SOURCE, static::OPT_SOURCE_SHORT,
                                 InputOption::VALUE_REQUIRED),
                 new InputOption(static::OPT_RELEASE, static::OPT_RELEASE_SHORT,
