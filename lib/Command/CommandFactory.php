@@ -54,7 +54,7 @@ class CommandFactory {
      *                                                   class.
      */
     public function createCommand($name) {
-        $classname = $this->getCommandClassName($name);
+        $classname = static::getCommandClassName($name);
 
         return new $classname($this->logger);
     }
@@ -67,7 +67,7 @@ class CommandFactory {
      * @return string The fully-qualified name of the command's corresponding
      *                class.
      */
-    protected function getCommandClassName($name) {
+    protected static function getCommandClassName($name) {
         return sprintf(static::CLASS_NAME_FORMAT, $name);
     }
 }
