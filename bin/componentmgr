@@ -16,8 +16,17 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+/**
+ * Configuration directory.
+ *
+ * @var string
+ */
+define('CM_ETC', dirname(__DIR__) . '/etc');
+
+require CM_ETC . '/bootstrap.php';
+
 $container = new ContainerBuilder();
-$loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__) . '/etc'));
+$loader = new PhpFileLoader($container, new FileLocator(CM_ETC));
 $loader->load('services.php');
 $container->compile();
 
