@@ -10,6 +10,7 @@
 
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Bundle\MonologBundle\DependencyInjection\Compiler\LoggerChannelPass;
 use Symfony\Bundle\MonologBundle\DependencyInjection\MonologExtension;
 
 /*
@@ -25,9 +26,11 @@ $container->setDefinition('application', $application);
 /*
  * Command factory.
  */
-
 $commandFactory = new Definition('\ComponentManager\Command\CommandFactory', [
     new Reference('logger'),
+]);
+$commandFactory->addTag('monolog.logger', [
+    'channel' => 'console',
 ]);
 $container->setDefinition('command.command_factory', $commandFactory);
 
@@ -43,13 +46,21 @@ $container->setDefinition('command.install_command', $command);
 /*
  * Register Monolog for logging within commands.
  */
-$loader = new MonologExtension();
-$loader->load([
-    [
-        'handlers' => [
-            'console' => [
-                'type' => 'console',
-            ],
+$container->registerExtension(new MonologExtension());
+$container->loadFromExtension('monolog', [
+    'channels' => ['console'],
+    'handlers' => [
+        'console' => [
+            'type'      => 'stream',
+            'path'      => 'php://stdout',
+            'formatter' => 'logger.console.formatter',
+            'level'     => 'debug',
+            'channels'  => ['console'],
         ],
-    ]
-], $container);
+    ],
+]);
+
+$container->register('logger.console.formatter',
+                     'Bramus\Monolog\Formatter\ColoredLineFormatter');
+
+$container->addCompilerPass(new LoggerChannelPass());

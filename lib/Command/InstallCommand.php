@@ -80,7 +80,6 @@ HELP;
             ->setDescription('Installs a package')
             ->setHelp(static::HELP)
             ->setDefinition(new InputDefinition(array(
-                new InputArgument(static::ARG_COMPONENT, InputArgument::REQUIRED),
                 new InputOption(static::OPT_SOURCE, static::OPT_SOURCE_SHORT,
                                 InputOption::VALUE_REQUIRED),
                 new InputOption(static::OPT_RELEASE, static::OPT_RELEASE_SHORT,
@@ -92,6 +91,8 @@ HELP;
      * @override \Symfony\Component\Console\Command\Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $output->writeln(sprintf('Installing %s', $input->getArgument(static::ARG_COMPONENT)));
+        $this->logger->info('Installing component', [
+            'component' => $input->getArgument(static::ARG_COMPONENT),
+        ]);
     }
 }
