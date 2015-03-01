@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Command;
 
+use ComponentManager\PackageRepository\PackageRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 
@@ -30,15 +31,43 @@ class AbstractCommand extends Command {
     protected $logger;
 
     /**
+     * Package repositories.
+     *
+     * @var \ComponentManager\PackageRepositories\AbstractPackageRepository[]
+     */
+    protected $packageRepositories = [];
+
+    /**
      * Initialiser.
      *
-     * @param \Psr\Log\LoggerInterface $logger The PSR-3 compatible logger the
-     *                                         command should direct its output
-     *                                         to.
+     * @param \Psr\Log\LoggerInterface $logger              The PSR-3 compatible
+     *                                                      logger the command
+     *                                                      should direct its
+     *                                                      output to.
+     * @param \ComponentManager\PackageRepositories\AbstractPackageRepository[]
+     *                                 $packageRepositories Enabled package
+     *                                                      repositories.
      */
-    public function __construct(LoggerInterface $logger) {
+    public function __construct(LoggerInterface $logger,
+                                $packageRepositories=[]) {
         parent::__construct();
 
         $this->logger = $logger;
+
+        foreach ($packageRepositories as $packageRepository) {
+            $this->addPackageRepository($packageRepository);
+        }
+    }
+
+    /**
+     * Add a package repository.
+     *
+     * @param \ComponentManager\PackageRepositories\AbstractPackageRepository
+     *        $packageRepository
+     *
+     * @return void
+     */
+    protected function addPackageRepository(PackageRepository $packageRepository) {
+        $this->packageRepositories[] = $packageRepository;
     }
 }

@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Command;
 
+use ComponentManager\PackageRepository\PackageRepository;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -34,14 +35,37 @@ class CommandFactory {
     protected $logger;
 
     /**
+     * Package repositories.
+     *
+     * @var \ComponentManager\PackageRepositories\AbstractPackageRepository[]
+     */
+    protected $packageRepositories = [];
+
+    /**
      * Initialiser.
      *
      * @param \Psr\Log\LoggerInterface $logger The PSR-3 compliant logger
      *                                         implementation commands should
      *                                         direct their output to.
      */
-    public function __construct(LoggerInterface $logger) {
+    public function __construct(LoggerInterface $logger, $packageRepositories=[]) {
         $this->logger = $logger;
+
+        foreach ($packageRepositories as $packageRepository) {
+            $this->addPackageRepository($packageRepository);
+        }
+    }
+
+    /**
+     * Add a package repository.
+     *
+     * @param \ComponentManager\PackageRepositories\AbstractPackageRepository
+     *        $packageRepository
+     *
+     * @return void
+     */
+    protected function addPackageRepository(PackageRepository $packageRepository) {
+        $this->packageRepositories[] = $packageRepository;
     }
 
     /**
@@ -56,7 +80,7 @@ class CommandFactory {
     public function createCommand($name) {
         $classname = static::getCommandClassName($name);
 
-        return new $classname($this->logger);
+        return new $classname($this->logger, $this->packageRepositories);
     }
 
     /**
@@ -67,7 +91,7 @@ class CommandFactory {
      * @return string The fully-qualified name of the command's corresponding
      *                class.
      */
-    protected static function getCommandClassName($name) {
+    public static function getCommandClassName($name) {
         return sprintf(static::CLASS_NAME_FORMAT, $name);
     }
 }

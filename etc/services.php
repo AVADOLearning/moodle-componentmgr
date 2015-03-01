@@ -8,26 +8,26 @@
  * @license GPL v3
  */
 
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
+use ComponentManager\Command\CommandFactory;
 use Symfony\Bundle\MonologBundle\DependencyInjection\Compiler\LoggerChannelPass;
 use Symfony\Bundle\MonologBundle\DependencyInjection\MonologExtension;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Filesystem\Filesystem;
 
 /*
- * Register the console application entry point.
+ * Configuration parameters.
  */
-$application = new Definition('\ComponentManager\ComponentManagerApplication', [
-    [
-        new Reference('command.install_command'),
-    ]
-]);
-$container->setDefinition('application', $application);
+$homeDirectory = getenv('HOME');
+$container->setParameter('package_repository.cache_directory',
+                         "{$homeDirectory}/.componentmgr/cache");
 
 /*
  * Command factory.
  */
 $commandFactory = new Definition('\ComponentManager\Command\CommandFactory', [
     new Reference('logger'),
+    [new Reference('package_repository.moodle_package_repository')],
 ]);
 $commandFactory->addTag('monolog.logger', [
     'channel' => 'console',
@@ -37,11 +37,29 @@ $container->setDefinition('command.command_factory', $commandFactory);
 /*
  * Individual commands.
  */
-$command = new Definition('\ComponentManager\Command\InstallCommand', [
-    'Install',
-]);
-$command->setFactory([new Reference('command.command_factory'), 'createCommand']);
-$container->setDefinition('command.install_command', $command);
+$commands = [
+    'install' => 'Install',
+    'refresh' => 'Refresh',
+];
+
+$commandReferences = [];
+foreach ($commands as $id => $className) {
+    $qualifiedId        = "command.{$id}_command";
+    $qualifiedClassName = CommandFactory::getCommandClassName($className);
+
+    $command = new Definition($qualifiedClassName, [$className]);
+    $command->setFactory([new Reference('command.command_factory'),
+                          'createCommand']);
+
+    $container->setDefinition($qualifiedId, $command);
+
+    $commandReferences[] = new Reference($qualifiedId);
+}
+
+/*
+ * Register a filesystem for handling cache operations.
+ */
+$container->register('filesystem', '\Symfony\Component\Filesystem\Filesystem');
 
 /*
  * Register Monolog for logging within commands.
@@ -64,3 +82,20 @@ $container->register('logger.console.formatter',
                      'Bramus\Monolog\Formatter\ColoredLineFormatter');
 
 $container->addCompilerPass(new LoggerChannelPass());
+
+/*
+ * Register Moodle.org package source.
+ */
+$repository = new Definition('\ComponentManager\PackageRepository\MoodlePackageRepository', [
+    new Reference('filesystem'),
+    '%package_repository.cache_directory%/moodle',
+]);
+$container->setDefinition('package_repository.moodle_package_repository',
+                          $repository);
+
+/*
+ * Register the console application entry point.
+ */
+$application = new Definition('\ComponentManager\ComponentManagerApplication',
+                              [$commandReferences]);
+$container->setDefinition('application', $application);
