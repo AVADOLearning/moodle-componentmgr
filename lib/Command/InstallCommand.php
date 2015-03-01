@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Command;
 
+use ComponentManager\Argument;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,40 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * directory.
  */
 class InstallCommand extends AbstractCommand {
-    /**
-     * Argument: component.
-     *
-     * @var string
-     */
-    const ARG_COMPONENT = 'component';
-
-    /**
-     * Option: source.
-     *
-     * @var string
-     */
-    const OPT_SOURCE = 'source';
-
-    /**
-     * Short option: source.
-     *
-     * @var string
-     */
-    const OPT_SOURCE_SHORT = 's';
-
-    /**
-     * Option: release.
-     *
-     * @var string
-     */
-    const OPT_RELEASE = 'release';
-
-    /**
-     * Short option: release.
-     *
-     * @var string
-     */
-    const OPT_RELEASE_SHORT = 'r';
 
     /**
      * Help text.
@@ -80,11 +47,11 @@ HELP;
             ->setDescription('Installs a package')
             ->setHelp(static::HELP)
             ->setDefinition(new InputDefinition([
-                new InputArgument(static::ARG_COMPONENT,
+                new InputArgument(Argument::ARG_COMPONENT,
                                   InputArgument::REQUIRED),
-                new InputOption(static::OPT_SOURCE, static::OPT_SOURCE_SHORT,
+                new InputOption(Argument::OPT_SOURCE, Argument::OPT_SOURCE_SHORT,
                                 InputOption::VALUE_REQUIRED),
-                new InputOption(static::OPT_RELEASE, static::OPT_RELEASE_SHORT,
+                new InputOption(Argument::OPT_RELEASE, Argument::OPT_RELEASE_SHORT,
                                 InputOption::VALUE_REQUIRED),
             ]));
     }
@@ -94,7 +61,7 @@ HELP;
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $this->logger->info('Installing component', [
-            'component' => $input->getArgument(static::ARG_COMPONENT),
+            'component' => $input->getArgument(Argument::ARG_COMPONENT),
         ]);
 
         $this->logger->emerg('SHIT! We didn\'t write that yet.');
