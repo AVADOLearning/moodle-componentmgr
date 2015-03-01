@@ -11,7 +11,6 @@
 namespace ComponentManager\Command;
 
 use ComponentManager\PackageRepository\CachingPackageRepository;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
