@@ -79,14 +79,14 @@ HELP;
             ->setName('install')
             ->setDescription('Installs a package')
             ->setHelp(static::HELP)
-            ->setDefinition(new InputDefinition(array(
+            ->setDefinition(new InputDefinition([
                 new InputArgument(static::ARG_COMPONENT,
                                   InputArgument::REQUIRED),
                 new InputOption(static::OPT_SOURCE, static::OPT_SOURCE_SHORT,
                                 InputOption::VALUE_REQUIRED),
                 new InputOption(static::OPT_RELEASE, static::OPT_RELEASE_SHORT,
                                 InputOption::VALUE_REQUIRED),
-            )));
+            ]));
     }
 
     /**
@@ -96,5 +96,7 @@ HELP;
         $this->logger->info('Installing component', [
             'component' => $input->getArgument(static::ARG_COMPONENT),
         ]);
+
+        $this->logger->emerg('SHIT! We didn\'t write that yet.');
     }
 }
