@@ -10,6 +10,8 @@
 
 namespace ComponentManager\PackageRepository;
 
+use Psr\Log\LoggerInterface;
+
 /**
  * Caching package repository interface.
  */
@@ -19,5 +21,5 @@ interface CachingPackageRepository {
      *
      * @return void
      */
-    public function refreshMetadataCache();
+    public function refreshMetadataCache(LoggerInterface $logger);
 }

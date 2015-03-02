@@ -11,6 +11,8 @@
 namespace ComponentManager\PackageRepository;
 
 use GuzzleHttp\Client;
+use Psr\Log\LoggerInterface;
+use stdClass;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -60,6 +62,13 @@ class MoodlePackageRepository extends AbstractPackageRepository
     protected $filesystem;
 
     /**
+     * Package cache.
+     *
+     * @var \stdClass
+     */
+    protected $packageCache;
+
+    /**
      * Initialiser.
      *
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
@@ -82,18 +91,68 @@ class MoodlePackageRepository extends AbstractPackageRepository
     /**
      * @override \ComponentManager\PackageRepository\PackageRepository
      */
-    public function getPackageVersions($packageNames) {
-        // load from the cache
+    public function getId() {
+        return 'moodle';
+    }
+
+    /**
+     * @override \ComponentManager\PackageRepository\PackageRepository
+     */
+    public function getName() {
+        return 'Moodle.org plugin repository';
+    }
+
+    /**
+     * @override \ComponentManager\PackageRepository\PackageRepository
+     */
+    public function getPackage($packageName) {
+        $this->maybeLoadPackageCache();
+
+        var_dump($this->packageCache->{$packageName});
+    }
+
+    /**
+     * @override \ComponentManager\PackageRepository\PackageRepository
+     */
+    public function getPackageVersions($packageName) {
+        $this->maybeLoadPackageCache();
+    }
+
+    protected function loadPackageCache() {
+        $this->packageCache = json_decode(file_get_contents(
+                $this->getMetadataCacheFilename()));
+    }
+
+    protected function maybeLoadPackageCache() {
+        if ($this->packageCache === null) {
+            $this->loadPackageCache();
+        }
     }
 
     /**
      * @override \ComponentManager\PackageRepository\CachingPackageRepository
      */
-    public function refreshMetadataCache() {
+    public function refreshMetadataCache(LoggerInterface $logger) {
+        $logger->debug('Fetching metadata', ['url' => static::PLUGIN_LIST_URL]);
         $client   = new Client();
         $response = $client->get(static::PLUGIN_LIST_URL);
 
-        $this->filesystem->dumpFile($this->getMetadataCacheFilename(),
-                                    $response->getBody());
+        $logger->debug('Indexing component data');
+        $rawComponents = json_decode($response->getBody());
+        $components    = new stdClass();
+        foreach ($rawComponents->plugins as $component) {
+            if ($component->component === null) {
+                $logger->warn('Component has no component name; is it a patch or external tool?', [
+                    'id'   => $component->id,
+                    'name' => $component->name,
+                ]);
+                continue;
+            }
+            $components->{$component->component} = $component;
+        }
+
+        $file = $this->getMetadataCacheFilename();
+        $logger->info('Storing metadata', ['file' => $file]);
+        $this->filesystem->dumpFile($file, json_encode($components));
     }
 }

@@ -12,6 +12,20 @@ namespace ComponentManager\PackageRepository;
 
 interface PackageRepository {
     /**
+     * Get repository identifier.
+     *
+     * @return string
+     */
+    public function getId();
+
+    /**
+     * Get repository name.
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
      * Get available versions for the specified package.
      *
      * @param string $packageName

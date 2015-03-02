@@ -52,7 +52,7 @@ HELP;
             if ($packageRepository instanceof CachingPackageRepository) {
                 $this->logger->info('Refreshing repository package cache',
                                     $logContext);
-                $packageRepository->refreshMetadataCache();
+                $packageRepository->refreshMetadataCache($this->logger);
             } else {
                 $this->logger->info('Skipping non-caching repository',
                                     $logContext);
