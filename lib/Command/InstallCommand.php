@@ -24,7 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * directory.
  */
 class InstallCommand extends AbstractCommand {
-
     /**
      * Help text.
      *
