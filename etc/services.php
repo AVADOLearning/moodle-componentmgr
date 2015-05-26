@@ -9,6 +9,7 @@
  */
 
 use ComponentManager\Command\CommandFactory;
+use ComponentManager\PlatformUtil;
 use Symfony\Bundle\MonologBundle\DependencyInjection\Compiler\LoggerChannelPass;
 use Symfony\Bundle\MonologBundle\DependencyInjection\MonologExtension;
 use Symfony\Component\DependencyInjection\Definition;
@@ -18,9 +19,10 @@ use Symfony\Component\Filesystem\Filesystem;
 /*
  * Configuration parameters.
  */
-$homeDirectory = getenv('HOME');
-$container->setParameter('package_repository.cache_directory',
-                         "{$homeDirectory}/.componentmgr/cache");
+$cacheDirectory = PlatformUtil::localSharedDirectory()
+        . PlatformUtil::directorySeparator() . 'componentmgr'
+        . PlatformUtil::directorySeparator() . 'cache';
+$container->setParameter('package_repository.cache_directory', $cacheDirectory);
 
 /*
  * Command factory.
@@ -88,7 +90,8 @@ $container->addCompilerPass(new LoggerChannelPass());
  */
 $repository = new Definition('\ComponentManager\PackageRepository\MoodlePackageRepository', [
     new Reference('filesystem'),
-    '%package_repository.cache_directory%/moodle',
+    '%package_repository.cache_directory%'
+            . PlatformUtil::directorySeparator() . 'moodle',
 ]);
 $container->setDefinition('package_repository.moodle_package_repository',
                           $repository);

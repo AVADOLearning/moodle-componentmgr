@@ -10,6 +10,7 @@
 
 namespace ComponentManager\PackageRepository;
 
+use ComponentManager\PlatformUtil;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use stdClass;
@@ -25,7 +26,7 @@ class MoodlePackageRepository extends AbstractPackageRepository
      *
      * @var string
      */
-    const METADATA_CACHE_FILENAME = '%s/components.json';
+    const METADATA_CACHE_FILENAME = '%s%scomponents.json';
 
     /**
      * Plugin information endpoint URL.
@@ -85,7 +86,9 @@ class MoodlePackageRepository extends AbstractPackageRepository
      * @return string
      */
     protected function getMetadataCacheFilename() {
-        return sprintf(static::METADATA_CACHE_FILENAME, $this->cacheDirectory);
+        return sprintf(static::METADATA_CACHE_FILENAME,
+                       $this->cacheDirectory,
+                       PlatformUtil::directorySeparator());
     }
 
     /**
