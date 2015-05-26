@@ -8,6 +8,7 @@
     "require": {
         "bramus/monolog-colored-line-formatter": "2.0.*",
         "guzzlehttp/guzzle": "5.2.*",
+        "medicorenl/stash-api-bundle": "dev-master",
         "psr/log": "1.0.*",
         "symfony/config": "2.6.*",
         "symfony/console": "2.6.*",

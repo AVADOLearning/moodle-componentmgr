@@ -34,8 +34,8 @@ class PlatformUtil {
      */
     public static function homeDirectory() {
         switch (PHP_OS) {
-            case 'Linux': return get_env('HOME');
-            case 'WINNT': return get_env('HOMEDRIVE') . get_env('HOMEPATH');
+            case 'Linux': return getenv('HOME');
+            case 'WINNT': return getenv('HOMEDRIVE') . getenv('HOMEPATH');
             default:      throw new PlatformException(PHP_OS);
         }
     }

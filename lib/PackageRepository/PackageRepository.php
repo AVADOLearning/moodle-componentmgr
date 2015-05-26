@@ -10,6 +10,12 @@
 
 namespace ComponentManager\PackageRepository;
 
+/**
+ * Package repository interface.
+ *
+ * Package repositories contain metadata about the different available
+ * components, including their names, versions and descriptions.
+ */
 interface PackageRepository {
     /**
      * Get repository identifier.
