@@ -92,7 +92,7 @@ class StashPackageRepository extends AbstractPackageRepository
      * @override \ComponentManager\PackageRepository\PackageRepository
      */
     public function getId() {
-        return 'moodle';
+        return 'Stash';
     }
 
     /**
