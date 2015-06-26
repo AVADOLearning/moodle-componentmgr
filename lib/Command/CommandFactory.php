@@ -10,8 +10,10 @@
 
 namespace ComponentManager\Command;
 
+use ComponentManager\ContainerAwareTrait;
 use ComponentManager\PackageRepository\PackageRepository;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 /**
  * Command factory.
@@ -19,54 +21,15 @@ use Psr\Log\LoggerInterface;
  * Hides the finicky details of the DI container from the command classes and
  * just gives them their dependencies.
  */
-class CommandFactory {
+class CommandFactory implements ContainerAwareInterface {
+    use ContainerAwareTrait;
+
     /**
      * Command class name format.
      *
      * @var string
      */
     const CLASS_NAME_FORMAT = '\ComponentManager\Command\%sCommand';
-
-    /**
-     * PSR-3 compliant logger.
-     *
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
-
-    /**
-     * Package repositories.
-     *
-     * @var \ComponentManager\PackageRepositories\AbstractPackageRepository[]
-     */
-    protected $packageRepositories = [];
-
-    /**
-     * Initialiser.
-     *
-     * @param \Psr\Log\LoggerInterface $logger The PSR-3 compliant logger
-     *                                         implementation commands should
-     *                                         direct their output to.
-     */
-    public function __construct(LoggerInterface $logger, $packageRepositories=[]) {
-        $this->logger = $logger;
-
-        foreach ($packageRepositories as $packageRepository) {
-            $this->addPackageRepository($packageRepository);
-        }
-    }
-
-    /**
-     * Add a package repository.
-     *
-     * @param \ComponentManager\PackageRepositories\AbstractPackageRepository
-     *        $packageRepository
-     *
-     * @return void
-     */
-    protected function addPackageRepository(PackageRepository $packageRepository) {
-        $this->packageRepositories[] = $packageRepository;
-    }
 
     /**
      * Create a command.
@@ -80,7 +43,7 @@ class CommandFactory {
     public function createCommand($name) {
         $classname = static::getCommandClassName($name);
 
-        return new $classname($this->logger, $this->packageRepositories);
+        return new $classname($this->container);
     }
 
     /**

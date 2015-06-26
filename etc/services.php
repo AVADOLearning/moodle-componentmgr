@@ -27,13 +27,11 @@ $container->setParameter('package_repository.cache_directory', $cacheDirectory);
 /*
  * Command factory.
  */
-$commandFactory = new Definition('\ComponentManager\Command\CommandFactory', [
-    new Reference('logger'),
-    [new Reference('package_repository.moodle_package_repository')],
-]);
+$commandFactory = new Definition('\ComponentManager\Command\CommandFactory');
 $commandFactory->addTag('monolog.logger', [
     'channel' => 'console',
 ]);
+$commandFactory->addMethodCall('setContainer', [new Reference('service_container')]);
 $container->setDefinition('command.command_factory', $commandFactory);
 
 /*
