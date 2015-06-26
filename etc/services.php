@@ -99,6 +99,6 @@ $container->setDefinition('package_repository.moodle_package_repository',
 /*
  * Register the console application entry point.
  */
-$application = new Definition('\ComponentManager\ComponentManagerApplication',
+$application = new Definition('\ComponentManager\ComponentManager',
                               [$commandReferences]);
 $container->setDefinition('application', $application);

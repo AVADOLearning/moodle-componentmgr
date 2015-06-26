@@ -16,7 +16,7 @@ use Symfony\Component\Console\Application;
 /**
  * Component manager application entry point.
  */
-class ComponentManagerApplication extends Application {
+class ComponentManager extends Application {
     /**
      * Release name.
      *
@@ -31,7 +31,7 @@ class ComponentManagerApplication extends Application {
      *                                                    within the
      *                                                    application.
      */
-    public function __construct($commands=[]) {
+    public function __construct($commands) {
         parent::__construct('Component Manager', static::VERSION);
 
         foreach ($commands as $command) {
