@@ -86,7 +86,7 @@ $container->register('logger.console.formatter',
 $container->addCompilerPass(new LoggerChannelPass());
 
 /*
- * Register Moodle.org package source.
+ * Register Moodle.org package repository.
  */
 $repository = new Definition('\ComponentManager\PackageRepository\MoodlePackageRepository', [
     new Reference('filesystem'),
