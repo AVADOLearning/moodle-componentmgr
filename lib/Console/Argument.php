@@ -8,7 +8,7 @@
  * @license GPL v3
  */
 
-namespace ComponentManager;
+namespace ComponentManager\Console;
 
 /**
  * Named arguments for reuse across commands.

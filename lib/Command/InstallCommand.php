@@ -10,7 +10,7 @@
 
 namespace ComponentManager\Command;
 
-use ComponentManager\Argument;
+use ComponentManager\Console\Argument;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
