@@ -45,6 +45,12 @@ your home directory and add its ```bin``` directory to your ```PATH```.
 * _Version control_ implementations allow us to download and checkout specific
   versions of components from a range of different sources.
 
+## To do
+
+* Ditch JSON for storage of package repository cache and use SQLite instead.
+  This should offer a sizeable reudction in the amount of time we spend locating
+  package metadata.
+
 ## Troubleshooting
 
 * "cURL error 60: SSL certificate problem: unable to get local issuer certificate"
