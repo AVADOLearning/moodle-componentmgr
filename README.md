@@ -32,6 +32,10 @@ very long time. Magento developers even use a tool called Modman to manage
 Magento modules (and Magento's module system is a great deal more difficult than
 Moodle's!).
 
+## Requirements
+
+* PHP 5.4
+
 ## Installation
 
 We haven't figured out distribution yet -- just drop this directory somewhere in
