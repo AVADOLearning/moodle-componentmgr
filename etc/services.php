@@ -101,4 +101,5 @@ $container->setDefinition('package_repository.moodle_package_repository',
  */
 $application = new Definition('\ComponentManager\ComponentManager',
                               [$commandReferences]);
+$application->addMethodCall('setContainer', [new Reference('service_container')]);
 $container->setDefinition('application', $application);

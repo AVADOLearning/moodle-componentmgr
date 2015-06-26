@@ -12,17 +12,26 @@ namespace ComponentManager;
 
 use ComponentManager\Command\InstallCommand;
 use Symfony\Component\Console\Application;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Component manager application entry point.
  */
-class ComponentManager extends Application {
+class ComponentManager extends Application implements ContainerAwareInterface {
     /**
      * Release name.
      *
      * @var string
      */
     const VERSION = '0.1.0';
+
+    /**
+     * Dependency injection container.
+     *
+     * @var \Symfony\Component\DependencyInjection\Container
+     */
+    protected $container;
 
     /**
      * Initialiser.
@@ -37,5 +46,16 @@ class ComponentManager extends Application {
         foreach ($commands as $command) {
             $this->add($command);
         }
+    }
+
+    /**
+     * Set the dependency injection container.
+     *
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     *
+     * @return void
+     */
+    public function setContainer(ContainerInterface $container=null) {
+        $this->container = $container;
     }
 }
