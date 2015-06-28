@@ -52,4 +52,13 @@ class PlatformUtil {
             default:      throw new PlatformException(PHP_OS);
         }
     }
+
+    /**
+     * Get the current working directory.
+     *
+     * @return string
+     */
+    public static function workingDirectory() {
+        return getcwd();
+    }
 }

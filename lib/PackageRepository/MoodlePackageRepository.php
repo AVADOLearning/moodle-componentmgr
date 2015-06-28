@@ -49,36 +49,11 @@ class MoodlePackageRepository extends AbstractPackageRepository
     const PLUGIN_LIST_URL = 'https://download.moodle.org/api/1.3/pluglist.php';
 
     /**
-     * Base directory for our disk cache.
-     *
-     * @var string
-     */
-    protected $cacheDirectory;
-
-    /**
-     * Filesystem.
-     *
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
-    protected $filesystem;
-
-    /**
      * Package cache.
      *
      * @var \stdClass
      */
     protected $packageCache;
-
-    /**
-     * Initialiser.
-     *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param string                                   $cacheDirectory
-     */
-    public function __construct(Filesystem $filesystem, $cacheDirectory) {
-        $this->filesystem     = $filesystem;
-        $this->cacheDirectory = $cacheDirectory;
-    }
 
     /**
      * Get the component metadata cache filename.
@@ -110,8 +85,6 @@ class MoodlePackageRepository extends AbstractPackageRepository
      */
     public function getPackage($packageName) {
         $this->maybeLoadPackageCache();
-
-        var_dump($this->packageCache->{$packageName});
     }
 
     /**

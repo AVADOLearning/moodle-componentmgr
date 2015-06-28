@@ -11,6 +11,7 @@
 namespace ComponentManager\Command;
 
 use ComponentManager\Console\Argument;
+use ComponentManager\Project;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,17 +25,15 @@ use Symfony\Component\Console\Output\OutputInterface;
  * directory.
  */
 class InstallCommand extends AbstractCommand {
+    use ProjectAwareCommandTrait;
+
     /**
      * Help text.
      *
      * @var string
      */
     const HELP = <<<HELP
-Installs a component into the Moodle installation in the present working directory.
-
-If no source is specified, the component's package will be sourced from the plugin directory on Moodle.org.
-
-The latest available stable release for your installed Moodle version will be used if no version is specified.
+Installs, into the Moodle installation in the present working directory, all of the components listed in its componentmgr.json file.
 HELP;
 
     /**
@@ -43,22 +42,21 @@ HELP;
     protected function configure() {
         $this
             ->setName('install')
-            ->setDescription('Installs a package')
-            ->setHelp(static::HELP)
-            ->setDefinition(new InputDefinition([
-                new InputArgument(Argument::ARG_COMPONENT,
-                                  InputArgument::REQUIRED),
-                new InputOption(Argument::OPT_SOURCE, Argument::OPT_SOURCE_SHORT,
-                                InputOption::VALUE_REQUIRED),
-                new InputOption(Argument::OPT_RELEASE, Argument::OPT_RELEASE_SHORT,
-                                InputOption::VALUE_REQUIRED),
-            ]));
+            ->setDescription('Installs all packages from componentmgr.json')
+            ->setHelp(static::HELP);
     }
 
     /**
      * @override \Symfony\Component\Console\Command\Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
+        $project = $this->getProject();
+        var_dump($project->getComponents());
+        var_dump($project->getPackageRepositories());
+
+        // Everything below here is old
+        return;
+
         $this->logger->info('Installing component', [
             'component' => $input->getArgument(Argument::ARG_COMPONENT),
         ]);

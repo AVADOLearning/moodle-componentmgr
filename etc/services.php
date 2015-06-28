@@ -35,6 +35,15 @@ $commandFactory->addMethodCall('setContainer', [new Reference('service_container
 $container->setDefinition('command.command_factory', $commandFactory);
 
 /*
+ * Package repository factory.
+ */
+$packageRepositoryFactory = new Definition('\ComponentManager\PackageRepository\PackageRepositoryFactory', [
+    new Reference('filesystem'),
+    '%package_repository.cache_directory%',
+]);
+$container->setDefinition('package_repository.package_repository_factory', $packageRepositoryFactory);
+
+/*
  * Individual commands.
  */
 $commands = [
@@ -84,15 +93,11 @@ $container->register('logger.console.formatter',
 $container->addCompilerPass(new LoggerChannelPass());
 
 /*
- * Register Moodle.org package repository.
+ * Register zip package source.
  */
-$repository = new Definition('\ComponentManager\PackageRepository\MoodlePackageRepository', [
-    new Reference('filesystem'),
-    '%package_repository.cache_directory%'
-            . PlatformUtil::directorySeparator() . 'moodle',
-]);
-$container->setDefinition('package_repository.moodle_package_repository',
-                          $repository);
+$packageSource = new Definition('\ComponentManager\PackageSource\ZipPackageSource');
+$packageSource->setScope('prototype');
+$container->setDefinition('package_source.zip_package_source', $packageSource);
 
 /*
  * Register the console application entry point.

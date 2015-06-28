@@ -41,7 +41,7 @@ class AbstractCommand extends Command {
     /**
      * Initialiser.
      *
-     * @param $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
     public function __construct(ContainerInterface $container) {
         parent::__construct();
@@ -49,17 +49,5 @@ class AbstractCommand extends Command {
         $this->container = $container;
 
         $this->logger = $container->get('logger');
-    }
-
-    /**
-     * Add a package repository.
-     *
-     * @param \ComponentManager\PackageRepositories\AbstractPackageRepository
-     *        $packageRepository
-     *
-     * @return void
-     */
-    protected function addPackageRepository(PackageRepository $packageRepository) {
-        $this->packageRepositories[] = $packageRepository;
     }
 }

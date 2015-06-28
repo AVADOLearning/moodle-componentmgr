@@ -21,6 +21,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * repositories.
  */
 class RefreshCommand extends AbstractCommand {
+    use ProjectAwareCommandTrait;
+
     /**
      * Help text.
      *
@@ -44,10 +46,9 @@ HELP;
      * @override \Symfony\Component\Console\Command\Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
-        foreach ($this->packageRepositories as $packageRepository) {
-            $logContext = [
-                'repository' => $packageRepository,
-            ];
+        $packageRepositories = $this->getProject()->getPackageRepositories();
+        foreach ($packageRepositories as $packageRepository) {
+            $logContext = ['repository' => $packageRepository];
 
             if ($packageRepository instanceof CachingPackageRepository) {
                 $this->logger->info('Refreshing repository package cache',
