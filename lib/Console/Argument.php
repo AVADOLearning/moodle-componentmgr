@@ -15,37 +15,16 @@ namespace ComponentManager\Console;
  */
 class Argument {
     /**
-     * Argument: component.
+     * Option: dry run.
      *
      * @var string
      */
-    const ARG_COMPONENT = 'component';
+    const OPTION_DRY_RUN = 'dry-run';
 
     /**
-     * Option: source.
+     * Option help: dry run.
      *
      * @var string
      */
-    const OPT_SOURCE = 'source';
-
-    /**
-     * Short option: source.
-     *
-     * @var string
-     */
-    const OPT_SOURCE_SHORT = 's';
-
-    /**
-     * Option: release.
-     *
-     * @var string
-     */
-    const OPT_RELEASE = 'release';
-
-    /**
-     * Short option: release.
-     *
-     * @var string
-     */
-    const OPT_RELEASE_SHORT = 'r';
+    const OPTION_DRY_RUN_HELP = 'Print out operations instead of applying them';
 }

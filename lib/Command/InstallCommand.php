@@ -12,7 +12,6 @@ namespace ComponentManager\Command;
 
 use ComponentManager\Console\Argument;
 use ComponentManager\Project;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -43,15 +42,23 @@ HELP;
         $this
             ->setName('install')
             ->setDescription('Installs all packages from componentmgr.json')
-            ->setHelp(static::HELP);
+            ->setHelp(static::HELP)
+            ->setDefinition(new InputDefinition([
+                new InputOption(Argument::OPTION_DRY_RUN, null,
+                                InputOption::VALUE_NONE,
+                                Argument::OPTION_DRY_RUN_HELP),
+            ]));
     }
 
     /**
      * @override \Symfony\Component\Console\Command\Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $project = $this->getProject();
+        if ($input->getOption(Argument::OPTION_DRY_RUN)) {
+            $this->logger->info('Performing a dry run; not applying changes');
+        }
 
+        $project                 = $this->getProject();
         $componentSpecifications = $project->getComponents();
 
         foreach ($componentSpecifications as $componentSpecification) {
