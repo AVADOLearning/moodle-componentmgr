@@ -101,11 +101,21 @@ class MoodlePackageRepository extends AbstractPackageRepository
         return new Component($package->component, $versions, $this);
     }
 
+    /**
+     * Load the package cache.
+     *
+     * @return void
+     */
     protected function loadPackageCache() {
         $this->packageCache = json_decode(file_get_contents(
                 $this->getMetadataCacheFilename()));
     }
 
+    /**
+     * Load the package cache (if not already loaded).
+     *
+     * @return void
+     */
     protected function maybeLoadPackageCache() {
         if ($this->packageCache === null) {
             $this->loadPackageCache();
