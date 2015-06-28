@@ -1,17 +1,30 @@
 {
     "components":
     {
-        "local_cpd": {
+        "local_cpd":
+        {
             "version": "0.4.0",
             "packageRepository": "moodle",
-            "packageSource": "zip"
+            "packageSource": "Zip"
+        },
+        "local_devkit":
+        {
+            "version": "master",
+            "packageRepository": "github",
+            "repository": "LukeCarrier/moodle-local_devkit",
+            "packageSource": "Git"
         }
     },
 
     "packageRepositories":
     {
-        "moodle": {
-            "type": "moodle"
+        "github":
+        {
+            "type": "GitHub"
+        },
+        "moodle":
+        {
+            "type": "Moodle"
         }
     }
 }
