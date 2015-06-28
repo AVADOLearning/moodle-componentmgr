@@ -36,7 +36,7 @@ class PlatformUtil {
         switch (PHP_OS) {
             case 'Linux': return getenv('HOME');
             case 'WINNT': return getenv('HOMEDRIVE') . getenv('HOMEPATH');
-            default:      throw new PlatformException(PHP_OS);
+            default:      throw new PlatformException(PHP_OS, PlatformException::CODE_UNKNOWN_PLATFORM);
         }
     }
 
@@ -49,7 +49,7 @@ class PlatformUtil {
         switch (PHP_OS) {
             case 'Linux': return static::homeDirectory() . '/.local/share';
             case 'WINNT': return getenv('APPDATA');
-            default:      throw new PlatformException(PHP_OS);
+            default:      throw new PlatformException(PHP_OS, PlatformException::CODE_UNKNOWN_PLATFORM);
         }
     }
 

@@ -23,7 +23,7 @@ abstract class AbstractException extends Exception {
      *
      * @var string
      */
-    const MESSAGE_FORMAT = '[%s %s] %s';
+    const MESSAGE_FORMAT = '[%s %s (%d)] %s';
 
     /**
      * Export a representation of the exception to string.
@@ -32,8 +32,16 @@ abstract class AbstractException extends Exception {
      */
     public function __toString() {
         return sprintf(static::MESSAGE_FORMAT, $this->getExceptionType(),
-                       $this->code, $this->message);
+                       $this->getExceptionCodeName(), $this->code,
+                       $this->message);
     }
+
+    /**
+     * Get the name for the exception's code.
+     *
+     * @return string
+     */
+    abstract public function getExceptionCodeName();
 
     /**
      * Get the exception's type.

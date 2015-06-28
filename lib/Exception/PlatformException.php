@@ -31,4 +31,14 @@ class PlatformException extends AbstractException {
     public function getExceptionType() {
         return 'PlatformException';
     }
+
+    /**
+     * @override \ComponentManager\Exception\AbstractException
+     */
+    public function getExceptionCodeName() {
+        switch ($this->code) {
+            case static::CODE_UNKNOWN_PLATFORM:
+                return 'Unknown platform';
+        }
+    }
 }
