@@ -10,6 +10,8 @@
 
 namespace ComponentManager\PackageRepository;
 
+use ComponentManager\ComponentSpecification;
+
 /**
  * Package repository interface.
  *
@@ -32,11 +34,11 @@ interface PackageRepository {
     public function getName();
 
     /**
-     * Get available versions for the specified package.
+     * Get available versions for the specified component.
      *
-     * @param string $packageName
+     * @param \ComponentManager\ComponentSpecification $componentSpecification
      *
-     * @return \ComponentManager\Package\PackageVersion[]
+     * @return \ComponentManager\Component
      */
-    public function getPackageVersions($packageName);
+    public function getComponent(ComponentSpecification $componentSpecification);
 }

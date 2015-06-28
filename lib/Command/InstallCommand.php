@@ -51,16 +51,20 @@ HELP;
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $project = $this->getProject();
-        var_dump($project->getComponents());
-        var_dump($project->getPackageRepositories());
 
-        // Everything below here is old
-        return;
+        $components = $project->getComponents();
+        var_dump($components);
 
-        $this->logger->info('Installing component', [
-            'component' => $input->getArgument(Argument::ARG_COMPONENT),
-        ]);
+        foreach ($components as $component) {
+            $packageRepository = $project->getPackageRepository(
+                    $component->getPackageRepository());
+            $packageSource     = $project->getPackageSource(
+                    $component->getPackageSource());
 
-        $this->logger->emerg('SHIT! We didn\'t write that yet.');
+            var_dump($packageRepository);
+            var_dump($packageSource);
+
+            var_dump($packageRepository->getComponent($component));
+        }
     }
 }

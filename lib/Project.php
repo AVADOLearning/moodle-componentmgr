@@ -89,7 +89,8 @@ class Project {
                 $packageSource     = property_exists($component, 'packageSource')
                         ? $component->packageSource     : null;
 
-                $this->components[$name] = new Component($name, $version,
+                $this->components[$name] = new ComponentSpecification(
+                        $name, $version,
                         $packageRepository, $packageSource);
             }
         }
@@ -114,5 +115,12 @@ class Project {
         }
 
         return $this->packageRepositories;
+    }
+
+    public function getPackageRepository($packageRepository) {
+        return $this->getPackageRepositories()[$packageRepository];
+    }
+
+    public function getPackageSource($packageSource) {
     }
 }

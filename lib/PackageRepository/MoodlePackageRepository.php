@@ -10,6 +10,9 @@
 
 namespace ComponentManager\PackageRepository;
 
+use ComponentManager\Component;
+use ComponentManager\ComponentSpecification;
+use ComponentManager\ComponentVersion;
 use ComponentManager\PlatformUtil;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
@@ -83,15 +86,18 @@ class MoodlePackageRepository extends AbstractPackageRepository
     /**
      * @override \ComponentManager\PackageRepository\PackageRepository
      */
-    public function getPackage($packageName) {
+    public function getComponent(ComponentSpecification $componentSpecification) {
         $this->maybeLoadPackageCache();
-    }
 
-    /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
-     */
-    public function getPackageVersions($packageName) {
-        $this->maybeLoadPackageCache();
+        $componentName = $componentSpecification->getName();
+        $package = $this->packageCache->{$componentName};
+
+        $versions = [];
+        foreach ($package->versions as $version) {
+            $versions[] = new ComponentVersion($version->version, $version->release, $version->maturity);
+        }
+
+        return new Component($package->component, $versions);
     }
 
     protected function loadPackageCache() {
