@@ -94,10 +94,11 @@ class MoodlePackageRepository extends AbstractPackageRepository
 
         $versions = [];
         foreach ($package->versions as $version) {
-            $versions[] = new ComponentVersion($version->version, $version->release, $version->maturity);
+            $versions[] = new ComponentVersion(
+                    $version->version, $version->release, $version->maturity);
         }
 
-        return new Component($package->component, $versions);
+        return new Component($package->component, $versions, $this);
     }
 
     protected function loadPackageCache() {

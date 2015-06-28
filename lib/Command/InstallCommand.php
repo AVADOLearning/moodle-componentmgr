@@ -52,19 +52,15 @@ HELP;
     protected function execute(InputInterface $input, OutputInterface $output) {
         $project = $this->getProject();
 
-        $components = $project->getComponents();
-        var_dump($components);
+        $componentSpecifications = $project->getComponents();
 
-        foreach ($components as $component) {
+        foreach ($componentSpecifications as $componentSpecification) {
             $packageRepository = $project->getPackageRepository(
-                    $component->getPackageRepository());
+                    $componentSpecification->getPackageRepository());
             $packageSource     = $project->getPackageSource(
-                    $component->getPackageSource());
+                    $componentSpecification->getPackageSource());
 
-            var_dump($packageRepository);
-            var_dump($packageSource);
-
-            var_dump($packageRepository->getComponent($component));
+            $component = $packageRepository->getComponent($componentSpecification);
         }
     }
 }

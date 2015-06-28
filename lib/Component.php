@@ -10,6 +10,12 @@
 
 namespace ComponentManager;
 
+/**
+ * Component.
+ *
+ * Component objects represent metadata about Moodle components sourced from
+ * package repositories.
+ */
 class Component {
     /**
      * Dependencies.
@@ -33,13 +39,6 @@ class Component {
     protected $packageRepository;
 
     /**
-     * Package source.
-     *
-     * @var string
-     */
-    protected $packageSource;
-
-    /**
      * Component versions.
      *
      * @var \ComponentManager\ComponentVersion[]
@@ -54,13 +53,11 @@ class Component {
      * @param string $packageRepository
      * @param string $packageSource
      */
-    public function __construct($name, $versions, $packageRepository=null,
-                                $packageSource=null) {
+    public function __construct($name, $versions, $packageRepository=null) {
         $this->name     = $name;
         $this->versions = $versions;
 
         $this->packageRepository = $packageRepository;
-        $this->packageSource     = $packageSource;
     }
 
     /**
@@ -79,23 +76,5 @@ class Component {
      */
     public function getPackageRepository() {
         return $this->packageRepository;
-    }
-
-    /**
-     * Get the ID of the component's pacakge source.
-     *
-     * @return string
-     */
-    public function getPackageSource() {
-        return $this->packageSource;
-    }
-
-    /**
-     * Get the component's version.
-     *
-     * @return string
-     */
-    public function getVersion() {
-        return $this->version;
     }
 }
