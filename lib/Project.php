@@ -10,6 +10,7 @@
 
 namespace ComponentManager;
 
+use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\PackageRepository\PackageRepositoryFactory;
 
 /**
@@ -118,7 +119,15 @@ class Project {
     }
 
     public function getPackageRepository($packageRepository) {
-        return $this->getPackageRepositories()[$packageRepository];
+        $packageRepositories = $this->getPackageRepositories();
+
+        if (array_key_exists($packageRepository, $packageRepositories)) {
+            return $packageRepositories[$packageRepository];
+        } else {
+            throw new InvalidProjectException(
+                    "The package repository named '{$packageRepository}' was not listed in your project file",
+                    InvalidProjectException::CODE_MISSING_PACKAGE_REPOSITORY);
+        }
     }
 
     public function getPackageSource($packageSource) {
