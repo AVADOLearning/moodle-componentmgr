@@ -10,8 +10,11 @@
 
 namespace ComponentManager\Command;
 
+use ComponentManager\ComponentSpecification;
 use ComponentManager\Console\Argument;
+use ComponentManager\PlatformUtil;
 use ComponentManager\ResolvedComponentVersion;
+use Exception;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -58,8 +61,7 @@ HELP;
             $this->logger->info('Performing a dry run; not applying changes');
         }
 
-        $project                 = $this->getProject();
-        $componentSpecifications = $project->getComponents();
+        $componentSpecifications = $this->getProject()->getComponents();
 
         /** @var \ComponentManager\ResolvedComponentVersion[] $resolvedComponents */
         $resolvedComponents = [];
@@ -75,18 +77,8 @@ HELP;
                 'version'           => $componentSpecification->getVersion(),
             ]);
 
-            $packageRepository = $project->getPackageRepository(
-                    $componentSpecification->getPackageRepository());
-
-            $component = $packageRepository->getComponent(
+            $resolvedComponents[] = $this->resolveComponentVersion(
                     $componentSpecification);
-
-            $version = $component->getVersion(
-                    $componentSpecification->getVersion());
-
-            $resolvedComponents[] = new ResolvedComponentVersion(
-                    $componentSpecification, $packageRepository, $component,
-                    $version);
         }
 
         foreach ($resolvedComponents as $resolvedComponent) {
@@ -96,6 +88,48 @@ HELP;
                 'version'           => $resolvedComponent->getVersion()->getVersion(),
                 'release'           => $resolvedComponent->getVersion()->getRelease(),
             ]);
+
+            $this->installComponent($resolvedComponent);
+        }
+    }
+
+    /**
+     * Resolve a component's version.
+     *
+     * @param \ComponentManager\ComponentSpecification $specification
+     *
+     * @return \ComponentManager\ResolvedComponentVersion
+     */
+    protected function resolveComponentVersion(ComponentSpecification $specification) {
+        $packageRepository = $this->getProject()->getPackageRepository(
+                $specification->getPackageRepository());
+
+        $component = $packageRepository->getComponent($specification);
+        $version   = $component->getVersion($specification->getVersion());
+
+        return new ResolvedComponentVersion(
+                $specification, $packageRepository, $component, $version);
+    }
+
+    /**
+     * Install a package.
+     *
+     * @param \ComponentManager\ResolvedComponentVersion $resolvedComponent
+     *
+     * @return void
+     */
+    protected function installComponent(ResolvedComponentVersion $resolvedComponent) {
+        $packageSource = $this->getProject()->getPackageSource(
+                $resolvedComponent->getSpecification()->getPackageSource());
+
+        $tempDirectory = PlatformUtil::createTempDirectory();
+
+        try {
+            $packageSource->obtainPackage(
+                    $tempDirectory, $resolvedComponent->getComponent(),
+                    $resolvedComponent->getVersion(), $this->logger);
+        } catch (Exception $e) {
+
         }
     }
 }

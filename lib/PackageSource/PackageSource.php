@@ -10,7 +10,9 @@
 
 namespace ComponentManager\PackageSource;
 
-use Symfony\Component\Filesystem\Filesystem;
+use ComponentManager\Component;
+use ComponentManager\ComponentVersion;
+use Psr\Log\LoggerInterface;
 
 /**
  * Package source interface.
@@ -35,14 +37,15 @@ interface PackageSource {
     public function getName();
 
     /**
-     * Prepare the component's source for installation.
+     * Download the package's source to a given directory.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesysem
-     * @param string                                   $tempDirectory
-     * @param mixed                                    $componentVersion
+     * @param string $tempDirectory
+     * @param mixed  $componentVersion
      *
      * @return void
      */
-    public function prepare(Filesystem $filesystem, $tempDirectory,
-                            $componentVersion);
+    public function obtainPackage($tempDirectory,
+                                  Component $component,
+                                  ComponentVersion $componentVersion,
+                                  LoggerInterface $logger);
 }

@@ -71,7 +71,7 @@ class ComponentVersion {
     /**
      * Component sources.
      *
-     * @var integer
+     * @var \ComponentManager\ComponentSource\ComponentSource[]
      */
     protected $sources;
 
@@ -124,6 +124,15 @@ class ComponentVersion {
      */
     public function getRelease() {
         return $this->release;
+    }
+
+    /**
+     * Get component sources.
+     *
+     * @return \ComponentManager\ComponentSource\ComponentSource[]
+     */
+    public function getSources() {
+        return $this->sources;
     }
 
     /**

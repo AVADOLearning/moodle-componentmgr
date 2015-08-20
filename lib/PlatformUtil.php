@@ -19,6 +19,28 @@ use ComponentManager\Exception\PlatformException;
  */
 class PlatformUtil {
     /**
+     * Temporary file/directory prefix.
+     *
+     * @var string
+     */
+    const TEMP_PREFIX = 'componentmgr-';
+
+    /**
+     * Create a temporary directory in the system temporary directory.
+     *
+     * @return string The absolute path to the created directory.
+     */
+    public static function createTempDirectory() {
+        $root      = sys_get_temp_dir();
+        $directory = tempnam($root, static::TEMP_PREFIX);
+
+        unlink($directory);
+        mkdir($directory);
+
+        return $directory;
+    }
+
+    /**
      * Retrieve the platform's directory separator.
      *
      * @return string
