@@ -11,7 +11,6 @@
 namespace ComponentManager\Command;
 
 use ComponentManager\ContainerAwareTrait;
-use ComponentManager\PackageRepository\PackageRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 

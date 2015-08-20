@@ -10,7 +10,6 @@
 
 namespace ComponentManager;
 
-use ComponentManager\Command\InstallCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
