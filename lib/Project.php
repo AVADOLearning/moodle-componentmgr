@@ -155,7 +155,7 @@ class Project {
      *
      * @param string $packageSource
      *
-     * @return \ComponentManager\PackageSource\PackageSource
+     * @return \ComponentManager\PackageSource\PackkkageSource
      */
     public function getPackageSource($packageSource) {
         return $this->packageSourceFactory->getPackageSource(
