@@ -12,6 +12,7 @@ namespace ComponentManager;
 
 use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\PackageRepository\PackageRepositoryFactory;
+use ComponentManager\PackageSource\PackageSourceFactory;
 
 /**
  * Project class.
@@ -59,18 +60,28 @@ class Project {
     protected $packageRepositoryFactory;
 
     /**
+     * Package source factory.
+     *
+     * @var \ComponentManager\PackageSource\PackageSourceFactory
+     */
+    protected $packageSourceFactory;
+
+    /**
      * Initialiser.
      *
      * @param string                                                       $fileName
      * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
      */
-    public function __construct($fileName, PackageRepositoryFactory $packageRepositoryFactory) {
+    public function __construct($fileName,
+                                PackageRepositoryFactory $packageRepositoryFactory,
+                                PackageSourceFactory $packageSourceFactory) {
         $projectFileContents = file_get_contents($fileName);
         $projectFileObject   = json_decode($projectFileContents);
 
         $this->fileName                 = $fileName;
         $this->contents                 = $projectFileObject;
         $this->packageRepositoryFactory = $packageRepositoryFactory;
+        $this->packageSourceFactory     = $packageSourceFactory;
     }
 
     /**
@@ -118,6 +129,15 @@ class Project {
         return $this->packageRepositories;
     }
 
+    /**
+     * Get the package repository.
+     *
+     * @param string $packageRepository
+     *
+     * @return \ComponentManager\PackageRepository\PackageRepository
+     *
+     * @throws \ComponentManager\Exception\InvalidProjectException
+     */
     public function getPackageRepository($packageRepository) {
         $packageRepositories = $this->getPackageRepositories();
 
@@ -130,6 +150,15 @@ class Project {
         }
     }
 
+    /**
+     * Get package source.
+     *
+     * @param string $packageSource
+     *
+     * @return \ComponentManager\PackageSource\PackageSource
+     */
     public function getPackageSource($packageSource) {
+        return $this->packageSourceFactory->getPackageSource(
+                $packageSource);
     }
 }

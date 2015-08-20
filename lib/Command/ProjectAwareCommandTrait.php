@@ -44,9 +44,12 @@ trait ProjectAwareCommandTrait {
 
             $packageRepositoryFactory = $this->container->get(
                     'package_repository.package_repository_factory');
+            $packageSourceFactory = $this->container->get(
+                    'package_source.package_source_factory');
 
             $this->logger->info('Parsing componentmgr.json', [$fileName]);
-            $this->project = new Project($fileName, $packageRepositoryFactory);
+            $this->project = new Project($fileName, $packageRepositoryFactory,
+                                         $packageSourceFactory);
         }
 
         return $this->project;

@@ -44,6 +44,12 @@ $packageRepositoryFactory = new Definition('\ComponentManager\PackageRepository\
 $container->setDefinition('package_repository.package_repository_factory', $packageRepositoryFactory);
 
 /*
+ * Package source factory.
+ */
+$packageSourceFactory = new Definition('\ComponentManager\PackageSource\PackageSourceFactory');
+$container->setDefinition('package_source.package_source_factory', $packageSourceFactory);
+
+/*
  * Individual commands.
  */
 $commands = [
