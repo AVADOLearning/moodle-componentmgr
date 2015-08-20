@@ -11,9 +11,10 @@
 namespace ComponentManager\Exception;
 
 /**
- * Abstract exception.
+ * Platform exception.
  *
- * All exceptions in Component Manager inherit from this base class.
+ * Raised during the execution of platform-specific operations to indicate
+ * either a failure to perform a task or an unsupported platform.
  */
 class PlatformException extends AbstractException {
     /**

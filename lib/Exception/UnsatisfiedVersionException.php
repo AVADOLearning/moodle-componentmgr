@@ -11,13 +11,14 @@
 namespace ComponentManager\Exception;
 
 /**
- * Abstract exception.
+ * Unsatisfied version exception.
  *
- * All exceptions in Component Manager inherit from this base class.
+ * Raised in the event that a version specification cannot be mapped to a
+ * version of a component which satisfies it.
  */
 class UnsatisfiedVersionException extends AbstractException {
     /**
-     * Code: unknown platform.
+     * Code: unknown version.
      *
      * @var integer
      */

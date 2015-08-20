@@ -11,9 +11,9 @@
 namespace ComponentManager\Exception;
 
 /**
- * Abstract exception.
+ * Invalid project exception.
  *
- * All exceptions in Component Manager inherit from this base class.
+ * Raised during evaluation of a project file to indicate an integrity problem.
  */
 class InvalidProjectException extends AbstractException {
     /**
