@@ -46,7 +46,9 @@ $container->setDefinition('package_repository.package_repository_factory', $pack
 /*
  * Package source factory.
  */
-$packageSourceFactory = new Definition('\ComponentManager\PackageSource\PackageSourceFactory');
+$packageSourceFactory = new Definition('\ComponentManager\PackageSource\PackageSourceFactory', [
+    new Reference('filesystem'),
+]);
 $container->setDefinition('package_source.package_source_factory', $packageSourceFactory);
 
 /*

@@ -10,6 +10,8 @@
 
 namespace ComponentManager\PackageSource;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 /**
  * Package source factory.
  */
@@ -22,6 +24,22 @@ class PackageSourceFactory {
     const CLASS_NAME_FORMAT = '\ComponentManager\PackageSource\%sPackageSource';
 
     /**
+     * Filesystem.
+     *
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * Initialiser.
+     *
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     */
+    public function __construct(Filesystem $filesystem) {
+        $this->filesystem = $filesystem;
+    }
+
+    /**
      * Get a package source.
      *
      * @return \ComponentManager\PackageSource\PackageSource
@@ -29,6 +47,6 @@ class PackageSourceFactory {
     public function getPackageSource($name) {
         $className = sprintf(static::CLASS_NAME_FORMAT, $name);
 
-        return new $className();
+        return new $className($this->filesystem);
     }
 }
