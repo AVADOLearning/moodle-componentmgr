@@ -11,7 +11,7 @@
 namespace ComponentManager\Command;
 
 use ComponentManager\Console\Argument;
-use ComponentManager\Project;
+use ComponentManager\ResolvedComponentVersion;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -61,13 +61,41 @@ HELP;
         $project                 = $this->getProject();
         $componentSpecifications = $project->getComponents();
 
+        /** @var \ComponentManager\ResolvedComponentVersion[] $resolvedComponents */
+        $resolvedComponents = [];
+
+        /* TODO: resolve dependencies before attempting installation. For the
+         *       time being, we'll just assume that the developer has specified
+         *       all necessary components in the project file. */
+
         foreach ($componentSpecifications as $componentSpecification) {
+            $this->logger->info('Resolving component version', [
+                'component'         => $componentSpecification->getName(),
+                'packageRepository' => $componentSpecification->getPackageRepository(),
+                'version'           => $componentSpecification->getVersion(),
+            ]);
+
             $packageRepository = $project->getPackageRepository(
                     $componentSpecification->getPackageRepository());
-            $packageSource     = $project->getPackageSource(
-                    $componentSpecification->getPackageSource());
 
-            $component = $packageRepository->getComponent($componentSpecification);
+            $component = $packageRepository->getComponent(
+                    $componentSpecification);
+
+            $version = $component->getVersion(
+                    $componentSpecification->getVersion());
+
+            $resolvedComponents[] = new ResolvedComponentVersion(
+                    $componentSpecification, $packageRepository, $component,
+                    $version);
+        }
+
+        foreach ($resolvedComponents as $resolvedComponent) {
+            $this->logger->info('Installing component', [
+                'component'         => $resolvedComponent->getComponent()->getName(),
+                'packageRepository' => $resolvedComponent->getPackageRepository()->getName(),
+                'version'           => $resolvedComponent->getVersion()->getVersion(),
+                'release'           => $resolvedComponent->getVersion()->getRelease(),
+            ]);
         }
     }
 }

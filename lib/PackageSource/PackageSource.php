@@ -10,6 +10,8 @@
 
 namespace ComponentManager\PackageSource;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 /**
  * Package source interface.
  *
@@ -34,6 +36,10 @@ interface PackageSource {
 
     /**
      * Prepare the component's source for installation.
+     *
+     * @param \Symfony\Component\Filesystem\Filesystem $filesysem
+     * @param string                                   $tempDirectory
+     * @param mixed                                    $componentVersion
      *
      * @return void
      */

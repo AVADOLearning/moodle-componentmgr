@@ -148,4 +148,12 @@ class MoodlePackageRepository extends AbstractPackageRepository
         $logger->info('Storing metadata', ['file' => $file]);
         $this->filesystem->dumpFile($file, json_encode($components));
     }
+
+    /**
+     * @override \ComponentManager\PackageRepository\PackageRepository
+     */
+    public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
+        return $versionSpecification === $version->getVersion()
+                || $versionSpecification === $version->getRelease();
+    }
 }

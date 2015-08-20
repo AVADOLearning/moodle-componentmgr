@@ -11,6 +11,7 @@
 namespace ComponentManager\PackageRepository;
 
 use ComponentManager\ComponentSpecification;
+use ComponentManager\ComponentVersion;
 
 /**
  * Package repository interface.
@@ -41,4 +42,14 @@ interface PackageRepository {
      * @return \ComponentManager\Component
      */
     public function getComponent(ComponentSpecification $componentSpecification);
+
+    /**
+     * Determine whether the version specification is satisfied by the given version.
+     *
+     * @param string                             $versionSpecification
+     * @param \ComponentManager\ComponentVersion $version
+     *
+     * @return boolean
+     */
+    public function satisfiesVersion($versionSpecification, ComponentVersion $version);
 }

@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager;
+use ComponentManager\Exception\UnsatisfiedVersionException;
 
 /**
  * Component.
@@ -34,7 +35,7 @@ class Component {
     /**
      * Package repository.
      *
-     * @var string
+     * @var \ComponentManager\PackageRepository\PackageRepository
      */
     protected $packageRepository;
 
@@ -48,10 +49,9 @@ class Component {
     /**
      * Initialiser.
      *
-     * @param string $name
-     * @param string $version
-     * @param string $packageRepository
-     * @param string $packageSource
+     * @param string                                                $name
+     * @param string                                                $versions
+     * @param \ComponentManager\PackageRepository\PackageRepository $packageRepository
      */
     public function __construct($name, $versions, $packageRepository=null) {
         $this->name     = $name;
@@ -70,11 +70,31 @@ class Component {
     }
 
     /**
-     * Get the ID of the component's package repository.
+     * Get the component's package repository.
      *
-     * @return string
+     * @return \ComponentManager\PackageRepository\PackageRepository
      */
     public function getPackageRepository() {
         return $this->packageRepository;
+    }
+
+    /**
+     * Get package version.
+     *
+     * @param string $versionSpecification
+     *
+     * @return \ComponentManager\ComponentVersion
+     */
+    public function getVersion($versionSpecification) {
+        foreach ($this->versions as $version) {
+            if ($this->packageRepository->satisfiesVersion(
+                    $versionSpecification, $version)) {
+                return $version;
+            }
+        }
+
+        throw new UnsatisfiedVersionException(
+                "component version satisfying {$this->name}@{$version} not found",
+                UnsatisfiedVersionException::CODE_UNKNOWN_VERSION);
     }
 }

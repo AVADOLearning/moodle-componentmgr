@@ -15,19 +15,19 @@ namespace ComponentManager\Exception;
  *
  * All exceptions in Component Manager inherit from this base class.
  */
-class PlatformException extends AbstractException {
+class UnsatisfiedVersionException extends AbstractException {
     /**
      * Code: unknown platform.
      *
      * @var integer
      */
-    const CODE_UNKNOWN_PLATFORM = 1;
+    const CODE_UNKNOWN_VERSION = 1;
 
     /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
-        return 'PlatformException';
+        return 'UnsatisfiedVersionException';
     }
 
     /**
@@ -35,8 +35,8 @@ class PlatformException extends AbstractException {
      */
     public function getExceptionCodeName() {
         switch ($this->code) {
-            case static::CODE_UNKNOWN_PLATFORM:
-                return 'Unknown platform';
+            case static::CODE_UNKNOWN_VERSION:
+                return 'Unknown component version';
         }
     }
 }
