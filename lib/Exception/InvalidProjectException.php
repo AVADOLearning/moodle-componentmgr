@@ -10,8 +10,6 @@
 
 namespace ComponentManager\Exception;
 
-use Exception;
-
 /**
  * Abstract exception.
  *
