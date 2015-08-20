@@ -83,7 +83,7 @@ class ComponentSpecification {
     }
 
     /**
-     * Get the ID of the component's pacakge source.
+     * Get the ID of the component's package source.
      *
      * @return string
      */
