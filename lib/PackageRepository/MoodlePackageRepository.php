@@ -11,6 +11,8 @@
 namespace ComponentManager\PackageRepository;
 
 use ComponentManager\Component;
+use ComponentManager\ComponentSource\GitComponentSource;
+use ComponentManager\ComponentSource\ZipComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
 use ComponentManager\PlatformUtil;
@@ -94,8 +96,28 @@ class MoodlePackageRepository extends AbstractPackageRepository
 
         $versions = [];
         foreach ($package->versions as $version) {
+            $sources = [];
+
+            if ($version->downloadurl) {
+                $sources[] = new ZipComponentSource(
+                        $version->downloadurl, $version->downloadmd5);
+            }
+
+            /* This is pretty rubbish, but until Moodle HQ expose the VCS
+             * repository data to us, we'll have to assume that the tag name is
+             * derived from the release and that it's a Git repository.
+             *
+             * See https://tracker.moodle.org/browse/MDLSITE-4149 */
+            if ($package->source) {
+                $sources[] = new GitComponentSource(
+                        $package->source, $version->release);
+                $sources[] = new GitComponentSource(
+                        $package->source, "v{$version->release}");
+            }
+
             $versions[] = new ComponentVersion(
-                    $version->version, $version->release, $version->maturity);
+                    $version->version, $version->release, $version->maturity,
+                    $sources);
         }
 
         return new Component($package->component, $versions, $this);
