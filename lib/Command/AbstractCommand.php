@@ -10,7 +10,6 @@
 
 namespace ComponentManager\Command;
 
-use ComponentManager\PackageRepository\PackageRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -34,7 +33,7 @@ class AbstractCommand extends Command {
     /**
      * Package repositories.
      *
-     * @var \ComponentManager\PackageRepositories\AbstractPackageRepository[]
+     * @var \ComponentManager\PackageRepository\PackageRepository[]
      */
     protected $packageRepositories = [];
 
