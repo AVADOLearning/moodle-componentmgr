@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager;
+use ComponentManager\ComponentSource\ComponentSource;
 
 /**
  * Component version.
@@ -68,16 +69,41 @@ class ComponentVersion {
     protected $maturity;
 
     /**
+     * Component sources.
+     *
+     * @var integer
+     */
+    protected $sources;
+
+    /**
      * Initialiser.
      *
-     * @param integer $version
-     * @param string  $release
-     * @param integer $maturity
+     * @param integer                                             $version
+     * @param string                                              $release
+     * @param integer                                             $maturity
+     * @param \ComponentManager\ComponentSource\ComponentSource[] $sources
      */
-    public function __construct($version, $release, $maturity) {
+    public function __construct($version, $release, $maturity, $sources=null) {
         $this->version  = $version;
         $this->release  = $release;
         $this->maturity = $maturity;
+
+        if ($sources !== null) {
+            foreach ($sources as $source) {
+                $this->addSource($source);
+            }
+        }
+    }
+
+    /**
+     * Add a component source.
+     *
+     * @param \ComponentManager\ComponentSource\ComponentSource $source
+     *
+     * @return void
+     */
+    public function addSource(ComponentSource $source) {
+        $this->sources[] = $source;
     }
 
     /**
