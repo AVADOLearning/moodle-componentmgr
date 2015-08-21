@@ -76,6 +76,17 @@ class PlatformUtil {
     }
 
     /**
+     * Get the path to the php executable.
+     *
+     * @return string
+     */
+    public static function phpExecutable() {
+        global $_SERVER;
+
+        return $_SERVER['_'];
+    }
+
+    /**
      * Get the current working directory.
      *
      * @return string

@@ -119,13 +119,20 @@ HELP;
      * @return void
      */
     protected function installComponent(ResolvedComponentVersion $resolvedComponent) {
+        $component     = $resolvedComponent->getComponent();
         $packageSource = $this->getProject()->getPackageSource(
                 $resolvedComponent->getSpecification()->getPackageSource());
+
+        $typeDirectory = $this->getMoodle()->getPluginTypeDirectory(
+            $component->getPluginType());
+
+        $targetDirectory = $typeDirectory . PlatformUtil::directorySeparator()
+                         . $component->getPluginName();
 
         $tempDirectory = PlatformUtil::createTempDirectory();
 
         try {
-            $componentDirectory = $packageSource->obtainPackage(
+            $sourceDirectory = $packageSource->obtainPackage(
                     $tempDirectory, $resolvedComponent->getComponent(),
                     $resolvedComponent->getVersion(), $this->logger);
         } catch (InstallationFailureException $e) {
@@ -133,8 +140,22 @@ HELP;
         }
 
         $this->logger->debug('Downloaded component source', [
-            'componentDirectory' => $componentDirectory,
-            'packageSource'      => $packageSource->getName(),
+            'packageSource'   => $packageSource->getName(),
+            'sourceDirectory' => $sourceDirectory,
+            'targetDirectory' => $targetDirectory,
         ]);
+
+        /** @var \Symfony\Component\Filesystem\Filesystem $filesystem */
+        $filesystem = $this->container->get('filesystem');
+
+        if ($filesystem->exists($targetDirectory)) {
+            $this->logger->info('Component directory already exists; removing', [
+                'targetDirectory' => $targetDirectory,
+            ]);
+
+            $filesystem->remove($targetDirectory);
+        }
+
+        $filesystem->mirror($sourceDirectory, $targetDirectory);
     }
 }

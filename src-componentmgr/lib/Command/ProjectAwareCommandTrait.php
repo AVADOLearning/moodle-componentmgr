@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Command;
 
+use ComponentManager\Moodle;
 use ComponentManager\PlatformUtil;
 use ComponentManager\Project;
 
@@ -22,6 +23,13 @@ use ComponentManager\Project;
  */
 trait ProjectAwareCommandTrait {
     /**
+     * Moodle bridge.
+     *
+     * @var \ComponentManager\Moodle
+     */
+    protected $moodle;
+
+    /**
      * Project.
      *
      * Lazily loaded -- be sure to call getProject() in order to ensure the
@@ -30,6 +38,19 @@ trait ProjectAwareCommandTrait {
      * @var \ComponentManager\Project
      */
     protected $project;
+
+    /**
+     * Get the Moodle bridge.
+     *
+     * @return \ComponentManager\Moodle
+     */
+    protected function getMoodle() {
+        if ($this->moodle === null) {
+            $this->moodle = new Moodle(PlatformUtil::workingDirectory());
+        }
+
+        return $this->moodle;
+    }
 
     /**
      * Get project.
