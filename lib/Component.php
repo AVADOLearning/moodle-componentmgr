@@ -19,6 +19,15 @@ use ComponentManager\Exception\UnsatisfiedVersionException;
  */
 class Component {
     /**
+     * Separator between component type and name.
+     *
+     * @see https://docs.moodle.org/dev/Frankenstyle
+     *
+     * @var string
+     */
+    const COMPONENT_NAME_SEPARATOR = '_';
+
+    /**
      * Dependencies.
      *
      * @var \ComponentManager\Component[]
@@ -76,6 +85,43 @@ class Component {
      */
     public function getPackageRepository() {
         return $this->packageRepository;
+    }
+
+    /**
+     * Get the component's plugin name.
+     *
+     * @see https://docs.moodle.org/dev/Frankenstyle
+     *
+     * @return string
+     */
+    public function getPluginName() {
+        list($type, $name) = $this->getNameParts();
+
+        return $name;
+    }
+
+    /**
+     * Split the name of the component into plugin type and name.
+     *
+     * @see https://docs.moodle.org/dev/Frankenstyle
+     *
+     * @return string[]
+     */
+    public function getNameParts() {
+        return explode(static::COMPONENT_NAME_SEPARATOR, $this->name);
+    }
+
+    /**
+     * Get the component's plugin type.
+     *
+     * @see https://docs.moodle.org/dev/Frankenstyle
+     *
+     * @return string
+     */
+    public function getPluginType() {
+        list($type, $name) = $this->getNameParts();
+
+        return $type;
     }
 
     /**

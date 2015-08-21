@@ -39,6 +39,13 @@ class InstallationFailureException extends AbstractException {
     const CODE_EXTRACTION_FAILED = 3;
 
     /**
+     * Code: missing source root.
+     *
+     * @var integer
+     */
+    const CODE_SOURCE_MISSING = 4;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -58,6 +65,9 @@ class InstallationFailureException extends AbstractException {
 
             case static::CODE_EXTRACTION_FAILED:
                 return 'Unable to extract an archive file';
+
+            case static::CODE_SOURCE_MISSING:
+                return 'Unable to locate module root directory in source';
         }
     }
 }

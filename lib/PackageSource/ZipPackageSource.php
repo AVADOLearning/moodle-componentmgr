@@ -146,7 +146,18 @@ class ZipPackageSource extends AbstractPackageSource
                             InstallationFailureException::CODE_EXTRACTION_FAILED);
                 }
 
-                return $targetDirectory;
+                /* @todo we should attempt to do some basic sanity checks about
+                 *       whether or not this is a Moodle component here. */
+                $moduleRootDirectory = $targetDirectory
+                                     . PlatformUtil::directorySeparator()
+                                     . $component->getPluginName();
+                if (!is_dir($moduleRootDirectory)) {
+                    throw new InstallationFailureException(
+                            "Module directory {$moduleRootDirectory} did not exist",
+                            InstallationFailureException::CODE_SOURCE_MISSING);
+                }
+
+                return $moduleRootDirectory;
             } else {
                 $logger->debug('Cannot accept component source; skipping', [
                     'componentSource' => $source,
@@ -155,7 +166,7 @@ class ZipPackageSource extends AbstractPackageSource
         }
 
         throw new InstallationFailureException(
-                'no zip component sources found',
+                'No zip component sources found',
                 InstallationFailureException::CODE_SOURCE_UNAVAILABLE);
     }
 

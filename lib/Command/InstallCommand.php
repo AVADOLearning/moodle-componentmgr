@@ -125,11 +125,16 @@ HELP;
         $tempDirectory = PlatformUtil::createTempDirectory();
 
         try {
-            $packageSource->obtainPackage(
+            $componentDirectory = $packageSource->obtainPackage(
                     $tempDirectory, $resolvedComponent->getComponent(),
                     $resolvedComponent->getVersion(), $this->logger);
         } catch (InstallationFailureException $e) {
             $this->logger->emergency($e->getMessage());
         }
+
+        $this->logger->debug('Downloaded component source', [
+            'componentDirectory' => $componentDirectory,
+            'packageSource'      => $packageSource->getName(),
+        ]);
     }
 }
