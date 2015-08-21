@@ -16,13 +16,29 @@ use ComponentManager\Exception\InstallationFailureException;
 use ComponentManager\PlatformUtil;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
+use ZipArchive;
 
 /**
  * Zip package source.
+ *
+ * Obtains a zip archive from the specified URL and extracts the archive to a
+ * temporary directory.
  */
 class ZipPackageSource extends AbstractPackageSource
         implements PackageSource {
+    /**
+     * Archive filename format.
+     *
+     * @var string
+     */
     const ARCHIVE_FILENAME_FORMAT = '%s-%s.zip';
+
+    /**
+     * Target directory format.
+     *
+     * @var string
+     */
+    const TARGET_DIRECTORY_FORMAT = '%s-%s';
 
     /**
      * Download the specified file to the specified local filename.
@@ -66,6 +82,20 @@ class ZipPackageSource extends AbstractPackageSource
     }
 
     /**
+     * Get target directory.
+     *
+     * @param \ComponentManager\Component        $component
+     * @param \ComponentManager\ComponentVersion $version
+     *
+     * @return string
+     */
+    protected function getTargetDirectory(Component $component,
+                                          ComponentVersion $version) {
+        return sprintf(static::TARGET_DIRECTORY_FORMAT, $component->getName(),
+                       $version->getVersion());
+    }
+
+    /**
      * @override \ComponentManager\PackageSource\PackageSource
      */
     public function obtainPackage($tempDirectory,
@@ -77,13 +107,17 @@ class ZipPackageSource extends AbstractPackageSource
         foreach ($sources as $source) {
             if ($source instanceof ZipComponentSource) {
                 $archiveFilename = $tempDirectory
-                    . PlatformUtil::directorySeparator()
-                    . $this->getArchiveFilename($component, $version);
+                                 . PlatformUtil::directorySeparator()
+                                 . $this->getArchiveFilename($component, $version);
+                $targetDirectory = $tempDirectory
+                                 . PlatformUtil::directorySeparator()
+                                 . $this->getTargetDirectory($component, $version);
 
                 $logger->debug('Trying zip source', [
                     'archiveFilename' => $archiveFilename,
                     'archiveUri'      => $source->getArchiveUri(),
                     'md5Checksum'     => $source->getMd5Checksum(),
+                    'targetDirectory' => $targetDirectory,
                 ]);
 
                 $this->download($source->getArchiveUri(), $archiveFilename);
@@ -94,6 +128,16 @@ class ZipPackageSource extends AbstractPackageSource
                             "{$archiveFilename} didn't match checksum {$checksum}",
                             InstallationFailureException::CODE_INVALID_SOURCE_CHECKSUM);
                 }
+
+                $archive = new ZipArchive();
+                $archive->open($archiveFilename);
+                if (!$archive->extractTo($targetDirectory)) {
+                    throw new InstallationFailureException(
+                            "Unable to extract archive {$archiveFilename} to {$targetDirectory}",
+                            InstallationFailureException::CODE_EXTRACTION_FAILED);
+                }
+
+                return $targetDirectory;
             } else {
                 $logger->debug('Cannot accept component source; skipping', [
                     'componentSource' => $source,

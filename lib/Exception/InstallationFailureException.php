@@ -32,6 +32,13 @@ class InstallationFailureException extends AbstractException {
     const CODE_INVALID_SOURCE_CHECKSUM = 2;
 
     /**
+     * Code: extraction of a source file failed.
+     *
+     * @var integer
+     */
+    const CODE_EXTRACTION_FAILED = 3;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -48,6 +55,9 @@ class InstallationFailureException extends AbstractException {
 
             case static::CODE_INVALID_SOURCE_CHECKSUM:
                 return 'Unable to verify source file checksum';
+
+            case static::CODE_EXTRACTION_FAILED:
+                return 'Unable to extract an archive file';
         }
     }
 }
