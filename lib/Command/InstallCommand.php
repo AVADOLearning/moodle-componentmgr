@@ -12,9 +12,9 @@ namespace ComponentManager\Command;
 
 use ComponentManager\ComponentSpecification;
 use ComponentManager\Console\Argument;
+use ComponentManager\Exception\InstallationFailureException;
 use ComponentManager\PlatformUtil;
 use ComponentManager\ResolvedComponentVersion;
-use Exception;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -128,8 +128,8 @@ HELP;
             $packageSource->obtainPackage(
                     $tempDirectory, $resolvedComponent->getComponent(),
                     $resolvedComponent->getVersion(), $this->logger);
-        } catch (Exception $e) {
-
+        } catch (InstallationFailureException $e) {
+            $this->logger->emergency($e->getMessage());
         }
     }
 }
