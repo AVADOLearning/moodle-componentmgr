@@ -39,13 +39,15 @@ interface PackageSource {
     /**
      * Download the package's source to a given directory.
      *
-     * @param string $tempDirectory
-     * @param mixed  $componentVersion
+     * @param string                             $tempDirectory
+     * @param \ComponentManager\Component        $component
+     * @param \ComponentManager\ComponentVersion $version
+     * @param \Psr\Log\LoggerInterface           $logger
      *
-     * @return void
+     * @return string The path to the module's root directory.
      */
     public function obtainPackage($tempDirectory,
                                   Component $component,
-                                  ComponentVersion $componentVersion,
+                                  ComponentVersion $version,
                                   LoggerInterface $logger);
 }
