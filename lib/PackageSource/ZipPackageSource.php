@@ -9,12 +9,14 @@
  */
 
 namespace ComponentManager\PackageSource;
+
 use ComponentManager\Component;
 use ComponentManager\ComponentSource\ZipComponentSource;
 use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\InstallationFailureException;
 use ComponentManager\PlatformUtil;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
 use ZipArchive;
 
@@ -120,7 +122,14 @@ class ZipPackageSource extends AbstractPackageSource
                     'targetDirectory' => $targetDirectory,
                 ]);
 
-                $this->download($source->getArchiveUri(), $archiveFilename);
+                try {
+                    $this->download($source->getArchiveUri(), $archiveFilename);
+                } catch (GuzzleException $e) {
+                    throw new InstallationFailureException(
+                            $e->getMessage(),
+                            InstallationFailureException::CODE_SOURCE_UNAVAILABLE,
+                            $e);
+                }
 
                 $checksum = $source->getMd5Checksum();
                 if (!$this->verifyChecksum($archiveFilename, $checksum)) {
