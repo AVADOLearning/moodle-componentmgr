@@ -31,7 +31,7 @@ class MoodlePackageRepository extends AbstractPackageRepository
      *
      * @var string
      */
-    const METADATA_CACHE_FILENAME = '%s%scomponents.json';
+    const METADATA_CACHE_FILENAME = '%s%sMoodle%scomponents.json';
 
     /**
      * Plugin information endpoint URL.
@@ -68,6 +68,7 @@ class MoodlePackageRepository extends AbstractPackageRepository
     protected function getMetadataCacheFilename() {
         return sprintf(static::METADATA_CACHE_FILENAME,
                        $this->cacheDirectory,
+                       PlatformUtil::directorySeparator(),
                        PlatformUtil::directorySeparator());
     }
 
