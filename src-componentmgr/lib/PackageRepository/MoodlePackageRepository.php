@@ -149,7 +149,10 @@ class MoodlePackageRepository extends AbstractPackageRepository
      * @override \ComponentManager\PackageRepository\CachingPackageRepository
      */
     public function refreshMetadataCache(LoggerInterface $logger) {
-        $logger->debug('Fetching metadata', ['url' => static::PLUGIN_LIST_URL]);
+        $logger->debug('Fetching metadata', [
+            'url' => static::PLUGIN_LIST_URL,
+        ]);
+
         $client   = new Client();
         $response = $client->get(static::PLUGIN_LIST_URL);
 
@@ -168,7 +171,9 @@ class MoodlePackageRepository extends AbstractPackageRepository
         }
 
         $file = $this->getMetadataCacheFilename();
-        $logger->info('Storing metadata', ['file' => $file]);
+        $logger->info('Storing metadata', [
+            'filename' => $file,
+        ]);
         $this->filesystem->dumpFile($file, json_encode($components));
     }
 
