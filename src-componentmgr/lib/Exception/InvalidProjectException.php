@@ -24,6 +24,13 @@ class InvalidProjectException extends AbstractException {
     const CODE_MISSING_PACKAGE_REPOSITORY = 1;
 
     /**
+     * Code: invalid plugin type.
+     *
+     * @var integer
+     */
+    const CODE_INVALID_PLUGIN_TYPE = 2;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -37,6 +44,9 @@ class InvalidProjectException extends AbstractException {
         switch ($this->code) {
             case static::CODE_MISSING_PACKAGE_REPOSITORY:
                 return 'Missing package repository';
+
+            case static::CODE_INVALID_PLUGIN_TYPE:
+                return 'Invalid plugin type';
         }
     }
 }

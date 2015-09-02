@@ -10,6 +10,7 @@
 
 namespace ComponentManager;
 
+use ComponentManager\Exception\InvalidProjectException;
 use Symfony\Component\Process\Process;
 
 /**
@@ -88,6 +89,12 @@ class Moodle {
      */
     public function getPluginTypeDirectory($type) {
         $pluginTypes = $this->getPluginTypes();
+
+        if (!array_key_exists($type, $pluginTypes)) {
+            throw new InvalidProjectException(
+                    "Plugin type \"{$type}\" is not known; cannot determine target directory",
+                    InvalidProjectException::CODE_INVALID_PLUGIN_TYPE);
+        }
 
         return $pluginTypes[$type];
     }
