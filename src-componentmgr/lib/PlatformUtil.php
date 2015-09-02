@@ -81,9 +81,7 @@ class PlatformUtil {
      * @return string
      */
     public static function phpExecutable() {
-        global $_SERVER;
-
-        return $_SERVER['_'];
+        return PHP_BINARY;
     }
 
     /**
