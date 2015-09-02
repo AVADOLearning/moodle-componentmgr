@@ -11,6 +11,7 @@
 namespace ComponentManager;
 
 use ComponentManager\Exception\InvalidProjectException;
+use ComponentManager\Exception\MoodleException;
 use Symfony\Component\Process\Process;
 
 /**
@@ -74,6 +75,11 @@ class Moodle {
         $process->setEnv(['XDEBUG_CONFIG' => '']);
 
         $process->run();
+        if (!$process->isSuccessful()) {
+            throw new MoodleException(
+                    "Unable to execute CLI script \"{$script}\"; is the local_componentmgr plugin installed?",
+                    MoodleException::CODE_EXECUTION_FAILED);
+        }
         $output = $process->getOutput();
         $result = json_decode($output);
 
