@@ -104,16 +104,9 @@ class MoodlePackageRepository extends AbstractPackageRepository
                         $version->downloadurl, $version->downloadmd5);
             }
 
-            /* This is pretty rubbish, but until Moodle HQ expose the VCS
-             * repository data to us, we'll have to assume that the tag name is
-             * derived from the release and that it's a Git repository.
-             *
-             * See https://tracker.moodle.org/browse/MDLSITE-4149 */
-            if ($package->source) {
+            if ($version->vcssystem === 'git') {
                 $sources[] = new GitComponentSource(
-                        $package->source, $version->release);
-                $sources[] = new GitComponentSource(
-                        $package->source, "v{$version->release}");
+                        $version->vcsrepositoryurl, $version->vcstag);
             }
 
             $versions[] = new ComponentVersion(
