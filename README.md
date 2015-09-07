@@ -86,6 +86,17 @@ need the following stanza in your project file:
         }
     }
 
+Other package repositories are available, allowing deployment from corporate
+version control and distribution systems. At the moment:
+* ```"Moodle"``` allows access to the
+  [Moodle.org/plugins](https://moodle.org/plugins/) repository, versioning
+  plugins by either their plugin version (```YYYYMMDDXX```) or release
+  name.
+* ```"Stash"``` allows access to individual projects within a Stash
+  deployment. Project names should match component names and components are
+  versioned via
+  [Git references](https://git-scm.com/book/en/v2/Git-Internals-Git-References).
+
 You're now ready to start declaring components. Components are declared in the
 ```"components"``` section of your project file, indexed by their
 [frankenstyle](https://docs.moodle.org/dev/Frankenstyle) component names. Each
