@@ -13,6 +13,7 @@ namespace ComponentManager\Command;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\Console\Argument;
 use ComponentManager\Exception\InstallationFailureException;
+use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\PlatformUtil;
 use ComponentManager\ResolvedComponentVersion;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -104,7 +105,14 @@ HELP;
         $packageRepository = $this->getProject()->getPackageRepository(
                 $specification->getPackageRepository());
 
-        $component = $packageRepository->getComponent($specification);
+        if (!$component = $packageRepository->getComponent($specification)) {
+            $componentName         = $specification->getName();
+            $packageRepositoryName = $specification->getPackageRepository();
+            throw new InvalidProjectException(
+                    "The component \"{$componentName}\" could not be found within repository \"{$packageRepositoryName}\"",
+                    InvalidProjectException::CODE_MISSING_COMPONENT);
+        }
+
         $version   = $component->getVersion($specification->getVersion());
 
         return new ResolvedComponentVersion(

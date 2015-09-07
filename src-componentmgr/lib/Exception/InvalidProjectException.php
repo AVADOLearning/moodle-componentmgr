@@ -38,6 +38,13 @@ class InvalidProjectException extends AbstractException {
     const CODE_DECODE_FAILED = 3;
 
     /**
+     * Code: missing component.
+     *
+     * @var integer
+     */
+    const CODE_MISSING_COMPONENT = 4;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -57,6 +64,9 @@ class InvalidProjectException extends AbstractException {
 
             case static::CODE_DECODE_FAILED:
                 return 'Failed to decode project file; is it valid?';
+
+            case static::CODE_MISSING_COMPONENT:
+                return 'A required component could not be found in the specified package repository';
         }
     }
 }
