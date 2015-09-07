@@ -159,7 +159,7 @@ Moodle Notifications page under Site administration, or the handy CLI script:
 ## To do
 
 * Ditch JSON for storage of package repository cache and use SQLite instead.
-  This should offer a sizeable reudction in the amount of time we spend locating
+  This should offer a sizeable reduction in the amount of time we spend locating
   package metadata.
 * Define services in a YAML file rather than a PHP file for clearer expression
   of dependencies. This is starting to become a problem.
