@@ -31,6 +31,13 @@ class InvalidProjectException extends AbstractException {
     const CODE_INVALID_PLUGIN_TYPE = 2;
 
     /**
+     * Code: decode failed.
+     *
+     * @var integer
+     */
+    const CODE_DECODE_FAILED = 3;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -47,6 +54,9 @@ class InvalidProjectException extends AbstractException {
 
             case static::CODE_INVALID_PLUGIN_TYPE:
                 return 'Invalid plugin type';
+
+            case static::CODE_DECODE_FAILED:
+                return 'Failed to decode project file; is it valid?';
         }
     }
 }

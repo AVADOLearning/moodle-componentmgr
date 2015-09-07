@@ -78,6 +78,11 @@ class Project {
         $projectFileContents = file_get_contents($fileName);
         $projectFileObject   = json_decode($projectFileContents);
 
+        if ($projectFileObject === null) {
+            throw new InvalidProjectException(
+                    sprintf("(%d) %s", json_last_error(), json_last_error_msg()));
+        }
+
         $this->fileName                 = $fileName;
         $this->contents                 = $projectFileObject;
         $this->packageRepositoryFactory = $packageRepositoryFactory;

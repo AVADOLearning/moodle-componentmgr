@@ -163,6 +163,8 @@ Moodle Notifications page under Site administration, or the handy CLI script:
   package metadata.
 * Define services in a YAML file rather than a PHP file for clearer expression
   of dependencies. This is starting to become a problem.
+* Add init and validate commands to help new users get their project files set
+  up correctly.
 
 ## Troubleshooting
 
