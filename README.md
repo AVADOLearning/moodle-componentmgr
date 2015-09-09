@@ -176,6 +176,8 @@ Moodle Notifications page under Site administration, or the handy CLI script:
   of dependencies. This is starting to become a problem.
 * Add init and validate commands to help new users get their project files set
   up correctly.
+* Stop using the crappy JSON library and use Symfony's serialisers instead.
+  This should simplify error handling considerably.
 
 ## Troubleshooting
 
