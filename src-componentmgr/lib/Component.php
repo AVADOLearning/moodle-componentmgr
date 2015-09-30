@@ -140,7 +140,7 @@ class Component {
         }
 
         throw new UnsatisfiedVersionException(
-                "component version satisfying {$this->name}@{$version} not found",
+                "component version satisfying {$this->name}@{$versionSpecification} not found",
                 UnsatisfiedVersionException::CODE_UNKNOWN_VERSION);
     }
 }
