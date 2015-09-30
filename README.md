@@ -178,6 +178,10 @@ Moodle Notifications page under Site administration, or the handy CLI script:
   up correctly.
 * Stop using the crappy JSON library and use Symfony's serialisers instead.
   This should simplify error handling considerably.
+* Consider adding an alternative syntax to specify arbitrary version formats
+  that might be exposed by the underlying component source.
+* Check response statuses from HTTP requests and handle failures; we probably
+  need a new exception type for transient failures.
 
 ## Troubleshooting
 
