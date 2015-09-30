@@ -47,7 +47,21 @@ class StashPackageRepository extends AbstractPackageRepository
      *
      * @var string
      */
-    const PROJECT_REPOSITORY_LIST_PATH = '%s/rest/api/1.0/projects/%s/repos';
+    const PROJECT_REPOSITORY_LIST_PATH = '/rest/api/1.0/projects/%s/repos';
+
+    /**
+     * Path to the list of tags within a repository.
+     *
+     * @var string
+     */
+    const REPOSITORY_TAGS_PATH = '';
+
+    /**
+     * Package cache.
+     *
+     * @var \stdClass
+     */
+    protected $packageCache;
 
     /**
      * @override \ComponentManager\PackageRepository\PackageRepository
@@ -77,21 +91,14 @@ class StashPackageRepository extends AbstractPackageRepository
      * @override \ComponentManager\PackageRepository\CachingPackageRepository
      */
     public function refreshMetadataCache(LoggerInterface $logger) {
-        $url = $this->getProjectRepositoryListUrl();
+        $path = $this->getProjectRepositoryListUrl();
 
         $logger->debug('Fetching metadata', [
-            'url' => $url,
+            'path' => $path,
         ]);
-
-        $client = new Client();
-        $response = $client->get($url, [
-            'headers' => [
-                'Authorization' => "Basic {$this->options->authentication}",
-            ],
-        ]);
+        $rawComponents = $this->get($path);
 
         $logger->debug('Indexing component data');
-        $rawComponents = json_decode($response->getBody());
         $components    = new stdClass();
         foreach ($rawComponents->values as $component) {
             $components->{$component->slug} = $component;
@@ -111,7 +118,7 @@ class StashPackageRepository extends AbstractPackageRepository
      */
     protected function getProjectRepositoryListUrl() {
         return sprintf(static::PROJECT_REPOSITORY_LIST_PATH,
-                       $this->options->uri, $this->options->project);
+                       $this->options->project);
     }
 
     /**
@@ -128,5 +135,46 @@ class StashPackageRepository extends AbstractPackageRepository
                        PlatformUtil::directorySeparator(),
                        PlatformUtil::directorySeparator(),
                        $urlHash);
+    }
+
+    /**
+     * Load the package cache.
+     *
+     * @return void
+     */
+    protected function loadPackageCache() {
+        $this->packageCache = json_decode(file_get_contents(
+                $this->getMetadataCacheFilename()));
+    }
+
+    /**
+     * Load the package cache (if not already loaded).
+     *
+     * @return void
+     */
+    protected function maybeLoadPackageCache() {
+        if ($this->packageCache === null) {
+            $this->loadPackageCache();
+        }
+    }
+
+    /**
+     * Perform a GET request on a Stash path.
+     *
+     * @param string $path
+     *
+     * @return mixed The JSON-decoded representation of the response body.
+     */
+    protected function get($path) {
+        $uri = $this->options->uri . $path;
+
+        $client = new Client();
+        $response = $client->get($uri, [
+            'headers' => [
+                'Authorization' => "Basic {$this->options->authentication}",
+            ],
+        ]);
+
+        return json_decode($response->getBody());
     }
 }
