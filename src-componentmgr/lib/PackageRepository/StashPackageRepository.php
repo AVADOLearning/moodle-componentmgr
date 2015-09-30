@@ -10,6 +10,8 @@
 
 namespace ComponentManager\PackageRepository;
 
+use ComponentManager\Component;
+use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
 use ComponentManager\PlatformUtil;
@@ -54,7 +56,7 @@ class StashPackageRepository extends AbstractPackageRepository
      *
      * @var string
      */
-    const REPOSITORY_TAGS_PATH = '';
+    const REPOSITORY_TAGS_PATH = '/rest/api/1.0/projects/%s/repos/%s/tags';
 
     /**
      * Package cache.
@@ -80,12 +82,47 @@ class StashPackageRepository extends AbstractPackageRepository
     /**
      * @override \ComponentManager\PackageRepository\PackageRepository
      */
-    public function getComponent(ComponentSpecification $componentSpecification) {}
+    public function getComponent(ComponentSpecification $componentSpecification) {
+        $this->maybeLoadPackageCache();
+
+        $componentName = $componentSpecification->getName();
+        $package = $this->packageCache->{$componentName};
+
+        /* Unfortunately Stash doesn't allow us to retrieve a list of
+         * repositories with tags included, so we'll have to incrementally
+         * retrieve tags for each component as they're requested. */
+        if (!property_exists($package, 'tags')) {
+            $path        = $this->getRepositoryTagsPath($componentName);
+            $rawVersions = $this->get($path);
+
+            $this->packageCache->{$componentName}->tags = $rawVersions->values;
+
+            // TODO: we should probably be logging writes here
+            $this->writeMetadataCache($this->packageCache);
+        }
+
+        $versions = [];
+        foreach ($package->tags as $tag) {
+            $sources = [];
+
+            foreach ($package->links->clone as $cloneSource) {
+                $sources[] = new GitComponentSource(
+                        $cloneSource->href, $tag->displayId);
+            }
+
+            $versions[] = new ComponentVersion(
+                    null, $tag->displayId, null, $sources);
+        }
+
+        return new Component($package->slug, $versions, $this);
+    }
 
     /**
      * @override \ComponentManager\PackageRepository\PackageRepository
      */
-    public function satisfiesVersion($versionSpecification, ComponentVersion $version) {}
+    public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
+        return $versionSpecification === $version->getRelease();
+    }
 
     /**
      * @override \ComponentManager\PackageRepository\CachingPackageRepository
@@ -99,26 +136,15 @@ class StashPackageRepository extends AbstractPackageRepository
         $rawComponents = $this->get($path);
 
         $logger->debug('Indexing component data');
-        $components    = new stdClass();
+        $components = new stdClass();
         foreach ($rawComponents->values as $component) {
             $components->{$component->slug} = $component;
         }
 
-        $file = $this->getMetadataCacheFilename();
         $logger->info('Storing metadata', [
-            'filename' => $file
+            'filename' => $this->getMetadataCacheFilename(),
         ]);
-        $this->filesystem->dumpFile($file, json_encode($components));
-    }
-
-    /**
-     * Get the repository list URL for this Stash project.
-     *
-     * @return string
-     */
-    protected function getProjectRepositoryListUrl() {
-        return sprintf(static::PROJECT_REPOSITORY_LIST_PATH,
-                       $this->options->project);
+        $this->writeMetadataCache($components);
     }
 
     /**
@@ -159,6 +185,18 @@ class StashPackageRepository extends AbstractPackageRepository
     }
 
     /**
+     * Write the metadata cache to the disk.
+     *
+     * @param \stdClass $components
+     *
+     * @return void
+     */
+    protected function writeMetadataCache($components) {
+        $file = $this->getMetadataCacheFilename();
+        $this->filesystem->dumpFile($file, json_encode($components));
+    }
+
+    /**
      * Perform a GET request on a Stash path.
      *
      * @param string $path
@@ -176,5 +214,27 @@ class StashPackageRepository extends AbstractPackageRepository
         ]);
 
         return json_decode($response->getBody());
+    }
+
+    /**
+     * Get the tag list path for the specified repository within this project.
+     *
+     * @param $componentName
+     *
+     * @return string
+     */
+    protected function getRepositoryTagsPath($componentName) {
+        return sprintf(static::REPOSITORY_TAGS_PATH, $this->options->project,
+                       $componentName);
+    }
+
+    /**
+     * Get the repository list path for this Stash project.
+     *
+     * @return string
+     */
+    protected function getProjectRepositoryListUrl() {
+        return sprintf(static::PROJECT_REPOSITORY_LIST_PATH,
+                       $this->options->project);
     }
 }

@@ -105,9 +105,11 @@ HELP;
         $packageRepository = $this->getProject()->getPackageRepository(
                 $specification->getPackageRepository());
 
+        $componentName         = $specification->getName();
+        $componentVersion      = $specification->getVersion();
+        $packageRepositoryName = $specification->getPackageRepository();
+
         if (!$component = $packageRepository->getComponent($specification)) {
-            $componentName         = $specification->getName();
-            $packageRepositoryName = $specification->getPackageRepository();
             throw new InvalidProjectException(
                     "The component \"{$componentName}\" could not be found within repository \"{$packageRepositoryName}\"",
                     InvalidProjectException::CODE_MISSING_COMPONENT);
