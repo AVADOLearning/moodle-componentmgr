@@ -184,6 +184,10 @@ Moodle Notifications page under Site administration, or the handy CLI script:
   that might be exposed by the underlying component source.
 * Check response statuses from HTTP requests and handle failures; we probably
   need a new exception type for transient failures.
+* Handle cases where packages don't exist within repositories.
+* Use the Symfony process builder to ensure we correctly sanitise shell
+  commands.
+* Clean up temporary directories used during installation operations.
 
 ## Troubleshooting
 
