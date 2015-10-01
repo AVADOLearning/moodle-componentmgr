@@ -1,34 +1,17 @@
-#!/usr/bin/env php
-<?php
+#!/bin/sh
 
-/**
- * Moodle component manager.
- *
- * @author Luke Carrier <luke@carrier.im>
- * @copyright 2015 Luke Carrier
- * @license GPL v3
- */
+#
+# Moodle component manager.
+#
+# @author Luke Carrier <luke@carrier.im>
+# @copyright 2015 Luke Carrier
+# @license GPL v3
+#
 
-use ComponentManager\ComponentManagerApplication;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+binDir="$(dirname "$(readlink -fn "$0")")"
+rootDir="$(dirname "$binDir")"
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+echo php -d error_reporting=-1 -d display_errors=On "${rootDir}/libexec/componentmgr.php" -- ${@}
+errno=$?
 
-/**
- * Configuration directory.
- *
- * @var string
- */
-define('CM_ETC', dirname(__DIR__) . '/etc');
-
-require CM_ETC . '/bootstrap.php';
-
-$container = new ContainerBuilder();
-$loader = new PhpFileLoader($container, new FileLocator(CM_ETC));
-$loader->load('services.php');
-$container->compile();
-
-$app = $container->get('application');
-$app->run();
+exit $errno

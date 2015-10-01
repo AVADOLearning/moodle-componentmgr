@@ -10,6 +10,13 @@ REM
 
 SETLOCAL EnableDelayedExpansion
 
-php %~dp0\componentmgr -- %*
+SET binDir=%~dp0
+CALL :resolvePath !binDir!\.. rootDir
+
+php -d error_reporting=-1 -d display_errors=On !rootDir!\libexec\componentmgr.php -- %*
 SET errno=%errorlevel%
 EXIT /B !errno!
+
+:resolvePath
+SET %2=%~f1
+GOTO :eof
