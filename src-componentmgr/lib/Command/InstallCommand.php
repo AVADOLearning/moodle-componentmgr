@@ -115,7 +115,7 @@ HELP;
                     InvalidProjectException::CODE_MISSING_COMPONENT);
         }
 
-        $version = $component->getVersion($specification->getVersion());
+        $version = $component->getVersion($componentVersion);
 
         return new ResolvedComponentVersion(
                 $specification, $packageRepository, $component, $version);
