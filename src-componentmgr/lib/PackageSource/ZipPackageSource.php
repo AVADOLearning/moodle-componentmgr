@@ -18,6 +18,7 @@ use ComponentManager\PlatformUtil;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use ZipArchive;
 
 /**
@@ -103,6 +104,7 @@ class ZipPackageSource extends AbstractPackageSource
     public function obtainPackage($tempDirectory,
                                   Component $component,
                                   ComponentVersion $version,
+                                  Filesystem $filesystem,
                                   LoggerInterface $logger) {
         $sources = $version->getSources();
 

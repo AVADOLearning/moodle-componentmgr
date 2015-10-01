@@ -25,6 +25,13 @@ class PlatformException extends AbstractException {
     const CODE_UNKNOWN_PLATFORM = 1;
 
     /**
+     * Code: missing executable.
+     *
+     * @var integer
+     */
+    const CODE_MISSING_EXECUTABLE = 2;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -38,6 +45,9 @@ class PlatformException extends AbstractException {
         switch ($this->code) {
             case static::CODE_UNKNOWN_PLATFORM:
                 return 'Unknown platform';
+
+            case static::CODE_MISSING_EXECUTABLE:
+                return 'Required executable could not be found on PATH';
         }
     }
 }

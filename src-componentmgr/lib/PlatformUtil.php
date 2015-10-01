@@ -50,6 +50,38 @@ class PlatformUtil {
     }
 
     /**
+     * Find the named executable on the system PATH.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public static function executable($name) {
+        switch (PHP_OS) {
+            case 'Linux':
+                $delimiter = ':';
+                break;
+
+            case 'WINNT':
+                $delimiter = ';';
+                break;
+
+            default:
+                throw new PlatformException(PHP_OS, PlatformException::CODE_UNKNOWN_PLATFORM);
+        }
+
+        $paths = explode($delimiter, getenv('PATH'));
+        foreach ($paths as $path) {
+            $executable = $path . static::directorySeparator() . $name;
+            if (is_executable($executable)) {
+                return $executable;
+            }
+        }
+
+        throw new PlatformException($executable, PlatformException::CODE_MISSING_EXECUTABLE);
+    }
+
+    /**
      * Retrieve the user's home directory.
      *
      * @return string

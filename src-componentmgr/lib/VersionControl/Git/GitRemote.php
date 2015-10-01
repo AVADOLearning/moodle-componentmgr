@@ -32,10 +32,28 @@ class GitRemote {
      * Initialiser.
      *
      * @param string $name
-     * @param string $url
+     * @param string $uri
      */
-    public function __construct($name, $url) {
+    public function __construct($name, $uri) {
         $this->name = $name;
-        $this->url  = $url;
+        $this->uri  = $uri;
+    }
+
+    /**
+     * Get the remote name.
+     *
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
+    }
+
+    /**
+     * Get the remote URI.
+     *
+     * @return string
+     */
+    public function getUri() {
+        return $this->uri;
     }
 }

@@ -13,6 +13,7 @@ namespace ComponentManager\PackageSource;
 use ComponentManager\Component;
 use ComponentManager\ComponentVersion;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Package source interface.
@@ -49,5 +50,6 @@ interface PackageSource {
     public function obtainPackage($tempDirectory,
                                   Component $component,
                                   ComponentVersion $version,
+                                  Filesystem $filesystem,
                                   LoggerInterface $logger);
 }

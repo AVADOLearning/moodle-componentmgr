@@ -141,10 +141,14 @@ HELP;
 
         $tempDirectory = PlatformUtil::createTempDirectory();
 
+        /** @var \Symfony\Component\Filesystem\Filesystem $filesystem */
+        $filesystem = $this->container->get('filesystem');
+
         try {
             $sourceDirectory = $packageSource->obtainPackage(
                     $tempDirectory, $resolvedComponent->getComponent(),
-                    $resolvedComponent->getVersion(), $this->logger);
+                    $resolvedComponent->getVersion(), $filesystem,
+                    $this->logger);
         } catch (InstallationFailureException $e) {
             $this->logger->emergency($e->getMessage());
         }
@@ -154,9 +158,6 @@ HELP;
             'sourceDirectory' => $sourceDirectory,
             'targetDirectory' => $targetDirectory,
         ]);
-
-        /** @var \Symfony\Component\Filesystem\Filesystem $filesystem */
-        $filesystem = $this->container->get('filesystem');
 
         if ($filesystem->exists($targetDirectory)) {
             $this->logger->info('Component directory already exists; removing', [
