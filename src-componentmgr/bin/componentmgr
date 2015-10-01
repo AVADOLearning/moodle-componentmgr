@@ -11,7 +11,7 @@
 binDir="$(dirname "$(readlink -fn "$0")")"
 rootDir="$(dirname "$binDir")"
 
-echo php -d error_reporting=-1 -d display_errors=On "${rootDir}/libexec/componentmgr.php" -- ${@}
+php -d error_reporting=-1 -d display_errors=On "${rootDir}/libexec/componentmgr.php" -- ${@}
 errno=$?
 
 exit $errno
