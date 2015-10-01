@@ -103,19 +103,19 @@ class StashPackageRepository extends AbstractPackageRepository
         $packageCacheDirty = false;
 
         if (!property_exists($package, 'branches')) {
-            $path        = $this->getRepositoryBranchesPath($componentName);
-            $rawVersions = $this->get($path);
+            $path = $this->getRepositoryBranchesPath($componentName);
 
-            $this->packageCache->{$componentName}->branches = $rawVersions->values;
-            $packageCacheDirty                              = true;
+            $this->packageCache->{$componentName}->branches
+                    = $this->getAllPages($path);
+            $packageCacheDirty = true;
         }
 
         if (!property_exists($package, 'tags')) {
-            $path        = $this->getRepositoryTagsPath($componentName);
-            $rawVersions = $this->get($path);
+            $path = $this->getRepositoryTagsPath($componentName);
 
-            $this->packageCache->{$componentName}->tags = $rawVersions->values;
-            $packageCacheDirty                          = true;
+            $this->packageCache->{$componentName}->tags
+                    = $this->getAllPages($path);
+            $packageCacheDirty = true;
         }
 
         if ($packageCacheDirty) {
@@ -173,11 +173,11 @@ class StashPackageRepository extends AbstractPackageRepository
         $logger->debug('Fetching metadata', [
             'path' => $path,
         ]);
-        $rawComponents = $this->get($path);
+        $rawComponents = $this->getAllPages($path);
 
         $logger->debug('Indexing component data');
         $components = new stdClass();
-        foreach ($rawComponents->values as $component) {
+        foreach ($rawComponents as $component) {
             $components->{$component->slug} = $component;
         }
 
@@ -239,11 +239,12 @@ class StashPackageRepository extends AbstractPackageRepository
     /**
      * Perform a GET request on a Stash path.
      *
-     * @param string $path
+     * @param string  $path
+     * @param mixed[] $queryParams
      *
      * @return mixed The JSON-decoded representation of the response body.
      */
-    protected function get($path) {
+    protected function get($path, array $queryParams=[]) {
         $uri = $this->options->uri . $path;
 
         $client = new Client();
@@ -251,9 +252,39 @@ class StashPackageRepository extends AbstractPackageRepository
             'headers' => [
                 'Authorization' => "Basic {$this->options->authentication}",
             ],
+            'query' => $queryParams,
         ]);
 
         return json_decode($response->getBody());
+    }
+
+    /**
+     * Get a complete result for a paged Stash REST API resource.
+     *
+     * @param string  $path
+     * @param mixed[] $queryParams
+     *
+     * @return mixed The value attribute of the JSON-decoded response body.
+     */
+    protected function getAllPages($path, array $queryParams=[]) {
+        $values = [];
+
+        $responseBody = (object) [
+            'limit' => 25,
+            'start' => 0,
+            'size'  => 0,
+        ];
+
+        do {
+            $queryParams['limit'] = $responseBody->limit;
+            $queryParams['start'] = $responseBody->start + $responseBody->size;
+
+            $responseBody = $this->get($path, $queryParams);
+
+            $values = array_merge($values, $responseBody->values);
+        } while (!$responseBody->isLastPage);
+
+        return $values;
     }
 
     /**
@@ -263,7 +294,7 @@ class StashPackageRepository extends AbstractPackageRepository
      */
     protected function getProjectRepositoryListUrl() {
         return sprintf(static::PROJECT_REPOSITORY_LIST_PATH,
-            $this->options->project);
+                       $this->options->project);
     }
 
     /**
