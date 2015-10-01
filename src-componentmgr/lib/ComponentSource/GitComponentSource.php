@@ -27,17 +27,17 @@ class GitComponentSource extends AbstractComponentSource
      *
      * @var string
      */
-    protected $tag;
+    protected $ref;
 
     /**
      * Initialiser.
      *
      * @param string $repositoryUri
-     * @param string $tag
+     * @param string $ref
      */
-    public function __construct($repositoryUri, $tag) {
+    public function __construct($repositoryUri, $ref) {
         $this->repositoryUri = $repositoryUri;
-        $this->tag           = $tag;
+        $this->ref           = $ref;
     }
 
     /**
@@ -68,7 +68,7 @@ class GitComponentSource extends AbstractComponentSource
      *
      * @return string
      */
-    public function getTag() {
-        return $this->tag;
+    public function getRef() {
+        return $this->ref;
     }
 }
