@@ -52,6 +52,13 @@ class StashPackageRepository extends AbstractPackageRepository
     const PROJECT_REPOSITORY_LIST_PATH = '/rest/api/1.0/projects/%s/repos';
 
     /**
+     * Path to the list of branches within a repository.
+     *
+     * @var string
+     */
+    const REPOSITORY_BRANCHES_PATH = '/rest/api/1.0/projects/%s/repos/%s/branches';
+
+    /**
      * Path to the list of tags within a repository.
      *
      * @var string
@@ -89,19 +96,40 @@ class StashPackageRepository extends AbstractPackageRepository
         $package = $this->packageCache->{$componentName};
 
         /* Unfortunately Stash doesn't allow us to retrieve a list of
-         * repositories with tags included, so we'll have to incrementally
-         * retrieve tags for each component as they're requested. */
+         * repositories with branches/tags included, so we'll have to
+         * incrementally retrieve them for each component as they're
+         * requested. */
+
+        $packageCacheDirty = false;
+
+        if (!property_exists($package, 'branches')) {
+            $path        = $this->getRepositoryBranchesPath($componentName);
+            $rawVersions = $this->get($path);
+
+            $this->packageCache->{$componentName}->branches = $rawVersions->values;
+            $packageCacheDirty                              = true;
+        }
+
         if (!property_exists($package, 'tags')) {
             $path        = $this->getRepositoryTagsPath($componentName);
             $rawVersions = $this->get($path);
 
             $this->packageCache->{$componentName}->tags = $rawVersions->values;
+            $packageCacheDirty                          = true;
+        }
 
+        if ($packageCacheDirty) {
             // TODO: we should probably be logging writes here
             $this->writeMetadataCache($this->packageCache);
         }
 
         $versions = [];
+
+        /* TODO: For the time being, we'll do these first so that tags take
+         *       precedence over branches later when we attempt to satisfy
+         *       version specifications. We should definitely be seeking to
+         *       replace this crude approach with an indication of priority on
+         *       source or version objects later. */
         foreach ($package->tags as $tag) {
             $sources = [];
 
@@ -111,7 +139,19 @@ class StashPackageRepository extends AbstractPackageRepository
             }
 
             $versions[] = new ComponentVersion(
-                    null, $tag->displayId, null, $sources);
+                null, $tag->displayId, null, $sources);
+        }
+
+        foreach ($package->branches as $branch) {
+            $sources = [];
+
+            foreach ($package->links->clone as $cloneSource) {
+                $sources[] = new GitComponentSource(
+                        $cloneSource->href, $branch->displayId);
+            }
+
+            $versions[] = new ComponentVersion(
+                    null, $branch->displayId, null, $sources);
         }
 
         return new Component($package->slug, $versions, $this);
@@ -217,24 +257,36 @@ class StashPackageRepository extends AbstractPackageRepository
     }
 
     /**
-     * Get the tag list path for the specified repository within this project.
-     *
-     * @param $componentName
-     *
-     * @return string
-     */
-    protected function getRepositoryTagsPath($componentName) {
-        return sprintf(static::REPOSITORY_TAGS_PATH, $this->options->project,
-                       $componentName);
-    }
-
-    /**
      * Get the repository list path for this Stash project.
      *
      * @return string
      */
     protected function getProjectRepositoryListUrl() {
         return sprintf(static::PROJECT_REPOSITORY_LIST_PATH,
-                       $this->options->project);
+            $this->options->project);
+    }
+
+    /**
+     * Get the branch list path for the specified repository within the project.
+     *
+     * @param string $componentName
+     *
+     * @return string
+     */
+    protected function getRepositoryBranchesPath($componentName) {
+        return sprintf(static::REPOSITORY_BRANCHES_PATH, $this->options->project,
+                       $componentName);
+    }
+
+    /**
+     * Get the tag list path for the specified repository within this project.
+     *
+     * @param string $componentName
+     *
+     * @return string
+     */
+    protected function getRepositoryTagsPath($componentName) {
+        return sprintf(static::REPOSITORY_TAGS_PATH, $this->options->project,
+                       $componentName);
     }
 }
