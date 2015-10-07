@@ -126,11 +126,6 @@ class GitVersionControl {
      */
     protected function ensureSuccess(Process $process, $code) {
         if (!$process->isSuccessful()) {
-            var_dump($process->getWorkingDirectory());
-            var_dump($process->getCommandLine());
-            var_dump($process->getOutput());
-            var_dump($process->getErrorOutput());
-
             throw new VersionControlException(
                     $process->getCommandLine(), $code);
         }
