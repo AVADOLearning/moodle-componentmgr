@@ -148,7 +148,8 @@ class GitVersionControl {
     }
 
     /**
-     * Initialise \
+     * Initialise Git repository.
+     *
      * @throws VersionControlException
      * @throws \ComponentManager\Exception\PlatformException
      */

@@ -139,7 +139,7 @@ class StashPackageRepository extends AbstractPackageRepository
             }
 
             $versions[] = new ComponentVersion(
-                null, $tag->displayId, null, $sources);
+                    null, $tag->displayId, null, $sources);
         }
 
         foreach ($package->branches as $branch) {
