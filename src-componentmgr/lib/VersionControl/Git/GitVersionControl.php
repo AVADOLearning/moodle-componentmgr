@@ -54,9 +54,7 @@ class GitVersionControl {
 
         $this->remotes[$name] = $remote;
 
-        $git     = PlatformUtil::executable('git');
-        $process = new Process("{$git} remote add {$name} {$uri}",
-                               $this->directory);
+        $process = $this->getProcess(['remote', 'add', $name, $uri]);
         $process->run();
 
         $this->ensureSuccess(
@@ -71,9 +69,7 @@ class GitVersionControl {
      * @return void
      */
     public function checkout($ref) {
-        $git     = PlatformUtil::executable('git');
-        $process = new Process("{$git} checkout {$ref}",
-                               $this->directory);
+        $process = $this->getProcess(['checkout', $ref]);
         $process->run();
 
         $this->ensureSuccess(
@@ -88,9 +84,8 @@ class GitVersionControl {
      * @throws \ComponentManager\Exception\PlatformException
      */
     public function checkoutIndex($prefix) {
-        $git     = PlatformUtil::executable('git');
-        $process = new Process("{$git} checkout-index --all --prefix={$prefix}",
-                               $this->directory);
+        $process = $this->getProcess(
+                ['checkout-index', '--all', "--prefix={$prefix}"]);
         $process->run();
 
         $this->ensureSuccess(
@@ -106,18 +101,14 @@ class GitVersionControl {
      * @return void
      */
     public function fetch($remote, $withTags=true) {
-        $git = PlatformUtil::executable('git');
-
-        $process = new Process("{$git} fetch {$remote}",
-                               $this->directory);
+        $process = $this->getProcess(['fetch', $remote]);
         $process->run();
 
         $this->ensureSuccess(
                 $process, VersionControlException::CODE_FETCH_FAILED);
 
         if ($withTags) {
-            $process = new Process("git fetch --tags {$remote}",
-                                   $this->directory);
+            $process = $this->getProcess(['fetch', '--tags', $remote]);
             $process->run();
 
             $this->ensureSuccess(
@@ -146,15 +137,28 @@ class GitVersionControl {
     }
 
     /**
+     * Get a ready-to-run Process instance.
+     *
+     * @param  mixed[] $arguments Arguments to pass to the Git binary.
+     *
+     * @return \Symfony\Component\Process\Process
+     */
+    protected function getProcess($arguments) {
+        array_unshift($arguments, PlatformUtil::executable('git'));
+
+        $builder = new ProcessBuilder($arguments);
+        $builder->setWorkingDirectory($this->directory);
+
+        return $builder->getProcess();
+    }
+
+    /**
      * Initialise \
      * @throws VersionControlException
      * @throws \ComponentManager\Exception\PlatformException
      */
     public function init() {
-        $git = PlatformUtil::executable('git');
-
-        $process = new Process("{$git} init",
-                               $this->directory);
+        $process = $this->getProcess(['init']);
         $process->run();
 
         $this->ensureSuccess(
