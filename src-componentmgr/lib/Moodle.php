@@ -23,13 +23,6 @@ use Symfony\Component\Process\Process;
  */
 class Moodle {
     /**
-     * Map of plugin types to paths on disk.
-     *
-     * @var string[]
-     */
-    protected $pluginTypes;
-
-    /**
      * Root directory of the Moodle installation.
      *
      * @var string
@@ -115,13 +108,11 @@ class Moodle {
     }
 
     /**
+     * Retrieve a list of all known plugin types.
+     *
      * @return \string[]
      */
     public function getPluginTypes() {
-        if ($this->pluginTypes === null) {
-            $this->pluginTypes = (array) $this->execute('plugin_types');
-        }
-
-        return $this->pluginTypes;
+        return (array) $this->execute('plugin_types');
     }
 }
