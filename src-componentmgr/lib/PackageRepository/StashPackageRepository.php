@@ -32,6 +32,13 @@ use stdClass;
  *    with access to only the specific project, as Base64 encoded text is
  *    *trivial* to decode.
  *
+ * The following optional configuration keys can also be configured for optimal
+ * performance within your environment:
+ *
+ * -> linkOrder - the order in which different link types provided by the Stash
+ *    REST API should be fetched. If specified and a link type is excluded from
+ *    this list, no attempt will be made to fetch it.
+ *
  * To use multiple projects, add one stanza to the configuration file for each
  * Stash project.
  */
@@ -134,9 +141,13 @@ class StashPackageRepository extends AbstractPackageRepository
             $sources = [];
 
             foreach ($package->links->clone as $cloneSource) {
-                $sources[] = new GitComponentSource(
-                        $cloneSource->href, $tag->displayId);
+                if ($this->shouldAddComponentSource($cloneSource)) {
+                    $sources[$cloneSource->name] = new GitComponentSource(
+                            $cloneSource->href, $tag->displayId);
+                }
             }
+
+            $sources = $this->sortComponentSources($sources);
 
             $versions[] = new ComponentVersion(
                     null, $tag->displayId, null, $sources);
@@ -146,9 +157,13 @@ class StashPackageRepository extends AbstractPackageRepository
             $sources = [];
 
             foreach ($package->links->clone as $cloneSource) {
-                $sources[] = new GitComponentSource(
-                        $cloneSource->href, $branch->displayId);
+                if ($this->shouldAddComponentSource($cloneSource)) {
+                    $sources[$cloneSource->name] = new GitComponentSource(
+                            $cloneSource->href, $branch->displayId);
+                }
             }
+
+            $sources = $this->sortComponentSources($sources);
 
             $versions[] = new ComponentVersion(
                     null, $branch->displayId, null, $sources);
@@ -162,6 +177,38 @@ class StashPackageRepository extends AbstractPackageRepository
      */
     public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
         return $versionSpecification === $version->getRelease();
+    }
+
+    /**
+     * Determine whether to add a component source for the given clone link.
+     *
+     * @param \stdClass $cloneSource Clone link from the Stash REST API.
+     *
+     * @return boolean
+     */
+    protected function shouldAddComponentSource(stdClass $cloneSource) {
+        return !property_exists($this->options, 'linkOrder')
+                || in_array($cloneSource->name, $this->options->linkOrder);
+    }
+
+    /**
+     * Sort component sources by link order and strip keys.
+     *
+     * @param \ComponentManager\ComponentSource\ComponentSource[] $componentSources
+     *
+     * @return \ComponentManager\ComponentSource\ComponentSource[]
+     */
+    protected function sortComponentSources(array $componentSources) {
+        if (property_exists($this->options, 'linkOrder')) {
+            /* Most concise method of sorting an array by order of entries in
+             * another array *ever*:
+             *
+             * http://stackoverflow.com/a/9098675 */
+            $orderKeys        = array_flip($this->options->linkOrder);
+            $componentSources = array_merge($orderKeys, $componentSources);
+        }
+        
+        return array_values($componentSources);
     }
 
     /**
