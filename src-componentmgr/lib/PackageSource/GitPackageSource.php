@@ -13,6 +13,7 @@ namespace ComponentManager\PackageSource;
 use ComponentManager\Component;
 use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentVersion;
+use ComponentManager\Exception\VersionControlException;
 use ComponentManager\PlatformUtil;
 use ComponentManager\VersionControl\Git\GitRemote;
 use ComponentManager\VersionControl\Git\GitVersionControl;
@@ -57,10 +58,12 @@ class GitPackageSource extends AbstractPackageSource
                 $repositoryUri  = $source->getRepositoryUri();
                 $ref            = $source->getRef();
 
-                $filesystem->mkdir([
+                // These paths must be removed in the event of a failure/retry
+                $paths = [
                     $repositoryPath,
                     $indexPath,
-                ]);
+                ];
+                $filesystem->mkdir($paths);
 
                 $logger->debug('Trying git repository source', [
                     'repositoryPath' => $repositoryPath,
@@ -69,15 +72,24 @@ class GitPackageSource extends AbstractPackageSource
                     'indexPath'      => $indexPath,
                 ]);
 
-                $repository = new GitVersionControl($repositoryPath);
-                $repository->init();
-                $repository->addRemote(new GitRemote('origin', $repositoryUri));
-                $repository->fetch('origin');
-                $repository->checkout($ref);
-                $repository->checkoutIndex(
-                        $indexPath . PlatformUtil::directorySeparator());
+                try {
+                    $repository = new GitVersionControl($repositoryPath);
+                    $repository->init();
+                    $repository->addRemote(new GitRemote('origin', $repositoryUri));
+                    $repository->fetch('origin');
+                    $repository->checkout($ref);
+                    $repository->checkoutIndex(
+                            $indexPath . PlatformUtil::directorySeparator());
 
-                return $indexPath;
+                    return $indexPath;
+                } catch (VersionControlException $e) {
+                    $logger->debug('Version control failed; skipping', [
+                        'code'    => $e->getCode(),
+                        'message' => $e->getMessage(),
+                    ]);
+
+                    $filesystem->remove($paths);
+                }
             } else {
                 $logger->debug('Cannot accept component source; skipping', [
                     'componentSource' => $source,
