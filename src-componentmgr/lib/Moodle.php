@@ -69,12 +69,21 @@ class Moodle {
         $process = new Process("{$php} {$scriptFilename}",
                                $this->rootDirectory);
 
-        /* This is important: if we don't unset this key, some Xdebug
+        /* For the most part, we want to pass environment variables straight
+         * through to our children. This is especially necessary for the unlucky
+         * ones using SQL Server with the FreeTDS driver, which requires its
+         * configuration file's location to be indicated via the FREETDS
+         * environment variable. */
+        $environment = $_ENV;
+
+        /* This override is important: if we don't unset this index, some Xdebug
          * configurations will break the subprocess on its first line and cause
          * the first process to hang until the timeout is reached. */
-        $process->setEnv(['XDEBUG_CONFIG' => '']);
+        unset($environment['XDEBUG_CONFIG']);
 
+        $process->setEnv($environment);
         $process->run();
+
         if (!$process->isSuccessful()) {
             throw new MoodleException(
                     "Unable to execute CLI script \"{$script}\"; is the local_componentmgr plugin installed?",
