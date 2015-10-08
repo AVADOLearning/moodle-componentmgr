@@ -16,7 +16,7 @@ integrate it with other business systems.
 
 Moodle's modular design empowers developers to create highly bespoke online
 learning platforms, but it can become difficult to manage large scale
-deployments of platforms whuch are comprised of countless separate modules.
+deployments of platforms which are comprised of countless separate modules.
 
 ### Component Manager aims to fix this problem.
 
@@ -24,6 +24,15 @@ By defining your requirements in one single file, you remove a great deal of the
 complexity involved in managing your deployment environments. Just drop a single
 manifest file into the top of your Moodle installation, execute one command and
 watch the deployment happen.
+
+This has several key advantages over manual deployments:
+
+* If you're deploying to a clustered environment, you can guarantee that each
+  individual application server is running the same code as its neighbours.
+* When managing multiple environments, e.g. test, UAT and production, you can be
+  sure that the code you're deploying to UAT is the same code that passed your
+  automated tests. Likewise, production deployments are guaranteed to contain
+  only the code that passed your UAT testing.
 
 ### This is not a new concept.
 
@@ -194,4 +203,4 @@ Moodle Notifications page under Site administration, or the handy CLI script:
 * ```"cURL error 60: SSL certificate problem: unable to get local issuer
   certificate"```
   Ensure that ```curl.cainfo``` in ```php.ini``` is set to a valid certificate
-  bundle.
+  bundle. A certificate bundle is provided for Windows users.
