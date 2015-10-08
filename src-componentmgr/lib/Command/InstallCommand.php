@@ -20,6 +20,7 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
  * Install command.
@@ -168,5 +169,20 @@ HELP;
         }
 
         $filesystem->mirror($sourceDirectory, $targetDirectory);
+
+        $this->logger->info('Cleaning up after component installation', [
+            'tempDirectory' => $tempDirectory,
+        ]);
+
+        try {
+            $filesystem->chmod([$tempDirectory], 0750, 0000, true);
+            $filesystem->remove([$tempDirectory]);
+        } catch (IOException $e) {
+            $this->logger->warning('Unable to clean up temporary directory', [
+                'code'          => $e->getCode(),
+                'message'       => $e->getMessage(),
+                'tempDirectory' => $tempDirectory,
+            ]);
+        }
     }
 }
