@@ -68,9 +68,7 @@ the lines of the following:
 
 1. Clone this directory somewhere on your disk.
 2. Ensure our ```/src-componentmgr/bin``` directory is on your ```PATH```.
-3. Copy the ```src-local_componentmgr``` directory's contents to
-   ```/local/componentmgr``` within your Moodle installation.
-4. Execute ```composer install``` within the ```src-componentmgr``` directory
+3. Execute ```composer install``` within the ```src-componentmgr``` directory
    to obtain the dependencies.
 
 ## Usage

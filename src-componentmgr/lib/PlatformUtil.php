@@ -138,4 +138,13 @@ class PlatformUtil {
     public static function workingDirectory() {
         return getcwd();
     }
+
+    /**
+     * Get the name of the running script.
+     *
+     * @return string
+     */
+    public static function phpScript() {
+        return $_SERVER['argv'][0];
+    }
 }

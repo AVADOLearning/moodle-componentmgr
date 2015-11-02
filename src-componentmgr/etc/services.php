@@ -56,6 +56,7 @@ $container->setDefinition('package_source.package_source_factory', $packageSourc
  */
 $commands = [
     'install' => 'Install',
+    'moodle'  => 'Moodle',
     'refresh' => 'Refresh',
 ];
 

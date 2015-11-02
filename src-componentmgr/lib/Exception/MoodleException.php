@@ -25,6 +25,13 @@ class MoodleException extends AbstractException {
     const CODE_EXECUTION_FAILED = 1;
 
     /**
+     * Code: invalid action.
+     *
+     * @var integer
+     */
+    const CODE_INVALID_ACTION = 2;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -38,6 +45,8 @@ class MoodleException extends AbstractException {
         switch ($this->code) {
             case static::CODE_EXECUTION_FAILED:
                 return 'Unable to execute a CLI script';
+            case static::CODE_INVALID_ACTION:
+                return 'Invalid action specified';
         }
     }
 }

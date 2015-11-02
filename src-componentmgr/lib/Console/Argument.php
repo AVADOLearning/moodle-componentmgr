@@ -15,6 +15,22 @@ namespace ComponentManager\Console;
  */
 class Argument {
     /**
+     * Argument: action.
+     *
+     * @var string
+     */
+    const ARGUMENT_ACTION = 'action';
+
+    /**
+     * Argument help: action.
+     *
+     * @var string
+     */
+    const ARGUMENT_ACTION_HELP = 'Specifies the action to perform';
+
+    const ARGUMENT_ACTION_LIST_PLUGIN_TYPES = 'list-plugin-types';
+
+    /**
      * Option: dry run.
      *
      * @var string
