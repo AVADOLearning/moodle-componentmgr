@@ -59,7 +59,8 @@ class Moodle {
         ];
 
         $arguments = array_merge($prefix, $arguments);
-        $builder = new ProcessBuilder($arguments);
+        $builder   = new ProcessBuilder($arguments);
+        $builder->setEnv('XDEBUG_CONFIG', '');
 
         return $builder->getProcess();
     }
