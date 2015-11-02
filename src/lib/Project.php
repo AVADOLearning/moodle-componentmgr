@@ -90,11 +90,11 @@ class Project {
     }
 
     /**
-     * Get components.
+     * Get component specifications.
      *
-     * @return \ComponentManager\Component[]
+     * @return \ComponentManager\ComponentSpecification[]
      */
-    public function getComponents() {
+    public function getComponentSpecifications() {
         if ($this->components === null) {
             $this->components = [];
 

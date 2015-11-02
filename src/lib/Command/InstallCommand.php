@@ -63,7 +63,7 @@ HELP;
             $this->logger->info('Performing a dry run; not applying changes');
         }
 
-        $componentSpecifications = $this->getProject()->getComponents();
+        $componentSpecifications = $this->getProject()->getComponentSpecifications();
 
         /** @var \ComponentManager\ResolvedComponentVersion[] $resolvedComponents */
         $resolvedComponents = [];
