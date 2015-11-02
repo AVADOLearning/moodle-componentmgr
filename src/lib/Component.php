@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager;
+
 use ComponentManager\Exception\UnsatisfiedVersionException;
 
 /**

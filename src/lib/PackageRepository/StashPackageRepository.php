@@ -207,7 +207,7 @@ class StashPackageRepository extends AbstractPackageRepository
             $orderKeys        = array_flip($this->options->linkOrder);
             $componentSources = array_merge($orderKeys, $componentSources);
         }
-        
+
         return array_values($componentSources);
     }
 
