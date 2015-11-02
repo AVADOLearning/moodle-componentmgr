@@ -8,7 +8,7 @@
  * @license GPL v3
  */
 
-namespace ComponentManager;
+namespace ComponentManager\Project;
 
 use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\PackageRepository\PackageRepositoryFactory;
@@ -21,30 +21,6 @@ use ComponentManager\PackageSource\PackageSourceFactory;
  * sources necessary to locate and install them. They're defined in JSON files.
  */
 class Project {
-    /**
-     * Components.
-     *
-     * Lazily loaded -- be sure to call getComponents() in order to ensure the
-     * value is defined.
-     *
-     * @var \ComponentManager\Component[]
-     */
-    protected $components;
-
-    /**
-     * Decoded components file contents.
-     *
-     * @var \stdClass
-     */
-    protected $contents;
-
-    /**
-     * File name.
-     *
-     * @var string
-     */
-    protected $fileName;
-
     /**
      * Package repositories.
      *
@@ -67,64 +43,46 @@ class Project {
     protected $packageSourceFactory;
 
     /**
+     * Project file.
+     *
+     * @var \ComponentManager\Project\ProjectFile
+     */
+    protected $projectFile;
+
+    /**
+     * Project lock file.
+     *
+     * @var \ComponentManager\Project\ProjectLockFile
+     */
+    protected $projectLockFile;
+
+    /**
      * Initialiser.
      *
-     * @param string                                                       $fileName
+     * @param string                                                       $filename
      * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
      */
-    public function __construct($fileName,
+    public function __construct(ProjectFile $projectFile,
+                                ProjectLockFile $projectLockFile,
                                 PackageRepositoryFactory $packageRepositoryFactory,
                                 PackageSourceFactory $packageSourceFactory) {
-        $projectFileContents = file_get_contents($fileName);
-        $projectFileObject   = json_decode($projectFileContents);
+        $this->projectFile     = $projectFile;
+        $this->projectLockFile = $projectLockFile;
 
-        if ($projectFileObject === null) {
-            throw new InvalidProjectException(
-                    sprintf("(%d) %s", json_last_error(), json_last_error_msg()));
-        }
-
-        $this->fileName                 = $fileName;
-        $this->contents                 = $projectFileObject;
         $this->packageRepositoryFactory = $packageRepositoryFactory;
         $this->packageSourceFactory     = $packageSourceFactory;
     }
 
     /**
-     * Get component specifications.
-     *
-     * @return \ComponentManager\ComponentSpecification[]
-     */
-    public function getComponentSpecifications() {
-        if ($this->components === null) {
-            $this->components = [];
-
-            foreach ($this->contents->components as $name => $component) {
-                $version           = property_exists($component, 'version')
-                        ? $component->version           : null;
-                $packageRepository = property_exists($component, 'packageRepository')
-                        ? $component->packageRepository : null;
-                $packageSource     = property_exists($component, 'packageSource')
-                        ? $component->packageSource     : null;
-
-                $this->components[$name] = new ComponentSpecification(
-                        $name, $version,
-                        $packageRepository, $packageSource);
-            }
-        }
-
-        return $this->components;
-    }
-
-    /**
      * Get package repositories.
      *
-     * @return \ComponentManager\PackageRepository\PackageRepository
+     * @return \ComponentManager\PackageRepository\PackageRepository[]
      */
     public function getPackageRepositories() {
         if ($this->packageRepositories === null) {
             $this->packageRepositories = [];
 
-            foreach ($this->contents->packageRepositories
+            foreach ($this->projectFile->getPackageRepositories()
                     as $name => $packageRepository) {
                 $this->packageRepositories[$name] = $this->packageRepositoryFactory->getPackageRepository(
                         $packageRepository->type, $packageRepository);
@@ -160,10 +118,28 @@ class Project {
      *
      * @param string $packageSource
      *
-     * @return \ComponentManager\PackageSource\PackkkageSource
+     * @return \ComponentManager\PackageSource\PackageSource
      */
     public function getPackageSource($packageSource) {
         return $this->packageSourceFactory->getPackageSource(
                 $packageSource);
+    }
+
+    /**
+     * Get the project file.
+     *
+     * @return \ComponentManager\Project\ProjectFile
+     */
+    public function getProjectFile() {
+        return $this->projectFile;
+    }
+
+    /**
+     * Get the project lock file.
+     *
+     * @return \ComponentManager\Project\ProjectLockFile
+     */
+    public function getProjectLockFile() {
+        return $this->projectLockFile;
     }
 }

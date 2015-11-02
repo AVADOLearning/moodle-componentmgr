@@ -12,7 +12,9 @@ namespace ComponentManager\Command;
 
 use ComponentManager\Moodle;
 use ComponentManager\PlatformUtil;
-use ComponentManager\Project;
+use ComponentManager\Project\Project;
+use ComponentManager\Project\ProjectFile;
+use ComponentManager\Project\ProjectLockFile;
 
 /**
  * Project-aware command trait.
@@ -55,13 +57,16 @@ trait ProjectAwareCommandTrait {
     /**
      * Get project.
      *
-     * @return \ComponentManager\Project
+     * @return \ComponentManager\Project\Project
      */
     protected function getProject() {
         if ($this->project === null) {
-            $fileName = PlatformUtil::workingDirectory()
+            $projectFilename = PlatformUtil::workingDirectory()
                       . PlatformUtil::directorySeparator()
                       . 'componentmgr.json';
+            $projectLockFilename = PlatformUtil::workingDirectory()
+                                 . PlatformUtil::directorySeparator()
+                                 . 'componentmgr.lock.json';
 
             $packageRepositoryFactory = $this->container->get(
                     'package_repository.package_repository_factory');
@@ -69,9 +74,11 @@ trait ProjectAwareCommandTrait {
                     'package_source.package_source_factory');
 
             $this->logger->info('Parsing project file', [
-                'filename' => $fileName,
+                'filename' => $projectFilename,
             ]);
-            $this->project = new Project($fileName, $packageRepositoryFactory,
+            $this->project = new Project(new ProjectFile($projectFilename),
+                                         new ProjectLockFile($projectLockFilename),
+                                         $packageRepositoryFactory,
                                          $packageSourceFactory);
         }
 

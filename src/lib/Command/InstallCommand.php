@@ -63,7 +63,9 @@ HELP;
             $this->logger->info('Performing a dry run; not applying changes');
         }
 
-        $componentSpecifications = $this->getProject()->getComponentSpecifications();
+        $project                 = $this->getProject();
+        $componentSpecifications = $project->getProjectFile()->getComponentSpecifications();
+        $projectLockFile         = $project->getProjectLockFile();
 
         /** @var \ComponentManager\ResolvedComponentVersion[] $resolvedComponents */
         $resolvedComponents = [];
@@ -135,7 +137,7 @@ HELP;
                 $resolvedComponent->getSpecification()->getPackageSource());
 
         $typeDirectory = $this->getMoodle()->getPluginTypeDirectory(
-            $component->getPluginType());
+                $component->getPluginType());
 
         $targetDirectory = $typeDirectory . PlatformUtil::directorySeparator()
                          . $component->getPluginName();
@@ -145,14 +147,10 @@ HELP;
         /** @var \Symfony\Component\Filesystem\Filesystem $filesystem */
         $filesystem = $this->container->get('filesystem');
 
-        try {
-            $sourceDirectory = $packageSource->obtainPackage(
-                    $tempDirectory, $resolvedComponent->getComponent(),
-                    $resolvedComponent->getVersion(), $filesystem,
-                    $this->logger);
-        } catch (InstallationFailureException $e) {
-            $this->logger->emergency($e->getMessage());
-        }
+        $sourceDirectory = $packageSource->obtainPackage(
+                $tempDirectory, $resolvedComponent->getComponent(),
+                $resolvedComponent->getVersion(), $filesystem,
+                $this->logger);
 
         $this->logger->debug('Downloaded component source', [
             'packageSource'   => $packageSource->getName(),
