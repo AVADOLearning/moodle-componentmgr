@@ -67,9 +67,9 @@ We haven't quite settled on a means of distribution yet, but it'll look along
 the lines of the following:
 
 1. Clone this directory somewhere on your disk.
-2. Ensure our ```/src-componentmgr/bin``` directory is on your ```PATH```.
-3. Execute ```composer install``` within the ```src-componentmgr``` directory
-   to obtain the dependencies.
+2. Ensure our ```/src/bin``` directory is on your ```PATH```.
+3. Execute ```composer install``` within the ```src``` directory to obtain the
+   the dependencies.
 
 ## Usage
 
