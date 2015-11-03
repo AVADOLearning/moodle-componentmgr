@@ -154,7 +154,7 @@ class MoodlePackageRepository extends AbstractPackageRepository
         $components    = new stdClass();
         foreach ($rawComponents->plugins as $component) {
             if ($component->component === null) {
-                $logger->warn('Component has no component name; is it a patch or external tool?', [
+                $logger->warning('Component has no component name; is it a patch or external tool?', [
                     'id'   => $component->id,
                     'name' => $component->name,
                 ]);
