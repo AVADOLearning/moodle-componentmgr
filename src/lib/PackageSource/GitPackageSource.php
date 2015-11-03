@@ -15,6 +15,7 @@ use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\VersionControlException;
 use ComponentManager\PlatformUtil;
+use ComponentManager\ResolvedComponentVersion;
 use ComponentManager\VersionControl\Git\GitRemote;
 use ComponentManager\VersionControl\Git\GitVersionControl;
 use Psr\Log\LoggerInterface;
@@ -43,12 +44,12 @@ class GitPackageSource extends AbstractPackageSource
      * @override \ComponentManager\PackageSource\PackageSource
      */
     public function obtainPackage($tempDirectory,
-                                  Component $component,
-                                  ComponentVersion $version,
+                                  ResolvedComponentVersion $resolvedComponentVersion,
                                   Filesystem $filesystem,
                                   LoggerInterface $logger) {
-        $sources = $version->getSources();
+        $componentVersion = $resolvedComponentVersion->getVersion();
 
+        $sources = $componentVersion->getSources();
         foreach ($sources as $source) {
             if ($source instanceof GitComponentSource) {
                 $repositoryPath = $tempDirectory
@@ -80,6 +81,8 @@ class GitPackageSource extends AbstractPackageSource
                     $repository->checkout($ref);
                     $repository->checkoutIndex(
                             $indexPath . PlatformUtil::directorySeparator());
+                    $resolvedComponentVersion->setFinalVersion(
+                            $repository->parseRevision($ref));
 
                     return $indexPath;
                 } catch (VersionControlException $e) {

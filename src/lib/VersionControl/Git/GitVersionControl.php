@@ -160,4 +160,23 @@ class GitVersionControl {
         $this->ensureSuccess(
                 $process, VersionControlException::CODE_INIT_FAILED);
     }
+
+    /**
+     * Get the commit hash for the specified ref.
+     *
+     * @param string $ref
+     *
+     * @return string
+     *
+     * @throws \ComponentManager\Exception\VersionControlException
+     */
+    public function parseRevision($ref) {
+        $process = $this->getProcess(['rev-parse', $ref]);
+        $process->run();
+
+        $this->ensureSuccess(
+            $process, VersionControlException::CODE_REV_PARSE_FAILED);
+
+        return trim($process->getOutput());
+    }
 }

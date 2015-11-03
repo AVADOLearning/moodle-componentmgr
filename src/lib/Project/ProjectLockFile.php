@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager\Project;
+use ComponentManager\ResolvedComponentVersion;
 
 /**
  * Project lock file.
@@ -17,4 +18,40 @@ namespace ComponentManager\Project;
  * reproducible project builds.
  */
 class ProjectLockFile extends JsonFile {
+    /**
+     * Resolved component versions.
+     *
+     * @var \ComponentManager\ResolvedComponentVersion []
+     */
+    protected $resolvedComponentVersions;
+
+    /**
+     * Add a resolved component version.
+     *
+     * @param \ComponentManager\ResolvedComponentVersion $resolvedComponentVersion
+     *
+     * @return void
+     */
+    public function addResolvedComponentVersion(ResolvedComponentVersion $resolvedComponentVersion) {
+        $componentName = $resolvedComponentVersion->getComponent()->getName();
+        $this->resolvedComponentVersions[$componentName] = $resolvedComponentVersion;
+    }
+
+    /**
+     * Clear resolved component versions.
+     *
+     * @return void
+     */
+    public function clearResolvedComponentVersions() {
+        $this->resolvedComponentVersions = [];
+    }
+
+    /**
+     * @override \ComponentManager\Project\JsonFile
+     */
+    public function dump() {
+        return (object) [
+            'componentVersions' => $this->resolvedComponentVersions,
+        ];
+    }
 }

@@ -15,6 +15,7 @@ use ComponentManager\ComponentSource\ZipComponentSource;
 use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\InstallationFailureException;
 use ComponentManager\PlatformUtil;
+use ComponentManager\ResolvedComponentVersion;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
@@ -102,11 +103,12 @@ class ZipPackageSource extends AbstractPackageSource
      * @override \ComponentManager\PackageSource\PackageSource
      */
     public function obtainPackage($tempDirectory,
-                                  Component $component,
-                                  ComponentVersion $version,
+                                  ResolvedComponentVersion $resolvedComponentVersion,
                                   Filesystem $filesystem,
                                   LoggerInterface $logger) {
-        $sources = $version->getSources();
+        $component = $resolvedComponentVersion->getComponent();
+        $version   = $resolvedComponentVersion->getVersion();
+        $sources   = $version->getSources();
 
         foreach ($sources as $source) {
             if ($source instanceof ZipComponentSource) {

@@ -52,6 +52,13 @@ class VersionControlException extends AbstractException {
     const CODE_CHECKOUT_INDEX_FAILED = 5;
 
     /**
+     * Code: rev-parse failed.
+     *
+     * @var integer
+     */
+    const CODE_REV_PARSE_FAILED = 6;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -77,6 +84,9 @@ class VersionControlException extends AbstractException {
 
             case static::CODE_CHECKOUT_INDEX_FAILED:
                 return 'Failed to checkout files in the index to the specified prefix';
+
+            case static::CODE_REV_PARSE_FAILED:
+                return 'Failed to locate a commit hash for the supplied reference';
         }
     }
 }

@@ -10,6 +10,7 @@
 
 namespace ComponentManager;
 use ComponentManager\PackageRepository\PackageRepository;
+use JsonSerializable;
 
 /**
  * Resolved component version.
@@ -17,7 +18,7 @@ use ComponentManager\PackageRepository\PackageRepository;
  * A resolved component version represents a version of a component that has
  * been resolved from a project's components specification.
  */
-class ResolvedComponentVersion {
+class ResolvedComponentVersion implements JsonSerializable {
     /**
      * Component.
      *
@@ -45,6 +46,13 @@ class ResolvedComponentVersion {
      * @var \ComponentManager\ComponentVersion
      */
     protected $version;
+
+    /**
+     * Final component version.
+     *
+     * @var string
+     */
+    protected $finalVersion;
 
     /**
      * Initialiser.
@@ -98,5 +106,36 @@ class ResolvedComponentVersion {
      */
     public function getVersion() {
         return $this->version;
+    }
+
+    /**
+     * Get the final component version.
+     *
+     * @return string
+     */
+    public function getFinalVersion() {
+        return $this->finalVersion;
+    }
+
+    /**
+     * Set the final component version.
+     *
+     * @param string $finalVersion
+     *
+     * @return void
+     */
+    public function setFinalVersion($finalVersion) {
+        $this->finalVersion = $finalVersion;
+    }
+
+    /**
+     * @override \JsonSerializable
+     */
+    public function jsonSerialize() {
+        return (object) [
+            'componentName'       => $this->component->getName(),
+            'packageRepositoryId' => $this->packageRepository->getId(),
+            'finalVersion'        => $this->finalVersion,
+        ];
     }
 }

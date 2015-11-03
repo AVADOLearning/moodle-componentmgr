@@ -12,6 +12,7 @@ namespace ComponentManager\PackageSource;
 
 use ComponentManager\Component;
 use ComponentManager\ComponentVersion;
+use ComponentManager\ResolvedComponentVersion;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -40,16 +41,15 @@ interface PackageSource {
     /**
      * Download the package's source to a given directory.
      *
-     * @param string                             $tempDirectory
-     * @param \ComponentManager\Component        $component
-     * @param \ComponentManager\ComponentVersion $version
-     * @param \Psr\Log\LoggerInterface           $logger
+     * @param string                                     $tempDirectory
+     * @param \ComponentManager\ResolvedComponentVersion $resolvedComponentVersion
+     * @param \Symfony\Component\Filesystem\Filesystem   $filesystem
+     * @param \Psr\Log\LoggerInterface                   $logger
      *
      * @return string The path to the module's root directory.
      */
     public function obtainPackage($tempDirectory,
-                                  Component $component,
-                                  ComponentVersion $version,
+                                  ResolvedComponentVersion $resolvedComponentVersion,
                                   Filesystem $filesystem,
                                   LoggerInterface $logger);
 }

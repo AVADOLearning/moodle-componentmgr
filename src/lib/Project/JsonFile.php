@@ -43,7 +43,24 @@ abstract class JsonFile {
 
         if ($this->contents === null) {
             throw new InvalidProjectException(
-                sprintf("(%d) %s", json_last_error(), json_last_error_msg()));
+                    sprintf("(%d) %s", json_last_error(), json_last_error_msg()));
         }
     }
+
+    /**
+     * Write updated content to the disk.
+     *
+     * @return void
+     */
+    public function commit() {
+        $contents = json_encode($this->dump(), JSON_PRETTY_PRINT);
+        file_put_contents($this->filename, $contents);
+    }
+
+    /**
+     * Dump a representation of the file's contents for serialisation.
+     *
+     * @return mixed Anything serialisable to JSON.
+     */
+    abstract public function dump();
 }

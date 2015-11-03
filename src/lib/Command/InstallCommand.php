@@ -63,9 +63,7 @@ HELP;
             $this->logger->info('Performing a dry run; not applying changes');
         }
 
-        $project                 = $this->getProject();
-        $componentSpecifications = $project->getProjectFile()->getComponentSpecifications();
-        $projectLockFile         = $project->getProjectLockFile();
+        $componentSpecifications = $this->getProject()->getProjectFile()->getComponentSpecifications();
 
         /** @var \ComponentManager\ResolvedComponentVersion[] $resolvedComponents */
         $resolvedComponents = [];
@@ -95,6 +93,9 @@ HELP;
 
             $this->installComponent($resolvedComponent);
         }
+
+        $this->logger->info('Writing project lock file');
+        $this->getProject()->getProjectLockFile()->commit();
     }
 
     /**
@@ -118,6 +119,13 @@ HELP;
                     InvalidProjectException::CODE_MISSING_COMPONENT);
         }
 
+        /* Note that even at this late stage, we still might not have a final
+         * version for the component:
+         * -> If the package repository provides us with the Moodle
+         *    $plugin->version value, we'll be using it here.
+         * -> If the package repository is a version control system, the version
+         *    will contain the name of a branch or tag and will need to be
+         *    resolved to an individual commit. */
         $version = $component->getVersion($componentVersion);
 
         return new ResolvedComponentVersion(
@@ -127,14 +135,15 @@ HELP;
     /**
      * Install a package.
      *
-     * @param \ComponentManager\ResolvedComponentVersion $resolvedComponent
+     * @param \ComponentManager\ResolvedComponentVersion $resolvedComponentVersion
      *
      * @return void
      */
-    protected function installComponent(ResolvedComponentVersion $resolvedComponent) {
-        $component     = $resolvedComponent->getComponent();
-        $packageSource = $this->getProject()->getPackageSource(
-                $resolvedComponent->getSpecification()->getPackageSource());
+    protected function installComponent(ResolvedComponentVersion $resolvedComponentVersion) {#
+        $projectLockFile = $this->getProject()->getProjectLockFile();
+        $component       = $resolvedComponentVersion->getComponent();
+        $packageSource   = $this->getProject()->getPackageSource(
+                $resolvedComponentVersion->getSpecification()->getPackageSource());
 
         $typeDirectory = $this->getMoodle()->getPluginTypeDirectory(
                 $component->getPluginType());
@@ -148,14 +157,20 @@ HELP;
         $filesystem = $this->container->get('filesystem');
 
         $sourceDirectory = $packageSource->obtainPackage(
-                $tempDirectory, $resolvedComponent->getComponent(),
-                $resolvedComponent->getVersion(), $filesystem,
-                $this->logger);
+                $tempDirectory, $resolvedComponentVersion, $filesystem, $this->logger);
+
+        if ($resolvedComponentVersion->getFinalVersion() === null) {
+            $this->logger->warning('Package source did not indicate final version; defaulting to desired version', [
+                'version' => $resolvedComponentVersion->getVersion(),
+            ]);
+
+            $resolvedComponentVersion->setFinalVersion(
+                    $resolvedComponentVersion->getVersion()->getVersion());
+        }
 
         $this->logger->debug('Downloaded component source', [
             'packageSource'   => $packageSource->getName(),
             'sourceDirectory' => $sourceDirectory,
-            'targetDirectory' => $targetDirectory,
         ]);
 
         if ($filesystem->exists($targetDirectory)) {
@@ -166,12 +181,20 @@ HELP;
             $filesystem->remove($targetDirectory);
         }
 
+        $this->logger->info('Copying component source to Moodle directory', [
+            'sourceDirectory' => $sourceDirectory,
+            'targetDirectory' => $targetDirectory,
+        ]);
         $filesystem->mirror($sourceDirectory, $targetDirectory);
+
+        $this->logger->info('Pinning component at installed final version', [
+            'finalVersion' => $resolvedComponentVersion->getFinalVersion(),
+        ]);
+        $projectLockFile->addResolvedComponentVersion($resolvedComponentVersion);
 
         $this->logger->info('Cleaning up after component installation', [
             'tempDirectory' => $tempDirectory,
         ]);
-
         try {
             $filesystem->chmod([$tempDirectory], 0750, 0000, true);
             $filesystem->remove([$tempDirectory]);

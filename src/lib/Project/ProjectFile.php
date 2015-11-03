@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Project;
 use ComponentManager\ComponentSpecification;
+use ComponentManager\Exception\NotImplementedException;
 
 /**
  * Project file.
@@ -62,5 +63,12 @@ class ProjectFile extends JsonFile {
      */
     public function getPackageRepositories() {
         return $this->contents->packageRepositories;
+    }
+
+    /**
+     * @override \ComponentManager\Project\JsonFile
+     */
+    public function dump() {
+        throw new NotImplementedException();
     }
 }
