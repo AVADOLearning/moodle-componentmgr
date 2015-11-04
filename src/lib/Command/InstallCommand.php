@@ -161,7 +161,7 @@ HELP;
 
         if ($resolvedComponentVersion->getFinalVersion() === null) {
             $this->logger->warning('Package source did not indicate final version; defaulting to desired version', [
-                'version' => $resolvedComponentVersion->getVersion(),
+                'version' => $resolvedComponentVersion->getVersion()->getVersion(),
             ]);
 
             $resolvedComponentVersion->setFinalVersion(
