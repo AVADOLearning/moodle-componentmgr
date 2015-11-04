@@ -28,19 +28,10 @@ class Argument {
      */
     const ARGUMENT_ACTION_HELP = 'Specifies the action to perform';
 
+    /**
+     * Argument value: list plugin types.
+     *
+     * @var string
+     */
     const ARGUMENT_ACTION_LIST_PLUGIN_TYPES = 'list-plugin-types';
-
-    /**
-     * Option: dry run.
-     *
-     * @var string
-     */
-    const OPTION_DRY_RUN = 'dry-run';
-
-    /**
-     * Option help: dry run.
-     *
-     * @var string
-     */
-    const OPTION_DRY_RUN_HELP = 'Print out operations instead of applying them';
 }

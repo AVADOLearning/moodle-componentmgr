@@ -47,22 +47,13 @@ HELP;
         $this
             ->setName('install')
             ->setDescription('Installs all packages from componentmgr.json')
-            ->setHelp(static::HELP)
-            ->setDefinition(new InputDefinition([
-                new InputOption(Argument::OPTION_DRY_RUN, null,
-                                InputOption::VALUE_NONE,
-                                Argument::OPTION_DRY_RUN_HELP),
-            ]));
+            ->setHelp(static::HELP);
     }
 
     /**
      * @override \Symfony\Component\Console\Command\Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
-        if ($input->getOption(Argument::OPTION_DRY_RUN)) {
-            $this->logger->info('Performing a dry run; not applying changes');
-        }
-
         $componentSpecifications = $this->getProject()->getProjectFile()->getComponentSpecifications();
 
         /** @var \ComponentManager\ResolvedComponentVersion[] $resolvedComponents */
