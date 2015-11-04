@@ -119,7 +119,7 @@ class ZipPackageSource extends AbstractPackageSource
                 'md5Checksum' => $finalVersion->md5Checksum,
             ]);
 
-            $moduleRootDirectory = $this->trySource($tempDirectory, $logger, $component, $version, $source);
+            return $this->trySource($tempDirectory, $logger, $component, $version, $source);
         } else {
             foreach ($sources as $source) {
                 if ($source instanceof ZipComponentSource) {
