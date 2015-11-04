@@ -110,62 +110,32 @@ class ZipPackageSource extends AbstractPackageSource
         $version   = $resolvedComponentVersion->getVersion();
         $sources   = $version->getSources();
 
-        foreach ($sources as $source) {
-            if ($source instanceof ZipComponentSource) {
-                $archiveFilename = $tempDirectory
-                                 . PlatformUtil::directorySeparator()
-                                 . $this->getArchiveFilename($component, $version);
-                $targetDirectory = $tempDirectory
-                                 . PlatformUtil::directorySeparator()
-                                 . $this->getTargetDirectory($component, $version);
+        $finalVersion = $resolvedComponentVersion->getFinalVersion();
+        if ($finalVersion !== null) {
+            $source = new ZipComponentSource(
+                    $finalVersion->archiveUri, $finalVersion->md5Checksum);
+            $logger->info('Installing pinned version', [
+                'archiveUri'  => $finalVersion->archiveUri,
+                'md5Checksum' => $finalVersion->md5Checksum,
+            ]);
 
-                $logger->debug('Trying zip source', [
-                    'archiveFilename' => $archiveFilename,
-                    'archiveUri'      => $source->getArchiveUri(),
-                    'md5Checksum'     => $source->getMd5Checksum(),
-                    'targetDirectory' => $targetDirectory,
-                ]);
+            $moduleRootDirectory = $this->trySource($tempDirectory, $logger, $component, $version, $source);
+        } else {
+            foreach ($sources as $source) {
+                if ($source instanceof ZipComponentSource) {
+                    $moduleRootDirectory = $this->trySource($tempDirectory, $logger, $component, $version, $source);
 
-                try {
-                    $this->download($source->getArchiveUri(), $archiveFilename);
-                } catch (GuzzleException $e) {
-                    throw new InstallationFailureException(
-                            $e->getMessage(),
-                            InstallationFailureException::CODE_SOURCE_UNAVAILABLE,
-                            $e);
+                    $resolvedComponentVersion->setFinalVersion((object) [
+                        'archiveUri'  => $source->getArchiveUri(),
+                        'md5Checksum' => $source->getMd5Checksum(),
+                    ]);
+
+                    return $moduleRootDirectory;
+                } else {
+                    $logger->debug('Cannot accept component source; skipping', [
+                        'componentSource' => $source,
+                    ]);
                 }
-
-                $checksum = $source->getMd5Checksum();
-                if (!$this->verifyChecksum($archiveFilename, $checksum)) {
-                    throw new InstallationFailureException(
-                            "{$archiveFilename} didn't match checksum {$checksum}",
-                            InstallationFailureException::CODE_INVALID_SOURCE_CHECKSUM);
-                }
-
-                $archive = new ZipArchive();
-                $archive->open($archiveFilename);
-                if (!$archive->extractTo($targetDirectory)) {
-                    throw new InstallationFailureException(
-                            "Unable to extract archive {$archiveFilename} to {$targetDirectory}",
-                            InstallationFailureException::CODE_EXTRACTION_FAILED);
-                }
-
-                /* @todo we should attempt to do some basic sanity checks about
-                 *       whether or not this is a Moodle component here. */
-                $moduleRootDirectory = $targetDirectory
-                                     . PlatformUtil::directorySeparator()
-                                     . $component->getPluginName();
-                if (!is_dir($moduleRootDirectory)) {
-                    throw new InstallationFailureException(
-                            "Module directory {$moduleRootDirectory} did not exist",
-                            InstallationFailureException::CODE_SOURCE_MISSING);
-                }
-
-                return $moduleRootDirectory;
-            } else {
-                $logger->debug('Cannot accept component source; skipping', [
-                    'componentSource' => $source,
-                ]);
             }
         }
 
@@ -184,5 +154,69 @@ class ZipPackageSource extends AbstractPackageSource
      */
     protected function verifyChecksum($archiveFilename, $checksum) {
         return strtolower(md5_file($archiveFilename)) === strtolower($checksum);
+    }
+
+    /**
+     * Try the given source.
+     *
+     * @param string                                               $tempDirectory
+     * @param \Psr\Log\LoggerInterface                             $logger
+     * @param \ComponentManager\Component                          $component
+     * @param \ComponentManager\ComponentVersion                   $version
+     * @param \ComponentManager\ComponentSource\ZipComponentSource $source
+     *
+     * @return string
+     * @throws InstallationFailureException
+     */
+    protected function trySource($tempDirectory, LoggerInterface $logger,
+                                 Component $component, ComponentVersion $version,
+                                 ZipComponentSource $source) {
+        $archiveFilename = $tempDirectory
+                         . PlatformUtil::directorySeparator()
+                         . $this->getArchiveFilename($component, $version);
+        $targetDirectory = $tempDirectory
+                         . PlatformUtil::directorySeparator()
+                         . $this->getTargetDirectory($component, $version);
+
+        $logger->debug('Trying zip source', [
+            'archiveFilename' => $archiveFilename,
+            'archiveUri'      => $source->getArchiveUri(),
+            'md5Checksum'     => $source->getMd5Checksum(),
+            'targetDirectory' => $targetDirectory,
+        ]);
+
+        try {
+            $this->download($source->getArchiveUri(), $archiveFilename);
+        } catch (GuzzleException $e) {
+            throw new InstallationFailureException(
+                    $e->getMessage(),
+                    InstallationFailureException::CODE_SOURCE_UNAVAILABLE,
+                    $e);
+        }
+
+        $checksum = $source->getMd5Checksum();
+        if (!$this->verifyChecksum($archiveFilename, $checksum)) {
+            throw new InstallationFailureException(
+                "{$archiveFilename} didn't match checksum {$checksum}",
+                InstallationFailureException::CODE_INVALID_SOURCE_CHECKSUM);
+        }
+
+        $archive = new ZipArchive();
+        $archive->open($archiveFilename);
+        if (!$archive->extractTo($targetDirectory)) {
+            throw new InstallationFailureException(
+                "Unable to extract archive {$archiveFilename} to {$targetDirectory}",
+                InstallationFailureException::CODE_EXTRACTION_FAILED);
+        }
+
+        $moduleRootDirectory = $targetDirectory
+                             . PlatformUtil::directorySeparator()
+                             . $component->getPluginName();
+        if (!is_dir($moduleRootDirectory)) {
+            throw new InstallationFailureException(
+                    "Module directory {$moduleRootDirectory} did not exist",
+                    InstallationFailureException::CODE_SOURCE_MISSING);
+        }
+        return $moduleRootDirectory;
     }
 }

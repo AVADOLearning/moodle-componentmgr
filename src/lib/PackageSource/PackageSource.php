@@ -41,6 +41,13 @@ interface PackageSource {
     /**
      * Download the package's source to a given directory.
      *
+     * Note than when implementing this method, package sources are expected to
+     * honour pinned package versions by checking the final version supplied by
+     * the resolved component version object. If this value is null, it is safe
+     * to assume that the plugin does not appear in the project lock file and
+     * that the package source should attempt to determine a final version from
+     * the supplied specification.
+     *
      * @param string                                     $tempDirectory
      * @param \ComponentManager\ResolvedComponentVersion $resolvedComponentVersion
      * @param \Symfony\Component\Filesystem\Filesystem   $filesystem

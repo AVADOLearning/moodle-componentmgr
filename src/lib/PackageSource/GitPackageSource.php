@@ -57,7 +57,19 @@ class GitPackageSource extends AbstractPackageSource
                 $indexPath      = $tempDirectory
                                 . PlatformUtil::directorySeparator() . 'index';
                 $repositoryUri  = $source->getRepositoryUri();
-                $ref            = $source->getRef();
+
+                $finalRef = $resolvedComponentVersion->getFinalVersion();
+                $ref      = $source->getRef();
+                if ($finalRef !== null) {
+                    $logger->info('Installing pinned version', [
+                        'ref'      => $ref,
+                        'finalRef' => $finalRef,
+                    ]);
+
+                    $installRef = $finalRef;
+                } else {
+                    $installRef = $ref;
+                }
 
                 // These paths must be removed in the event of a failure/retry
                 $paths = [
@@ -69,7 +81,7 @@ class GitPackageSource extends AbstractPackageSource
                 $logger->debug('Trying git repository source', [
                     'repositoryPath' => $repositoryPath,
                     'repositoryUri'  => $repositoryUri,
-                    'ref'            => $ref,
+                    'ref'            => $installRef,
                     'indexPath'      => $indexPath,
                 ]);
 
@@ -78,11 +90,11 @@ class GitPackageSource extends AbstractPackageSource
                     $repository->init();
                     $repository->addRemote(new GitRemote('origin', $repositoryUri));
                     $repository->fetch('origin');
-                    $repository->checkout($ref);
+                    $repository->checkout($installRef);
                     $repository->checkoutIndex(
                             $indexPath . PlatformUtil::directorySeparator());
                     $resolvedComponentVersion->setFinalVersion(
-                            $repository->parseRevision($ref));
+                            $repository->parseRevision($installRef));
 
                     return $indexPath;
                 } catch (VersionControlException $e) {
