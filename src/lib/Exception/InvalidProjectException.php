@@ -45,6 +45,13 @@ class InvalidProjectException extends AbstractException {
     const CODE_MISSING_COMPONENT = 4;
 
     /**
+     * Code: missing Moodle value.
+     *
+     * @var integer
+     */
+    const CODE_MISSING_MOODLE_VALUE = 5;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -67,6 +74,9 @@ class InvalidProjectException extends AbstractException {
 
             case static::CODE_MISSING_COMPONENT:
                 return 'A required component could not be found in the specified package repository';
+
+            case static::CODE_MISSING_MOODLE_VALUE:
+                return 'A required Moodle-related value could not be found in the project file';
         }
     }
 }

@@ -71,7 +71,12 @@ the lines of the following:
 3. Execute ```composer install``` within the ```src``` directory to obtain the
    the dependencies.
 
-## Usage
+## ```install``` usage
+
+In this mode, Component Manager is executed from the root directory of a Moodle
+site. It reads the project and project lock files from the present working
+directory, then deploys the specified components from the specified package
+repositories. This mode is designed for use in development environments.
 
 Create a ```componentmgr.json``` file in the root of your Moodle project. This
 file, referred to as the project file or manifest, contains a summary of all of
@@ -175,6 +180,57 @@ Now we can choose to perform the plugins' database upgrades via either the
 Moodle Notifications page under Site administration, or the handy CLI script:
 
     $ php admin/cli/upgrade.php
+
+## ```package``` usage
+
+In this mode, Component Manager can be executed from any arbitrary location, and
+it generates a package containing an entire Moodle site. The version of Moodle
+and related components to deploy is determined from a property in the project
+file. This mode is designed for use in CI and production environments.
+
+To use Component Manager to package Moodle releases, you'll first need to
+determine an appropriate expression for your desired Moodle version. You're
+advised to use a branch here, as Component Manager will pin the exact Moodle
+version in the project lock file during installation.
+
+You'll then need to choose an installation source:
+* ```"zip"``` is the recommended option. Component Manager will obtain the
+  specified release archive from ```download.moodle.org```. These releases
+  will have passed Moodle HQ's testing process.
+* ```"git"``` should be used for more advanced configurations.
+
+The support for the different version formats across the different
+installation sources is as follows:
+
+| Version format      | Behaviour                                     | Git | Zip |
+| ------------------- | --------------------------------------------- | --- | --- |
+| ```2.7```           | Latest available release in branch            | ✔  | ✔   |
+| ```2.7+```          | Latest available release in branch with fixes | ✔  | ✔   |
+| ```2.7.10```        | Specific release version                      | ✔  | ✔   |
+| ```2.7.10+```       | Specific release version with fixes           | ✔  | ✘   |
+| ```2014051210```    | Specific release version                      | ✔  | ✘   |
+| ```2014051210.05``` | Specific release version with fixes           | ✔  | ✘   |
+
+Bringing this together, you should place the following stanza into your project
+file:
+
+    "moodle": {
+        "version": "2.7+",
+        "source": "zip"
+    }
+
+Packages can be generated in the following formats:
+
+* ```"WebDeploy"``` packages are generated using Microsoft's ```msdeploy```
+  utility and are well suited to deployment on Windows.
+* ```"ZipArchive"``` packages are suited to deployment everywhere.
+
+For example, to generate a generic zip ball containing your Moodle site, you
+can execute the following command:
+
+    $ componentmgr package --package-format=ZipArchive \
+                           --package-destination=/tmp/moodle.zip \
+                           --project-file=moodle.org.json
 
 ## To do
 

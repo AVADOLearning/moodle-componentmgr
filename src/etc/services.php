@@ -52,11 +52,20 @@ $packageSourceFactory = new Definition('\ComponentManager\PackageSource\PackageS
 $container->setDefinition('package_source.package_source_factory', $packageSourceFactory);
 
 /*
+ * Package format factory.
+ */
+$packageFormatFactory = new Definition('\ComponentManager\PackageFormat\PackageFormatFactory', [
+    new Reference('filesystem'),
+]);
+$container->setDefinition('package_format.package_format_factory', $packageFormatFactory);
+
+/*
  * Individual commands.
  */
 $commands = [
     'install' => 'Install',
     'moodle'  => 'Moodle',
+    'package' => 'Package',
     'refresh' => 'Refresh',
 ];
 

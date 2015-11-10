@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Project;
 use ComponentManager\ComponentSpecification;
+use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\Exception\NotImplementedException;
 
 /**
@@ -70,5 +71,22 @@ class ProjectFile extends JsonFile {
      */
     public function dump() {
         throw new NotImplementedException();
+    }
+
+    /**
+     * Get the Moodle version.
+     *
+     * @return mixed
+     *
+     * @throws \ComponentManager\Exception\InvalidProjectException
+     */
+    public function getMoodleVersion() {
+        if (!property_exists($this->contents, 'moodle')
+                || !property_exists($this->contents->moodle, 'version')) {
+            throw new InvalidProjectException('Missing "moodle.version" key',
+                    InvalidProjectException::CODE_MISSING_MOODLE_VALUE);
+        }
+
+        return $this->contents->moodle->version;
     }
 }

@@ -72,7 +72,24 @@ class MoodleInstallation {
 
             $path = $this->rootDirectory . PlatformUtil::directorySeparator()
                   . static::CONFIG_FILENAME;
-            require_once $path;
+            if (is_file($path)) {
+                require_once $path;
+            } else {
+                /* We don't have a configured site, so we'll have to fake it.
+                 * Only an extremely slim portion of Moodle will function
+                 * correctly in this state, as we've not actually done most of
+                 * the Moodle setup dance. It seems to be enough to run the
+                 * plugin manager. */
+
+                global $CFG;
+                $CFG = (object) [
+                    'dirroot'  => $this->rootDirectory,
+                    'dataroot' => PlatformUtil::createTempDirectory(),
+                    'wwwroot'  => 'http://localhost',
+                ];
+
+                require_once "{$CFG->dirroot}/lib/setup.php";
+            }
 
             $this->config = $CFG;
         }

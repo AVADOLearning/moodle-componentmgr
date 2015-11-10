@@ -18,6 +18,22 @@ use Symfony\Component\Process\ProcessBuilder;
  */
 class Moodle {
     /**
+     * Moodle root directory.
+     *
+     * @var string
+     */
+    protected $moodleDir;
+
+    /**
+     * Initialiser.
+     *
+     * @param string $moodleDir
+     */
+    public function __construct($moodleDir) {
+        $this->moodleDir = $moodleDir;
+    }
+
+    /**
      * Get plugin types.
      *
      * @return string[]
@@ -57,6 +73,10 @@ class Moodle {
             PlatformUtil::phpScript(),
             'moodle',
         ];
+
+        if ($this->moodleDir) {
+            $prefix = array_merge($prefix, ['--moodle-dir', $this->moodleDir]);
+        }
 
         $arguments = array_merge($prefix, $arguments);
         $builder   = new ProcessBuilder($arguments);

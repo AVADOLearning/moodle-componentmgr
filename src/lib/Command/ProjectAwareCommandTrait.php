@@ -44,11 +44,16 @@ trait ProjectAwareCommandTrait {
     /**
      * Get the Moodle bridge.
      *
+     * @param string|null $moodleDirectory
+     *
      * @return \ComponentManager\Moodle
      */
-    protected function getMoodle() {
+    protected function getMoodle($moodleDirectory=null) {
         if ($this->moodle === null) {
-            $this->moodle = new Moodle(PlatformUtil::workingDirectory());
+            $moodleDirectory = ($moodleDirectory === null)
+                    ? PlatformUtil::workingDirectory() : $moodleDirectory;
+
+            $this->moodle = new Moodle($moodleDirectory);
         }
 
         return $this->moodle;
@@ -57,29 +62,40 @@ trait ProjectAwareCommandTrait {
     /**
      * Get project.
      *
+     * @param string|null $projectFilename
+     * @param string|null $projectLockFilename
+     *
      * @return \ComponentManager\Project\Project
      */
-    protected function getProject() {
+    protected function getProject($projectFilename=null, $projectLockFilename=null) {
         if ($this->project === null) {
-            $projectFilename = PlatformUtil::workingDirectory()
-                      . PlatformUtil::directorySeparator()
-                      . 'componentmgr.json';
-            $projectLockFilename = PlatformUtil::workingDirectory()
+            if ($projectFilename === null) {
+                $projectFilename = PlatformUtil::workingDirectory()
                                  . PlatformUtil::directorySeparator()
-                                 . 'componentmgr.lock.json';
+                                 . 'componentmgr.json';
+            }
+
+            if ($projectLockFilename === null) {
+                $projectLockFilename = PlatformUtil::workingDirectory()
+                                     . PlatformUtil::directorySeparator()
+                                     . 'componentmgr.lock.json';
+            }
 
             $packageRepositoryFactory = $this->container->get(
                     'package_repository.package_repository_factory');
             $packageSourceFactory = $this->container->get(
                     'package_source.package_source_factory');
+            $packageFormatFactory = $this->container->get(
+                    'package_format.package_format_factory');
 
             $this->logger->info('Parsing project file', [
                 'filename' => $projectFilename,
             ]);
-            $this->project = new Project(new ProjectFile($projectFilename),
-                                         new ProjectLockFile($projectLockFilename),
-                                         $packageRepositoryFactory,
-                                         $packageSourceFactory);
+            $this->project = new Project(
+                    new ProjectFile($projectFilename),
+                    new ProjectLockFile($projectLockFilename),
+                    $packageRepositoryFactory, $packageSourceFactory,
+                    $packageFormatFactory);
         }
 
         return $this->project;

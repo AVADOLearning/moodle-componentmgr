@@ -33,11 +33,8 @@ abstract class JsonFile {
      * @param string $filename
      */
     public function __construct($filename) {
-        if (!is_file($filename)) {
-            file_put_contents($filename, '{}');
-        }
-
-        $fileContents   = file_get_contents($filename);
+        $fileContents   = is_file($filename)
+                ? file_get_contents($filename) : '{}';
         $this->filename = $filename;
         $this->contents = json_decode($fileContents);
 

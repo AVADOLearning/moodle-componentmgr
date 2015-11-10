@@ -11,6 +11,7 @@
 namespace ComponentManager\Project;
 
 use ComponentManager\Exception\InvalidProjectException;
+use ComponentManager\PackageFormat\PackageFormatFactory;
 use ComponentManager\PackageRepository\PackageRepositoryFactory;
 use ComponentManager\PackageSource\PackageSourceFactory;
 
@@ -21,6 +22,13 @@ use ComponentManager\PackageSource\PackageSourceFactory;
  * sources necessary to locate and install them. They're defined in JSON files.
  */
 class Project {
+    /**
+     * Package format factory.
+     *
+     * @var \ComponentManager\PackageFormat\PackageFormatFactory
+     */
+    protected $packageFormatFactory;
+
     /**
      * Package repositories.
      *
@@ -59,18 +67,23 @@ class Project {
     /**
      * Initialiser.
      *
-     * @param string                                                       $filename
+     * @param \ComponentManager\Project\ProjectFile                        $projectFile
+     * @param \ComponentManager\Project\ProjectLockFile                    $projectLockFile
      * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
+     * @param \ComponentManager\PackageSource\PackageSourceFactory         $packageSourceFactory
+     * @param \ComponentManager\PackageSource\PackageFormatFactory         $packageFormatFactory
      */
     public function __construct(ProjectFile $projectFile,
                                 ProjectLockFile $projectLockFile,
                                 PackageRepositoryFactory $packageRepositoryFactory,
-                                PackageSourceFactory $packageSourceFactory) {
+                                PackageSourceFactory $packageSourceFactory,
+                                PackageFormatFactory $packageFormatFactory) {
         $this->projectFile     = $projectFile;
         $this->projectLockFile = $projectLockFile;
 
         $this->packageRepositoryFactory = $packageRepositoryFactory;
         $this->packageSourceFactory     = $packageSourceFactory;
+        $this->packageFormatFactory     = $packageFormatFactory;
     }
 
     /**
@@ -141,5 +154,16 @@ class Project {
      */
     public function getProjectLockFile() {
         return $this->projectLockFile;
+    }
+
+    /**
+     * Get the named package format.
+     *
+     * @param string $packageFormat
+     *
+     * @return \ComponentManager\PackageFormat\PackageFormat
+     */
+    public function getPackageFormat($packageFormat) {
+        return $this->packageFormatFactory->getPackageFormat($packageFormat);
     }
 }

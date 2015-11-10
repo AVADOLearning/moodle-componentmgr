@@ -17,6 +17,7 @@ use ComponentManager\PlatformUtil;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -46,6 +47,9 @@ HELP;
                 new InputArgument(Argument::ARGUMENT_ACTION,
                                   InputArgument::REQUIRED,
                                   Argument::ARGUMENT_ACTION_HELP),
+                new InputOption(Argument::ARGUMENT_MOODLE_DIR, null,
+                                InputOption::VALUE_REQUIRED,
+                                Argument::ARGUMENT_MOODLE_DIR_HELP),
             ]));
     }
 
@@ -54,7 +58,10 @@ HELP;
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $action = $input->getArgument(Argument::ARGUMENT_ACTION);
-        $moodle = new MoodleInstallation(PlatformUtil::workingDirectory());
+        if (!$moodleDir = $input->getOption(Argument::ARGUMENT_MOODLE_DIR)) {
+            $moodleDir = PlatformUtil::workingDirectory();
+        }
+        $moodle = new MoodleInstallation($moodleDir);
 
         switch ($action) {
             case Argument::ARGUMENT_ACTION_LIST_PLUGIN_TYPES:

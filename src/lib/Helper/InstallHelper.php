@@ -150,6 +150,15 @@ class InstallHelper {
         }
     }
 
+    //public function installMoodle() {}
+
+    /**
+     * Install components from component specifications in project file.
+     *
+     * @return void
+     *
+     * @throws \ComponentManager\Exception\InvalidProjectException
+     */
     public function installProjectComponents() {
         $componentSpecifications = $this->project->getProjectFile()->getComponentSpecifications();
 
