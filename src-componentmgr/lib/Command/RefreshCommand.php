@@ -10,8 +10,11 @@
 
 namespace ComponentManager\Command;
 
+use ComponentManager\Console\Argument;
 use ComponentManager\PackageRepository\CachingPackageRepository;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -39,14 +42,23 @@ HELP;
         $this
             ->setName('refresh')
             ->setDescription('Refreshes cached package information')
-            ->setHelp(static::HELP);
+            ->setHelp(static::HELP)
+            ->setDefinition(new InputDefinition([
+                new InputOption(Argument::OPTION_PROJECT_FILE, null,
+                                InputOption::VALUE_REQUIRED,
+                                Argument::OPTION_PROJECT_FILE_HELP),
+            ]));
     }
 
     /**
      * @override \Symfony\Component\Console\Command\Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $packageRepositories = $this->getProject()->getPackageRepositories();
+        $projectFilename = $input->getOption(Argument::OPTION_PROJECT_FILE);
+
+        $packageRepositories = $this->getProject($projectFilename)
+            ->getPackageRepositories();
+
         foreach ($packageRepositories as $packageRepository) {
             $logContext = ['repository' => $packageRepository];
 
