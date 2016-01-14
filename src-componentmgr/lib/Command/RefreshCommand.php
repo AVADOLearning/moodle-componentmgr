@@ -59,8 +59,8 @@ HELP;
         $packageRepositories = $this->getProject($projectFilename)
             ->getPackageRepositories();
 
-        foreach ($packageRepositories as $packageRepository) {
-            $logContext = ['repository' => $packageRepository];
+        foreach ($packageRepositories as $name => $packageRepository) {
+            $logContext = ['repository' => $name];
 
             if ($packageRepository instanceof CachingPackageRepository) {
                 $this->logger->info('Refreshing repository package cache',
