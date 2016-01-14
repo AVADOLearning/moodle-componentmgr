@@ -70,7 +70,7 @@ class InstallHelper {
         $this->filesystem = $filesystem;
         $this->logger     = $logger;
     }
-    
+
     /**
      * Install a component.
      *
@@ -94,7 +94,7 @@ class InstallHelper {
         $typeDirectory = $this->moodle->getPluginTypeDirectory(
                 $component->getPluginType());
 
-        $targetDirectory = $typeDirectory . PlatformUtil::directorySeparator() 
+        $targetDirectory = $typeDirectory . PlatformUtil::directorySeparator()
                          . $component->getPluginName();
 
         $tempDirectory = PlatformUtil::createTempDirectory();
@@ -169,7 +169,6 @@ class InstallHelper {
         foreach ($componentSpecifications as $componentSpecification) {
             $resolvedComponents[] = $this->resolveComponentVersion(
                     $componentSpecification);
-
         }
 
         foreach ($resolvedComponents as $resolvedComponent) {
