@@ -15,6 +15,7 @@ use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
 use ComponentManager\PlatformUtil;
+use DateTime;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use stdClass;
@@ -209,6 +210,22 @@ class StashPackageRepository extends AbstractPackageRepository
         }
 
         return array_values($componentSources);
+    }
+
+    /**
+     * @override \ComponentManager\PackageRepository\CachingPackageRepository
+     */
+    public function metadataCacheLastRefreshed() {
+        $filename = $this->getMetadataCacheFilename();
+
+        if (!$this->filesystem->exists($filename)) {
+            return null;
+        }
+
+        $time = new DateTime();
+        $time->setTimestamp(filemtime($filename));
+
+        return $time;
     }
 
     /**

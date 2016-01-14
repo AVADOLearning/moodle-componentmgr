@@ -13,6 +13,7 @@ namespace ComponentManager\Helper;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\Moodle;
+use ComponentManager\PackageRepository\CachingPackageRepository;
 use ComponentManager\PlatformUtil;
 use ComponentManager\Project\Project;
 use ComponentManager\ResolvedComponentVersion;
@@ -69,6 +70,38 @@ class InstallHelper {
         $this->moodle     = $moodle;
         $this->filesystem = $filesystem;
         $this->logger     = $logger;
+    }
+
+    /**
+     * Ensure that the project's package repositories have cached metadata.
+     *
+     * @return void
+     *
+     * @throws \ComponentManager\Exception\InvalidProjectException
+     */
+    public function ensurePackageRepositoryMetadataCached() {
+        $packageRepositories = $this->project->getPackageRepositories();
+        $haveCaches = true;
+
+        foreach ($packageRepositories as $name => $packageRepository) {
+            if ($packageRepository instanceof CachingPackageRepository) {
+                $lastRefreshed = $packageRepository->metadataCacheLastRefreshed();
+
+                if ($lastRefreshed === null) {
+                    $this->logger->error('Package repository missing cache; requires refresh', [
+                        'packageRepository' => $name,
+                    ]);
+
+                    $haveCaches = false;
+                }
+            }
+        }
+
+        if (!$haveCaches) {
+            throw new InvalidProjectException(
+                    'One or more caching package repositories was missing its metadata cache',
+                    InvalidProjectException::CODE_MISSING_PACKAGE_REPOSITORY_CACHE);
+        }
     }
 
     /**
@@ -160,6 +193,8 @@ class InstallHelper {
      * @throws \ComponentManager\Exception\InvalidProjectException
      */
     public function installProjectComponents() {
+        $this->ensurePackageRepositoryMetadataCached();
+
         $componentSpecifications = $this->project->getProjectFile()->getComponentSpecifications();
 
         /* TODO: resolve dependencies before attempting installation. For the

@@ -17,6 +17,13 @@ use Psr\Log\LoggerInterface;
  */
 interface CachingPackageRepository {
     /**
+     * Retrieve the time of the last cache update time.
+     *
+     * @return \DateTime|null
+     */
+    public function metadataCacheLastRefreshed();
+
+    /**
      * Update the metadata cache.
      *
      * @return void

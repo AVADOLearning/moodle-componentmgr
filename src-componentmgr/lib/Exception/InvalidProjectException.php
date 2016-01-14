@@ -52,6 +52,13 @@ class InvalidProjectException extends AbstractException {
     const CODE_MISSING_MOODLE_VALUE = 5;
 
     /**
+     * Code: missing package repository cache.
+     *
+     * @var integer
+     */
+    const CODE_MISSING_PACKAGE_REPOSITORY_CACHE = 6;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -77,6 +84,9 @@ class InvalidProjectException extends AbstractException {
 
             case static::CODE_MISSING_MOODLE_VALUE:
                 return 'A required Moodle-related value could not be found in the project file';
+
+            case static::CODE_MISSING_PACKAGE_REPOSITORY_CACHE:
+                return 'A package repository was missing its cache';
         }
     }
 }
