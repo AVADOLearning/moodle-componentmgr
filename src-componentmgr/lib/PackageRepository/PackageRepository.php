@@ -40,6 +40,8 @@ interface PackageRepository {
      * @param \ComponentManager\ComponentSpecification $componentSpecification
      *
      * @return \ComponentManager\Component
+     *
+     * @throws \ComponentManager\Exception\InvalidProjectException
      */
     public function getComponent(ComponentSpecification $componentSpecification);
 

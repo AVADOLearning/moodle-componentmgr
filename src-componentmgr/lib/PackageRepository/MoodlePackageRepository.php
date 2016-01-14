@@ -15,6 +15,7 @@ use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentSource\ZipComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
+use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\PlatformUtil;
 use DateTime;
 use GuzzleHttp\Client;
@@ -94,6 +95,11 @@ class MoodlePackageRepository extends AbstractPackageRepository
         $this->maybeLoadPackageCache();
 
         $componentName = $componentSpecification->getName();
+        if (!property_exists($this->packageCache, $componentName)) {
+            throw new InvalidProjectException(
+                    "No component named \"{$componentName}\"",
+                    InvalidProjectException::CODE_MISSING_COMPONENT);
+        }
         $package = $this->packageCache->{$componentName};
 
         $versions = [];

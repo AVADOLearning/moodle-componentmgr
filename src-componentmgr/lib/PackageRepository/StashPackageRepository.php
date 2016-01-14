@@ -14,6 +14,7 @@ use ComponentManager\Component;
 use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
+use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\PlatformUtil;
 use DateTime;
 use GuzzleHttp\Client;
@@ -101,6 +102,11 @@ class StashPackageRepository extends AbstractPackageRepository
         $this->maybeLoadPackageCache();
 
         $componentName = $componentSpecification->getName();
+        if (!property_exists($this->packageCache, $componentName)) {
+            throw new InvalidProjectException(
+                    "No component named \"{$componentName}\"",
+                    InvalidProjectException::CODE_MISSING_COMPONENT);
+        }
         $package = $this->packageCache->{$componentName};
 
         /* Unfortunately Stash doesn't allow us to retrieve a list of
