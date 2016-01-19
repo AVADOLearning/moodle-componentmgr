@@ -18,7 +18,10 @@ use RecursiveIteratorIterator;
 use ZipArchive;
 
 /**
- * Microsoft Web Deploy package format.
+ * Zip archive package format.
+ *
+ * Requires that the PHP zip extension be installed for the use of the
+ * ZipArchive class, and SPL for the two iterators used to walk the filesystem.
  */
 class ZipArchivePackageFormat extends AbstractPackageFormat
         implements PackageFormat {
