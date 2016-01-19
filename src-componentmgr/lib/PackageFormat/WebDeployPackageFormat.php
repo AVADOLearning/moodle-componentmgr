@@ -23,6 +23,10 @@ use Symfony\Component\Process\Tests\ProcessFailedExceptionTest;
 
 /**
  * Microsoft Web Deploy package format.
+ *
+ * Shells out to the msdeploy binary to facilitate packaging for IIS.
+ *
+ * @see http://www.iis.net/downloads/microsoft/web-deploy
  */
 class WebDeployPackageFormat extends AbstractPackageFormat
         implements PackageFormat {
@@ -33,7 +37,6 @@ class WebDeployPackageFormat extends AbstractPackageFormat
                             ProjectFile $projectFile,
                             ProjectLockFile $projectLockFile,
                             LoggerInterface $logger) {
-        $cmd      = PlatformUtil::executable('cmd');
         $msdeploy = PlatformUtil::executable('msdeploy');
 
         $args = [
