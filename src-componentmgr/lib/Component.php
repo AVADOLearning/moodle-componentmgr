@@ -109,7 +109,7 @@ class Component {
      * @return string[]
      */
     public function getNameParts() {
-        return explode(static::COMPONENT_NAME_SEPARATOR, $this->name);
+        return explode(static::COMPONENT_NAME_SEPARATOR, $this->name, 2);
     }
 
     /**
