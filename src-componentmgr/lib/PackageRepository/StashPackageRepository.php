@@ -40,6 +40,9 @@ use stdClass;
  * -> linkOrder - the order in which different link types provided by the Stash
  *    REST API should be fetched. If specified and a link type is excluded from
  *    this list, no attempt will be made to fetch it.
+ * -> repositoryNameFormat - a format string (for use with sprintf(), where the
+ *    literal %s will be replaced with the component name) indicating the format
+ *    of repository names.
  *
  * To use multiple projects, add one stanza to the configuration file for each
  * Stash project.
@@ -96,18 +99,32 @@ class StashPackageRepository extends AbstractPackageRepository
     }
 
     /**
+     * Determines the name of the repository, based on the name format.
+     *
+     * @param string $componentName
+     *
+     * @return string
+     */
+    protected function formatPackageName($componentName) {
+        return property_exists($this->options, 'repositoryNameFormat')
+                ? sprintf($this->options->repositoryNameFormat, $componentName)
+                : $componentName;
+    }
+
+    /**
      * @override \ComponentManager\PackageRepository\PackageRepository
      */
     public function getComponent(ComponentSpecification $componentSpecification) {
         $this->maybeLoadPackageCache();
 
         $componentName = $componentSpecification->getName();
-        if (!property_exists($this->packageCache, $componentName)) {
+        $packageName   = $this->formatPackageName($componentName);
+        if (!property_exists($this->packageCache, $packageName)) {
             throw new InvalidProjectException(
-                    "No component named \"{$componentName}\"",
+                    "No component named \"{$componentName}\"; seeking repository \"{$packageName}\"",
                     InvalidProjectException::CODE_MISSING_COMPONENT);
         }
-        $package = $this->packageCache->{$componentName};
+        $package = $this->packageCache->{$packageName};
 
         /* Unfortunately Stash doesn't allow us to retrieve a list of
          * repositories with branches/tags included, so we'll have to
@@ -117,17 +134,17 @@ class StashPackageRepository extends AbstractPackageRepository
         $packageCacheDirty = false;
 
         if (!property_exists($package, 'branches')) {
-            $path = $this->getRepositoryBranchesPath($componentName);
+            $path = $this->getRepositoryBranchesPath($packageName);
 
-            $this->packageCache->{$componentName}->branches
+            $this->packageCache->{$packageName}->branches
                     = $this->getAllPages($path);
             $packageCacheDirty = true;
         }
 
         if (!property_exists($package, 'tags')) {
-            $path = $this->getRepositoryTagsPath($componentName);
+            $path = $this->getRepositoryTagsPath($packageName);
 
-            $this->packageCache->{$componentName}->tags
+            $this->packageCache->{$packageName}->tags
                     = $this->getAllPages($path);
             $packageCacheDirty = true;
         }
@@ -176,7 +193,7 @@ class StashPackageRepository extends AbstractPackageRepository
                     null, $branch->displayId, null, $sources);
         }
 
-        return new Component($package->slug, $versions, $this);
+        return new Component($componentName, $versions, $this);
     }
 
     /**
