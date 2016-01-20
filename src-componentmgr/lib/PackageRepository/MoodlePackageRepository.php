@@ -197,7 +197,7 @@ class MoodlePackageRepository extends AbstractPackageRepository
      * @override \ComponentManager\PackageRepository\PackageRepository
      */
     public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
-        return $versionSpecification === $version->getVersion()
-                || $versionSpecification === $version->getRelease();
+        return (string) $versionSpecification === $version->getVersion()
+                || (string) $versionSpecification === $version->getRelease();
     }
 }
