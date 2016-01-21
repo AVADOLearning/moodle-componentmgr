@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager\Project;
+
 use ComponentManager\ComponentSpecification;
 use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\Exception\NotImplementedException;
@@ -41,16 +42,28 @@ class ProjectFile extends JsonFile {
             $this->components = [];
 
             foreach ($this->contents->components as $name => $component) {
-                $version           = property_exists($component, 'version')
-                    ? $component->version           : null;
-                $packageRepository = property_exists($component, 'packageRepository')
-                    ? $component->packageRepository : null;
-                $packageSource     = property_exists($component, 'packageSource')
-                    ? $component->packageSource     : null;
+                $properties = array_fill_keys(
+                        ['packageRepository', 'packageSource', 'version'],
+                        null);
+                $extra      = [];
+
+                foreach ($component as $key => &$value) {
+                    switch ($key) {
+                        case 'packageRepository':
+                        case 'packageSource':
+                        case 'version':
+                            $properties[$key] = $value;
+                            break;
+
+                        default:
+                            $extra[$key] = $value;
+                    }
+                }
 
                 $this->components[$name] = new ComponentSpecification(
-                        $name, $version,
-                        $packageRepository, $packageSource);
+                        $name, $properties['version'],
+                        $properties['packageRepository'], $properties['packageSource'],
+                        (object) $extra);
             }
         }
 

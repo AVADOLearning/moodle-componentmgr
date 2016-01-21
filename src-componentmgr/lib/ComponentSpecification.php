@@ -10,6 +10,9 @@
 
 namespace ComponentManager;
 
+use OutOfBoundsException;
+use stdClass;
+
 /**
  * Component specification.
  *
@@ -48,20 +51,30 @@ class ComponentSpecification {
     protected $version;
 
     /**
+     * Extra metadata.
+     *
+     * @var \stdClass
+     */
+    protected $extra;
+
+    /**
      * Initialiser.
      *
-     * @param string $name
-     * @param string $version
-     * @param string $packageRepository
-     * @param string $packageSource
+     * @param string    $name
+     * @param string    $version
+     * @param string    $packageRepository
+     * @param string    $packageSource
+     * @param \stdClass $extra
      */
     public function __construct($name, $version, $packageRepository=null,
-                                $packageSource=null) {
+                                $packageSource=null, stdClass $extra=null) {
         $this->name    = $name;
         $this->version = $version;
 
         $this->packageRepository = $packageRepository;
         $this->packageSource     = $packageSource;
+
+        $this->extra = $extra;
     }
 
     /**
@@ -98,5 +111,23 @@ class ComponentSpecification {
      */
     public function getVersion() {
         return $this->version;
+    }
+
+    /**
+     * Get the specified extra key.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     *
+     * @throws \OutOfBoundsException
+     */
+    public function getExtra($property) {
+        if (!property_exists($this->extra, $property)) {
+            throw new OutOfBoundsException(
+                    "No value specified in project file for \"{$property}\"");
+        }
+
+        return $this->extra->{$property};
     }
 }
