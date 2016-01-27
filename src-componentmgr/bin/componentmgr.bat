@@ -4,7 +4,7 @@ REM
 REM Moodle component manager.
 REM
 REM @author Luke Carrier <luke@carrier.im>
-REM @copyright 2015 Luke Carrier
+REM @copyright 2016 Luke Carrier
 REM @license GPL-3.0+
 REM
 

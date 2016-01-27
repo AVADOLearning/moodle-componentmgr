@@ -5,7 +5,7 @@
  * Moodle component manager.
  *
  * @author Luke Carrier <luke@carrier.im>
- * @copyright 2015 Luke Carrier
+ * @copyright 2016 Luke Carrier
  * @license GPL-3.0+
  */
 
