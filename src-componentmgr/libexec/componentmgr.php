@@ -6,7 +6,7 @@
  *
  * @author Luke Carrier <luke@carrier.im>
  * @copyright 2015 Luke Carrier
- * @license GPL v3
+ * @license GPL-3.0+
  */
 
 use Symfony\Component\Config\FileLocator;
