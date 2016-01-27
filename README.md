@@ -56,6 +56,11 @@ Moodle's!).
 * _Version control_ implementations allow us to download and checkout specific
   versions of components from a range of different sources.
 
+## License
+
+Component Manager is released under the terms of the GPL v3. This is the same
+license as the core Moodle distribution.
+
 ## Requirements
 
 * PHP >= 5.4
