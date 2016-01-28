@@ -1,4 +1,25 @@
 {
+    "name": "lukecarrier/moodle-componentmgr",
+    "description": "A package manager for Moodle components",
+    "keywords": [
+        "moodle",
+        "package",
+        "plugin"
+    ],
+    "homepage": "https://github.com/LukeCarrier/moodle-componentmgr",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Luke Carrier",
+            "email": "luke@carrier.im",
+            "homepage": "http://luke.carrier.im/"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/LukeCarrier/moodle-componentmgr/issues",
+        "wiki": "https://github.com/LukeCarrier/moodle-componentmgr/wiki"
+    },
+
     "autoload": {
         "psr-4": {
             "ComponentManager\\": "lib/"
@@ -10,7 +31,11 @@
     ],
 
     "require": {
+        "php": ">=5.5.0",
         "bramus/monolog-colored-line-formatter": "2.0.*",
+        "kdyby/curl-ca-bundle": "~1.0",
+        "knplabs/gaufrette": "^0.2.0",
+        "knplabs/github-api": "^1.5",
         "guzzlehttp/guzzle": "~6.0",
         "psr/log": "1.0.*",
         "symfony/config": "2.6.*",
@@ -18,9 +43,6 @@
         "symfony/dependency-injection": "2.6.*",
         "symfony/filesystem": "2.6.*",
         "symfony/monolog-bundle": "~2.4",
-        "symfony/process": "~2.7",
-        "kdyby/curl-ca-bundle": "~1.0",
-        "knplabs/github-api": "^1.5",
-        "knplabs/gaufrette": "^0.2.0"
+        "symfony/process": "~2.7"
     }
 }
