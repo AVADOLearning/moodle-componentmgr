@@ -68,13 +68,44 @@ license as the core Moodle distribution.
 
 ## Installation
 
-We haven't quite settled on a means of distribution yet, but it'll look along
-the lines of the following:
+Component Manager can be installed in various different ways, each appropriate
+for different use cases.
 
-1. Clone this directory somewhere on your disk.
-2. Ensure our ```/src/bin``` directory is on your ```PATH```.
-3. Execute ```composer install``` within the ```src``` directory to obtain the
-   the dependencies.
+### Globally, via Composer (recommended)
+
+In this configuration, Component Manager is accessible on the shell (via your
+preferred ```$SHELL``` or Command Prompt), and the same installation is used
+across all of your projects. This approach is recommended for most users.
+
+1. Install PHP for your platform.
+2. Install Composer as per their
+   [Getting Started](https://getcomposer.org/doc/00-intro.md) guide. We assume
+   that you can execute ```composer``` on your shell.
+3. Ensure Composer's global ```vendor/bin``` directory is on your system
+   ```PATH```:
+    * On Linux/Mac, it's probably ```$HOME/.composer/vendor/bin```
+    * On Windows, this is usually ```%APPDATA%\Roaming\Composer\vendor\bin```
+4. Install Component Manager globally with
+   ```composer require global lukecarrier/moodle-componentmgr```
+
+### Locally, via Composer
+
+In this configuration, Component Manager isn't accessible globally from the
+shell, so ```package``` operations can only be performed by manually adding the
+```bin``` directory to your ```PATH``` or specifying the full path to the
+```componentmgr``` executable.
+
+    $ composer require lukecarrier/moodle-componentmgr
+
+### Manually
+
+Component Manager can also be run in-place. This is recommended for performing
+development within Component Manager itself.
+
+1. Clone this repository somewhere on your disk.
+2. Ensure our ```bin``` directory is on your system ```PATH```.
+3. Execute ```composer install``` within the repository to obtain the
+   dependencies.
 
 ## ```install``` usage
 
