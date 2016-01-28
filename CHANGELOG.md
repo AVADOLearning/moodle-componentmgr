@@ -1,6 +1,14 @@
 # Change log
 
+## 0.1.1: Composer clean up
+
+Released 2016-01-28
+
+* Local and global installation with Composer fixed
+
 ## 0.1.0: initial release
+
+Released 2016-01-28
 
 * Outlined the basic premise and operation
     * ```install``` command for installing named plugins from a project file
