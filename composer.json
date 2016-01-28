@@ -5,6 +5,10 @@
         }
     },
 
+    "bin": [
+        "libexec/componentmgr"
+    ],
+
     "require": {
         "bramus/monolog-colored-line-formatter": "2.0.*",
         "guzzlehttp/guzzle": "~6.0",
