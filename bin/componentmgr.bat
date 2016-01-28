@@ -18,7 +18,7 @@ php -d variables_order=EGPCS ^
     -d error_reporting=-1 ^
     -d display_errors=On ^
     -d curl.cainfo=!caBundle! ^
-    !rootDir!\libexec\componentmgr %*
+    !rootDir!\libexec\componentmgr-local %*
 SET errno=%errorlevel%
 EXIT /B !errno!
 
