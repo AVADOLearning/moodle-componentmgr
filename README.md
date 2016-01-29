@@ -81,10 +81,9 @@ across all of your projects. This approach is recommended for most users.
 2. Install Composer as per their
    [Getting Started](https://getcomposer.org/doc/00-intro.md) guide. We assume
    that you can execute ```composer``` on your shell.
-3. Ensure Composer's global ```vendor/bin``` directory is on your system
-   ```PATH```:
-    * On Linux/Mac, it's probably ```$HOME/.composer/vendor/bin```
-    * On Windows, this is usually ```%APPDATA%\Roaming\Composer\vendor\bin```
+3. Ensure Composer's global ```vendor/bin``` directory is on your ```PATH```:
+  * On Linux/Mac, it's probably ```$HOME/.composer/vendor/bin```
+  * On Windows, this is usually ```%APPDATA%\Roaming\Composer\vendor\bin```
 4. Install Component Manager globally with
    ```composer require global lukecarrier/moodle-componentmgr```
 
