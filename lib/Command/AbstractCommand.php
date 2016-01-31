@@ -24,6 +24,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class AbstractCommand extends Command {
     /**
+     * DI container.
+     *
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    protected $container;
+
+    /**
      * PSR-3 compatible logger.
      *
      * @var \Psr\Log\LoggerInterface
