@@ -24,6 +24,20 @@ class PackageRepositoryFactory {
     const CLASS_NAME_FORMAT = '\ComponentManager\PackageRepository\%sPackageRepository';
 
     /**
+     * Filesystem.
+     *
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * Base directory for package repository caches.
+     *
+     * @var string
+     */
+    protected $cacheDirectory;
+
+    /**
      * Initialiser.
      *
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
