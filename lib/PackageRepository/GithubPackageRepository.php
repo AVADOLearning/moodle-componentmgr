@@ -85,6 +85,7 @@ class GithubPackageRepository extends AbstractPackageRepository
      * @override \ComponentManager\PackageRepository\PackageRepository
      */
     public function getComponent(ComponentSpecification $componentSpecification) {
+        /** @var \Github\Api\Repo $api */
         $api = $this->getClient()->api('repo');
 
         list($user, $repositoryName) = explode(
