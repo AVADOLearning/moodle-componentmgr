@@ -215,7 +215,7 @@ class InstallHelper {
     /**
      * Resolve a component's version.
      *
-     * @param \ComponentManager\ComponentSpecification $specification
+     * @param \ComponentManager\ComponentSpecification $componentSpecification
      *
      * @return \ComponentManager\ResolvedComponentVersion
      */
