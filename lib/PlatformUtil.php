@@ -67,14 +67,13 @@ class PlatformUtil {
                 break;
 
             default:
-                throw new PlatformException(PHP_OS, PlatformException::CODE_UNKNOWN_PLATFORM);
+                throw new PlatformException(
+                        PHP_OS, PlatformException::CODE_UNKNOWN_PLATFORM);
         }
 
-        $paths = explode($delimiter, getenv('PATH'));
-
-        if (PHP_OS === 'WINNT') {
-            $pathexts = explode($delimiter, getenv('PATHEXT'));
-        }
+        $paths    = explode($delimiter, getenv('PATH'));
+        $pathexts = (PHP_OS === 'WINNT')
+                ? explode($delimiter, getenv('PATHEXT')) : null;
 
         foreach ($paths as $path) {
             $executable = $path . static::directorySeparator() . $name;
