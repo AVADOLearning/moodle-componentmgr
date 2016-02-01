@@ -130,7 +130,7 @@ class PackageHelper {
             }
         }
 
-        if (!$scores) {
+        if (!count($scores)) {
             throw new UnsatisfiedVersionException(
                 "Unable to satisfy Moodle version \"{$specification}\"",
                 UnsatisfiedVersionException::CODE_UNKNOWN_VERSION);
