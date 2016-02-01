@@ -60,7 +60,7 @@ class Component {
      * Initialiser.
      *
      * @param string                                                $name
-     * @param string                                                $versions
+     * @param \ComponentManager\ComponentVersion[]                  $versions
      * @param \ComponentManager\PackageRepository\PackageRepository $packageRepository
      */
     public function __construct($name, $versions, $packageRepository=null) {
