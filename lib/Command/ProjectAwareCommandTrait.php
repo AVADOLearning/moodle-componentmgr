@@ -40,7 +40,7 @@ trait ProjectAwareCommandTrait {
      * Lazily loaded -- be sure to call getProject() in order to ensure the
      * value is defined.
      *
-     * @var \ComponentManager\Project
+     * @var \ComponentManager\Project\Project
      */
     protected $project;
 
