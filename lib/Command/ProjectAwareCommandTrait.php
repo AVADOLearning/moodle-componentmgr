@@ -22,6 +22,9 @@ use ComponentManager\Project\ProjectLockFile;
  * Provides helpful utility methods for accessing the project in the currrent
  * working directory. Import this into command implementations to reduce
  * duplication.
+ *
+ * @property \Symfony\Component\DependencyInjection\ContainerInterface $container
+ * @property \Psr\Log\LoggerInterface                                  $logger
  */
 trait ProjectAwareCommandTrait {
     /**
