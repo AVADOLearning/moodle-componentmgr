@@ -32,6 +32,13 @@ class MoodleException extends AbstractException {
     const CODE_INVALID_ACTION = 2;
 
     /**
+     * Code: Moodle instance is not configured.
+     *
+     * @var integer
+     */
+    const CODE_NOT_CONFIGURED = 3;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -47,6 +54,8 @@ class MoodleException extends AbstractException {
                 return 'Unable to execute a CLI script';
             case static::CODE_INVALID_ACTION:
                 return 'Invalid action specified';
+            case static::CODE_NOT_CONFIGURED:
+                return 'The Moodle instance\'s configuration file did not define $CFG';
         }
     }
 }

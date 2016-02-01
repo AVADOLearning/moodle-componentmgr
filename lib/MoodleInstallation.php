@@ -11,6 +11,7 @@
 namespace ComponentManager;
 
 use core_plugin_manager;
+use ComponentManager\Exception\MoodleException;
 use Symfony\Component\Process\Process;
 
 /**
@@ -60,6 +61,11 @@ class MoodleInstallation {
      */
     protected function getConfig() {
         if ($this->config === null) {
+            /* This value should be overwritten shortly, either by the
+             * definition in the Moodle instance's configuration or by our own
+             * "fake" configuration used to load the plugin manager. */
+            $CFG = null;
+
             $constants = [
                 'ABORT_AFTER_CONFIG',
                 'CLI_SCRIPT',
@@ -74,6 +80,12 @@ class MoodleInstallation {
                   . static::CONFIG_FILENAME;
             if (is_file($path)) {
                 require_once $path;
+
+                if (!is_object($CFG)) {
+                    throw new MoodleException(
+                            "The Moodle configuration file \"{$path}\" did not define \$CFG",
+                            MoodleException::CODE_NOT_CONFIGURED);
+                }
             } else {
                 /* We don't have a configured site, so we'll have to fake it.
                  * Only an extremely slim portion of Moodle will function
