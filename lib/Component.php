@@ -96,7 +96,7 @@ class Component {
      * @return string
      */
     public function getPluginName() {
-        list($type, $name) = $this->getNameParts();
+        list(, $name) = $this->getNameParts();
 
         return $name;
     }
@@ -120,7 +120,7 @@ class Component {
      * @return string
      */
     public function getPluginType() {
-        list($type, $name) = $this->getNameParts();
+        list($type, ) = $this->getNameParts();
 
         return $type;
     }
