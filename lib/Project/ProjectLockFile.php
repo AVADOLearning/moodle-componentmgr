@@ -21,7 +21,7 @@ class ProjectLockFile extends JsonFile {
     /**
      * Resolved component versions.
      *
-     * @var \ComponentManager\ResolvedComponentVersion []
+     * @var \ComponentManager\ResolvedComponentVersion[]
      */
     protected $resolvedComponentVersions;
 
