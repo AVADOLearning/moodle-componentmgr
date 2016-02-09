@@ -13,8 +13,10 @@ namespace ComponentManager\Helper;
 use ComponentManager\Exception\UnsatisfiedVersionException;
 use ComponentManager\Moodle;
 use ComponentManager\MoodleVersion;
+use ComponentManager\Project\Project;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Packaging helper.
@@ -35,12 +37,21 @@ class PackageHelper {
     protected $logger;
 
     /**
+     * Component manager project.
+     *
+     * @var \ComponentManager\Project\Project
+     */
+    protected $project;
+
+    /**
      * Initialiser.
      *
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \ComponentManager\Project\Project $project
+     * @param \Psr\Log\LoggerInterface          $logger
      */
-    public function __construct(LoggerInterface $logger) {
-        $this->logger = $logger;
+    public function __construct(Project $project, LoggerInterface $logger) {
+        $this->project = $project;
+        $this->logger  = $logger;
     }
 
     /**
@@ -81,6 +92,23 @@ class PackageHelper {
         }
 
         return $result;
+    }
+
+    /**
+     * Package a Moodle instance.
+     *
+     * @param string $packageFormat
+     * @param string $moodleDir
+     * @param string $destination
+     *
+     * @return void
+     */
+    public function package($packageFormat, $moodleDir, $destination) {
+        $packageFormat = $this->project->getPackageFormat($packageFormat);
+
+        $packageFormat->package(
+                $moodleDir, $destination, $this->project->getProjectFile(),
+                $this->project->getProjectLockFile(), $this->logger);
     }
 
     /**

@@ -75,12 +75,13 @@ HELP;
         /** @var \Symfony\Component\Filesystem\Filesystem $filesystem */
         $filesystem = $this->container->get('filesystem');
 
-        $projectFile = $this->getProject($projectFilename, $projectLockFilename)
-                            ->getProjectFile();
+        $project     = $this->getProject($projectFilename, $projectLockFilename);
+        $projectFile = $project->getProjectFile();
+
         $installHelper = new InstallHelper(
-                $this->getProject(), $this->getMoodle($moodleDir),
-                $filesystem, $this->logger);
-        $packageHelper = new PackageHelper($this->logger);
+                $project, $this->getMoodle($moodleDir), $filesystem,
+                $this->logger);
+        $packageHelper = new PackageHelper($project, $this->logger);
 
         $version = $packageHelper->resolveMoodleVersion($projectFile->getMoodleVersion());
         $this->logger->info('Selected Moodle version', [
@@ -110,9 +111,7 @@ HELP;
         $installHelper->installProjectComponents();
 
         $this->logger->info('Packaging');
-        $this->getProject()->getPackageFormat($packageFormat)->package(
-                $moodleDir, $destination, $projectFile,
-                $this->getProject()->getProjectLockFile(), $this->logger);
+        $packageHelper->package($packageFormat, $moodleDir, $destination);
 
         $this->logger->info('Cleaning up');
         $filesystem->remove($tempDirectory);
