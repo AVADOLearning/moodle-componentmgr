@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use ZipArchive;
 
 class PackageCommand extends AbstractCommand {
-    use ProjectAwareCommandTrait;
+        use ProjectAwareCommandTrait;
 
     /**
      * Help.
