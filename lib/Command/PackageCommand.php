@@ -24,7 +24,6 @@ use ZipArchive;
 
 class PackageCommand extends AbstractCommand {
         use ProjectAwareCommandTrait;
-
     /**
      * Help.
      *
