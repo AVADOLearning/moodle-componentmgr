@@ -88,7 +88,7 @@ across all of your projects. This approach is recommended for most users.
   * On Linux/Mac, it's probably ```$HOME/.composer/vendor/bin```
   * On Windows, this is usually ```%APPDATA%\Roaming\Composer\vendor\bin```
 4. Install Component Manager globally with
-   ```composer require global lukecarrier/moodle-componentmgr```
+   ```composer global require lukecarrier/moodle-componentmgr```
 
 ### Locally, via Composer
 
