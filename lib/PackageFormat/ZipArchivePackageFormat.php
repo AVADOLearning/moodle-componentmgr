@@ -10,6 +10,7 @@
 
 namespace ComponentManager\PackageFormat;
 
+use ComponentManager\PlatformUtil;
 use ComponentManager\Project\ProjectFile;
 use ComponentManager\Project\ProjectLockFile;
 use Psr\Log\LoggerInterface;
@@ -32,6 +33,8 @@ class ZipArchivePackageFormat extends AbstractPackageFormat
                             ProjectFile $projectFile,
                             ProjectLockFile $projectLockFile,
                             LoggerInterface $logger) {
+        $sep = PlatformUtil::directorySeparator();
+
         $archive = new ZipArchive();
         $archive->open($destination, ZipArchive::CREATE);
 
@@ -40,15 +43,15 @@ class ZipArchivePackageFormat extends AbstractPackageFormat
                 RecursiveIteratorIterator::SELF_FIRST);
         foreach ($files as $file) {
             // Ignore directory (.) and parent (..) entries
-            if (in_array(substr($file, strrpos($file, '/') + 1), ['.', '..'])) {
+            if (in_array(substr($file, strrpos($file, $sep) + 1), ['.', '..'])) {
                 continue;
             }
 
             if (is_dir($file)) {
-                $archiveFile = str_replace("{$moodleDir}/", '', "{$file}/");
+                $archiveFile = str_replace("{$moodleDir}{$sep}", '', $file);
                 $archive->addEmptyDir($archiveFile);
             } elseif (is_file($file)) {
-                $archiveFile = str_replace("{$moodleDir}/", '', $file);
+                $archiveFile = str_replace("{$moodleDir}{$sep}", '', $file);
                 $archive->addFromString($archiveFile, file_get_contents($file));
             } else {
                 $logger->warning('Skipping item; doesn\'t appear to be a file or directory', [
