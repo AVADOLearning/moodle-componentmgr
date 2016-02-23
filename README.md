@@ -271,23 +271,6 @@ can execute the following command:
                            --package-destination=/tmp/moodle.zip \
                            --project-file=moodle.org.json
 
-## To do
-
-* Ditch JSON for storage of package repository cache and use SQLite instead.
-  This should offer a sizeable reduction in the amount of time we spend locating
-  package metadata.
-* Define services in a YAML file rather than a PHP file for clearer expression
-  of dependencies. This is starting to become a problem.
-* Add init and validate commands to help new users get their project files set
-  up correctly.
-* Stop using the crappy JSON library and use Symfony's serialisers instead.
-  This should simplify error handling considerably.
-* Consider adding an alternative syntax to specify arbitrary version formats
-  that might be exposed by the underlying component source.
-* Check response statuses from HTTP requests and handle failures; we probably
-  need a new exception type for transient failures.
-* Handle cases where packages don't exist within repositories.
-
 ## Troubleshooting
 
 * ```"cURL error 60: SSL certificate problem: unable to get local issuer
