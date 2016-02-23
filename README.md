@@ -141,6 +141,8 @@ need the following stanza in your project file:
 
 Other package repositories are available, allowing deployment from corporate
 version control and distribution systems. At the moment:
+* ```"Github"``` allows Component Manager to query GitHub.com repositories,
+  specified with the ```"repository"``` property of each component.
 * ```"Moodle"``` allows access to the
   [Moodle.org/plugins](https://moodle.org/plugins/) repository, versioning
   plugins by either their plugin version (```YYYYMMDDXX```) or release
@@ -163,7 +165,8 @@ component object has three keys:
   be used as the source of data for this component.
 * Finally, the ```"packageSource"``` key specifies which type of component
   source to obtain. At the moment, the following sources are available:
-    * ```"zip"``` sources components via zip archives from remote locations.
+    * ```"Git"``` sources components from the specified Git reference.
+    * ```"Zip"``` sources components via zip archives from remote locations.
 
 An example to install
 [version 0.4.0](https://moodle.org/plugins/pluginversion.php?id=7567) of the
@@ -260,6 +263,7 @@ file:
 
 Packages can be generated in the following formats:
 
+* ```"Directory"``` simply copies the packaged files to the specified directory.
 * ```"WebDeploy"``` packages are generated using Microsoft's ```msdeploy```
   utility and are well suited to deployment on Windows.
 * ```"ZipArchive"``` packages are suited to deployment everywhere.
