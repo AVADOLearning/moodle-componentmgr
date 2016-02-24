@@ -1,5 +1,13 @@
 # Change log
 
+## 0.1.2: packaging improvements
+
+* New ```Directory``` package format for pass-through style deployment
+* Fixed ```ZipArchive``` directory separator issues on Windows
+* Various improvements to installation and usage documentation
+
+Released 2016-02-24
+
 ## 0.1.1: Composer clean up
 
 Released 2016-01-28
