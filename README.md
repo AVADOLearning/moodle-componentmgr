@@ -3,6 +3,7 @@
 [![Code Climate](https://img.shields.io/codeclimate/github/LukeCarrier/moodle-componentmgr.svg?style=flat-square)]()
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/LukeCarrier/moodle-componentmgr.svg?style=flat-square)](https://scrutinizer-ci.com/g/LukeCarrier/moodle-componentmgr/)
 [![Packagist](https://img.shields.io/packagist/v/lukecarrier/moodle-componentmgr.svg?style=flat-square)](https://packagist.org/packages/lukecarrier/moodle-componentmgr)
+[![Requires.io](https://img.shields.io/requires/github/LukeCarrier/moodle-componentmgr.svg?style=flat-square)](https://requires.io/github/LukeCarrier/moodle-componentmgr/requirements/?branch=master)
 
 Component Manager is a tool to assist with the packaging and management
 of Moodle-based learning environments.
