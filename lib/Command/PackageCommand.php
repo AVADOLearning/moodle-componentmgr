@@ -68,7 +68,8 @@ HELP;
         $projectLockFilename = $moodleDir . PlatformUtil::directorySeparator()
                              . 'componentmgr.lock.json';
 
-        $destination     = $input->getOption(Argument::OPTION_PACKAGE_DESTINATION);
+        $destination     = PlatformUtil::expandPath(
+                $input->getOption(Argument::OPTION_PACKAGE_DESTINATION));
         $projectFilename = $input->getOption(Argument::OPTION_PROJECT_FILE);
         $packageFormat   = $input->getOption(Argument::OPTION_PACKAGE_FORMAT);
 

@@ -131,6 +131,23 @@ class PlatformUtil {
     }
 
     /**
+     * Expand placeholders in the supplied path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function expandPath($path) {
+        /* Paths beginning with ~ and a directory separator are relative to
+         * the user's home directory. */
+        if ($path{0} === '~' && $path{1} === static::directorySeparator()) {
+            $path = static::homeDirectory() . substr($path, 1);
+        }
+
+        return $path;
+    }
+
+    /**
      * Get the current working directory.
      *
      * @return string

@@ -73,12 +73,17 @@ trait ProjectAwareCommandTrait {
                 $projectFilename = PlatformUtil::workingDirectory()
                                  . PlatformUtil::directorySeparator()
                                  . 'componentmgr.json';
+            } else {
+                $projectFilename = PlatformUtil::expandPath($projectFilename);
             }
 
             if ($projectLockFilename === null) {
                 $projectLockFilename = PlatformUtil::workingDirectory()
                                      . PlatformUtil::directorySeparator()
                                      . 'componentmgr.lock.json';
+            } else {
+                $projectLockFilename = PlatformUtil::expandPath(
+                        $projectLockFilename);
             }
 
             $packageRepositoryFactory = $this->container->get(
