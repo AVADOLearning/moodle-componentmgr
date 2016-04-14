@@ -51,8 +51,8 @@ class PackageRepositoryFactory {
     /**
      * Get package repository.
      *
-     * @param string  $id
-     * @param mixed[] $options
+     * @param string    $id
+     * @param \stdClass $options
      *
      * @return \ComponentManager\PackageRepository\PackageRepository
      */
