@@ -73,10 +73,10 @@ class ProjectFile extends JsonFile {
     /**
      * Get package repositories.
      *
-     * @return \ComponentManager\PackageRepository\PackageRepository[]
+     * @return \stdClass[]
      */
     public function getPackageRepositories() {
-        return $this->contents->packageRepositories;
+        return (array) $this->contents->packageRepositories;
     }
 
     /**
