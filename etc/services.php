@@ -114,7 +114,7 @@ $container->addCompilerPass(new LoggerChannelPass());
  * Register zip package source.
  */
 $packageSource = new Definition('\ComponentManager\PackageSource\ZipPackageSource');
-$packageSource->setScope('prototype');
+$packageSource->setShared(false);
 $container->setDefinition('package_source.zip_package_source', $packageSource);
 
 /*
