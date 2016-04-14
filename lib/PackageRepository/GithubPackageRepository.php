@@ -92,20 +92,16 @@ class GithubPackageRepository extends AbstractPackageRepository
                 '/', $componentSpecification->getExtra('repository'));
 
         $repository = $api->show($user, $repositoryName);
-        $branches   = $api->branches($user, $repositoryName);
-        $tags       = $api->tags($user, $repositoryName);
+
+        $refs = array_merge(
+                $api->tags($user, $repositoryName),
+                $api->branches($user, $repositoryName));
 
         $versions = [];
 
-        foreach ($tags as $tag) {
-            $versions[] = new ComponentVersion(null, $tag['name'], null, [
-                new GitComponentSource($repository['clone_url'], $tag['name']),
-            ]);
-        }
-
-        foreach ($branches as $branch) {
-            $versions[] = new ComponentVersion(null, $branch['name'], null, [
-                new GitComponentSource($repository['clone_url'], $branch['name']),
+        foreach ($refs as $ref) {
+            $versions[] = new ComponentVersion(null, $ref['name'], null, [
+                new GitComponentSource($repository['clone_url'], $ref['name']),
             ]);
         }
 
