@@ -73,20 +73,21 @@ class PlatformUtil {
 
         $paths    = explode($delimiter, getenv('PATH'));
         $pathexts = (PHP_OS === 'WINNT')
-                ? explode($delimiter, getenv('PATHEXT')) : null;
+                ? explode($delimiter, getenv('PATHEXT')) : array();
 
         foreach ($paths as $path) {
             $executable = $path . static::directorySeparator() . $name;
-            if (is_executable($executable)) {
-                return $executable;
-            }
 
-            if (PHP_OS === 'WINNT') {
+            if ($pathexts) {
                 foreach ($pathexts as $pathext) {
                     $executableext = $executable . $pathext;
                     if (is_executable($executableext)) {
                         return $executableext;
                     }
+                }
+            } else {
+                if (is_executable($executable)) {
+                    return $executable;
                 }
             }
         }
