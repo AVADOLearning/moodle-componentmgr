@@ -26,7 +26,7 @@ class GitRemote {
      *
      * @var string
      */
-    protected $url;
+    protected $uri;
 
     /**
      * Initialiser.
