@@ -75,8 +75,10 @@ foreach ($commands as $id => $className) {
     $qualifiedClassName = CommandFactory::getCommandClassName($className);
 
     $command = new Definition($qualifiedClassName, [$className]);
-    $command->setFactory([new Reference('command.command_factory'),
-                          'createCommand']);
+    $command->setFactory([
+        new Reference('command.command_factory'),
+        'createCommand',
+    ]);
 
     $container->setDefinition($qualifiedId, $command);
 
