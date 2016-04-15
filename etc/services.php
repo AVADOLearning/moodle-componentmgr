@@ -91,6 +91,11 @@ foreach ($commands as $id => $className) {
 $container->register('filesystem', '\Symfony\Component\Filesystem\Filesystem');
 
 /*
+ * Register a Moodle.org API client.
+ */
+$container->register('moodleApi', '\ComponentManager\MoodleApi');
+
+/*
  * Register Monolog for logging within commands.
  */
 $container->registerExtension(new MonologExtension());

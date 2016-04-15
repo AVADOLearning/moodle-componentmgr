@@ -11,6 +11,10 @@
 namespace ComponentManager\Command;
 
 use ComponentManager\Helper\InstallHelper;
+use ComponentManager\Moodle;
+use ComponentManager\PlatformUtil;
+use ComponentManager\Task\InstallTask;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -49,10 +53,13 @@ HELP;
      * @override \Symfony\Component\Console\Command\Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $helper = new InstallHelper(
-                $this->getProject(), $this->getMoodle(),
-                $this->container->get('filesystem'), $this->logger);
+        /** @var \Symfony\Component\Filesystem\Filesystem $filesystem */
+        $filesystem = $this->container->get('filesystem');
 
-        $helper->installProjectComponents();
+        $project = $this->getProject();
+        $moodle  = new Moodle(PlatformUtil::workingDirectory());
+
+        $task = new InstallTask($project, $filesystem, $moodle);
+        $task->execute($this->logger);
     }
 }
