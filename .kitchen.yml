@@ -18,5 +18,4 @@ platforms:
   - name: ubuntu-14.04
 
 suites:
-  - name: install
-  - name: package
+  - name: default
