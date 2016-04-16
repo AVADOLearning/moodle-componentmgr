@@ -4,5 +4,7 @@
 
 # Bundler
 /Gemfile.lock
-.kitchen/
-.kitchen.local.yml
+
+# Kitchen
+/.kitchen/
+/.kitchen.local.yml
