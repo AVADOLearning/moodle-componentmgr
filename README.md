@@ -307,7 +307,7 @@ To get started, install Kitchen and the necessary dependencies with Bundler:
 
 ```
 $ bundle install
-``
+```
 
 Then, execute the tests:
 
