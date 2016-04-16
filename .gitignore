@@ -1,3 +1,8 @@
-# Composer manages our dependencies
+# Composer
 /composer.lock
 /vendor/
+
+# Bundler
+/Gemfile.lock
+.kitchen/
+.kitchen.local.yml

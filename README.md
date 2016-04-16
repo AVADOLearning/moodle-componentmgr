@@ -297,6 +297,24 @@ $ componentmgr package --package-format=ZipArchive \
                        --project-file=moodle.org.json
 ```
 
+## Testing
+
+Tests are written in [ServerSpec](http://serverspec.org/) and executed via
+[Test Kitchen](http://kitchen.ci/). By default, Test Kitchen is configured to
+use the [Vagrant](https://www.vagrantup.com/) driver.
+
+To get started, install Kitchen and the necessary dependencies with Bundler:
+
+```
+$ bundle install
+``
+
+Then, execute the tests:
+
+```
+$ bundle exec kitchen test
+```
+
 ## Troubleshooting
 
 * `"cURL error 60: SSL certificate problem: unable to get local issuer

@@ -1,0 +1,28 @@
+{
+    "moodle": {
+        "version": "3.0+"
+    },
+
+    "components": {
+        "cachestore_redis": {
+            "repository": "LukeCarrier/moodle-cachestore_redis",
+            "version": "master",
+            "packageRepository": "github",
+            "packageSource": "Git"
+        },
+        "local_cpd": {
+            "version": "0.4.0",
+            "packageRepository": "moodle",
+            "packageSource": "Zip"
+        }
+    },
+
+    "packageRepositories": {
+        "github": {
+            "type": "Github"
+        },
+        "moodle": {
+            "type": "Moodle"
+        }
+    }
+}
