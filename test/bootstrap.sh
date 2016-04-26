@@ -13,6 +13,12 @@ moodle_url='https://download.moodle.org/download.php/direct/stable30/moodle-late
 sudo apt-get update
 sudo apt-get install -y curl git-core php5-cli php5-curl php5-json ruby1.9.1
 
+pushd "$root"
+curl -o 'composer.phar' 'https://getcomposer.org/composer.phar'
+chmod +x 'composer.phar'
+'./composer.phar' install
+popd
+
 "$componentmgr" refresh --project-file="$project"
 
 dir=/tmp/install

@@ -1,0 +1,17 @@
+language: ruby
+rvm:
+  - 2.3.0
+
+sudo: true
+
+before_script:
+  - eval $(ssh-agent)
+  - chmod 0600 test/travis/id_rsa
+  - ssh-add test/travis/id_rsa
+  - . test/travis/before_script.sh
+
+script:
+  - bundle exec kitchen test
+
+after_failure:
+  - test/travis/after_fail.sh
