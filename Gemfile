@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'kitchen-docker'
 gem 'kitchen-sync'
-gem 'kitchen-vagrant'
 gem 'serverspec'
 gem 'test-kitchen'
