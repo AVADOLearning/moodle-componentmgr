@@ -8,7 +8,7 @@
  * @license GPL-3.0+
  */
 
-namespace ComponentManager\Task;
+namespace ComponentManager\Step;
 
 use Psr\Log\LoggerInterface;
 
@@ -21,7 +21,7 @@ use Psr\Log\LoggerInterface;
 interface Step {
     /**
      * Execute this action.
-     * 
+     *
      * @param \ComponentManager\Task\Task $task
      * @param \Psr\Log\LoggerInterface    $logger
      *

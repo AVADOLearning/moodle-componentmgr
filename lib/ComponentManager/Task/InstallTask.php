@@ -13,6 +13,10 @@ namespace ComponentManager\Task;
 use ComponentManager\Moodle;
 use ComponentManager\Project\Project;
 use ComponentManager\ResolvedComponentVersion;
+use ComponentManager\Step\CommitProjectLockFileStep;
+use ComponentManager\Step\InstallComponentsStep;
+use ComponentManager\Step\ResolveComponentVersionsStep;
+use ComponentManager\Step\VerifyPackageRepositoriesCachedStep;
 use Symfony\Component\Filesystem\Filesystem;
 
 class InstallTask extends AbstractTask implements Task {

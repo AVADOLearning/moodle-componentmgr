@@ -8,7 +8,7 @@
  * @license GPL-3.0+
  */
 
-namespace ComponentManager\Task;
+namespace ComponentManager\Step;
 
 use ComponentManager\Moodle;
 use ComponentManager\PlatformUtil;
@@ -56,7 +56,7 @@ class InstallComponentsStep implements Step {
     /**
      * @override \ComponentManager\Task\Step
      *
-     * @param \ComponentManager\Task\InstallTask $task 
+     * @param \ComponentManager\Task\InstallTask $task
      */
     public function execute($task, LoggerInterface $logger) {
         $resolvedComponentVersions = $task->getResolvedComponentVersions();

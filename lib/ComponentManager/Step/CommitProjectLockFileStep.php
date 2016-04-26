@@ -8,7 +8,7 @@
  * @license GPL-3.0+
  */
 
-namespace ComponentManager\Task;
+namespace ComponentManager\Step;
 
 use ComponentManager\Project\ProjectLockFile;
 use Psr\Log\LoggerInterface;

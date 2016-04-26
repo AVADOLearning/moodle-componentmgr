@@ -14,6 +14,13 @@ use ComponentManager\Moodle;
 use ComponentManager\MoodleApi;
 use ComponentManager\MoodleVersion;
 use ComponentManager\Project\Project;
+use ComponentManager\Step\CommitProjectLockFileStep;
+use ComponentManager\Step\InstallComponentsStep;
+use ComponentManager\Step\ObtainMoodleSourceStep;
+use ComponentManager\Step\PackageStep;
+use ComponentManager\Step\ResolveComponentVersionsStep;
+use ComponentManager\Step\ResolveMoodleVersionStep;
+use ComponentManager\Step\VerifyPackageRepositoriesCachedStep;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**

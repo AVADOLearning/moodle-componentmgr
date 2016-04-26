@@ -8,7 +8,7 @@
  * @license GPL-3.0+
  */
 
-namespace ComponentManager\Task;
+namespace ComponentManager\Step;
 
 use ComponentManager\Exception\UnsatisfiedVersionException;
 use ComponentManager\MoodleApi;
@@ -45,7 +45,7 @@ class ResolveMoodleVersionStep implements Step {
 
     /**
      * @override \ComponentManager\Task\Step
-     * 
+     *
      * @param \ComponentManager\Task\PackageTask $task
      */
     public function execute($task, LoggerInterface $logger) {
@@ -78,7 +78,7 @@ class ResolveMoodleVersionStep implements Step {
             'release' => $version->getRelease(),
             'score'   => key($scores),
         ]);
-        
+
         $task->setMoodleVersion($version);
     }
 }

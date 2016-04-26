@@ -8,7 +8,7 @@
  * @license GPL-3.0+
  */
 
-namespace ComponentManager\Task;
+namespace ComponentManager\Step;
 
 use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\Project\Project;

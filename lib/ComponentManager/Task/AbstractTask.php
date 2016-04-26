@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Task;
 
+use ComponentManager\Step\Step;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -21,7 +22,7 @@ abstract class AbstractTask {
     /**
      * Steps.
      *
-     * @var \ComponentManager\Task\Step[]
+     * @var \ComponentManager\Step\Step[]
      */
     protected $steps;
 

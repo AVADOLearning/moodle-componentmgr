@@ -8,7 +8,7 @@
  * @license GPL-3.0+
  */
 
-namespace ComponentManager\Task;
+namespace ComponentManager\Step;
 
 use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\PackageRepository\CachingPackageRepository;
@@ -27,7 +27,7 @@ class VerifyPackageRepositoriesCachedStep implements Step {
 
     /**
      * Initialiser.
-     * 
+     *
      * @param \ComponentManager\PackageRepository\PackageRepository[] $packageRepositories
      */
     public function __construct($packageRepositories) {
