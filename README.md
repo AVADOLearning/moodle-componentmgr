@@ -1,5 +1,6 @@
 # Component Manager
 
+[![Travis](https://img.shields.io/travis/LukeCarrier/moodle-componentmgr.svg?style=flat-square)](https://travis-ci.org/LukeCarrier/moodle-componentmgr)
 [![Code Climate](https://img.shields.io/codeclimate/github/LukeCarrier/moodle-componentmgr.svg?style=flat-square)]()
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/LukeCarrier/moodle-componentmgr.svg?style=flat-square)](https://scrutinizer-ci.com/g/LukeCarrier/moodle-componentmgr/)
 [![Packagist](https://img.shields.io/packagist/v/lukecarrier/moodle-componentmgr.svg?style=flat-square)](https://packagist.org/packages/lukecarrier/moodle-componentmgr)
