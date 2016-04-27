@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "build": "touch it-worked"
+    }
+}

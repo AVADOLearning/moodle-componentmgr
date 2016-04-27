@@ -1,0 +1,37 @@
+{
+    "moodle": {
+        "version": "3.0+"
+    },
+
+    "components": {
+        "cachestore_redis": {
+            "repository": "LukeCarrier/moodle-cachestore_redis",
+            "version": "master",
+            "packageRepository": "github",
+            "packageSource": "Git"
+        },
+        "local_cpd": {
+            "version": "0.4.0",
+            "packageRepository": "moodle",
+            "packageSource": "Zip"
+        },
+        "local_componentmgrtest": {
+            "version": null,
+            "packageRepository": "filesystem",
+            "packageSource": "Directory",
+            "directory": "test/fixtures/local_componentmgrtest"
+        }
+    },
+
+    "packageRepositories": {
+        "github": {
+            "type": "Github"
+        },
+        "filesystem": {
+            "type": "Filesystem"
+        },
+        "moodle": {
+            "type": "Moodle"
+        }
+    }
+}
