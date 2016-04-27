@@ -41,8 +41,8 @@ class DirectoryComponentSource extends AbstractComponentSource
     /**
      * @override \ComponentManager\ComponentSource\ComponentSource
      */
-    public function getType() {
-        return 'DirectoryComponentSource';
+    public function getId() {
+        return 'Directory';
     }
 
     /**

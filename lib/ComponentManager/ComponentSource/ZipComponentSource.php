@@ -49,8 +49,8 @@ class ZipComponentSource extends AbstractComponentSource
     /**
      * @override \ComponentManager\ComponentSource\ComponentSource
      */
-    public function getType() {
-        return 'ZipComponentSource';
+    public function getId() {
+        return 'Zip';
     }
 
     /**

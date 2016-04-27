@@ -50,8 +50,8 @@ class GitComponentSource extends AbstractComponentSource
     /**
      * @override \ComponentManager\ComponentSource\ComponentSource
      */
-    public function getType() {
-        return 'GitComponentSource';
+    public function getId() {
+        return 'Git';
     }
 
     /**
