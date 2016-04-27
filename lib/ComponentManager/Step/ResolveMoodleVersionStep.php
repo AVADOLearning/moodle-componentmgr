@@ -44,7 +44,7 @@ class ResolveMoodleVersionStep implements Step {
     }
 
     /**
-     * @override \ComponentManager\Task\Step
+     * @override \ComponentManager\Step\Step
      *
      * @param \ComponentManager\Task\PackageTask $task
      */

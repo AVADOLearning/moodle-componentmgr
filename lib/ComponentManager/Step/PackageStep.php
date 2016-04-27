@@ -64,7 +64,7 @@ class PackageStep implements Step {
     }
 
     /**
-     * @override \ComponentManager\Task\Step
+     * @override \ComponentManager\Step\Step
      */
     public function execute($task, LoggerInterface $logger) {
         $packageFormat = $this->project->getPackageFormat($this->format);

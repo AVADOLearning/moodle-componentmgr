@@ -34,7 +34,7 @@ class CommitProjectLockFileStep implements Step {
     }
 
     /**
-     * @override \ComponentManager\Task\Step
+     * @override \ComponentManager\Step\Step
      *
      * @param \ComponentManager\Task\InstallTask $task
      */
@@ -48,4 +48,3 @@ class CommitProjectLockFileStep implements Step {
         $this->projectLockFile->commit();
     }
 }
-
