@@ -30,7 +30,7 @@ class ProjectFile extends JsonFile {
      *
      * @var \ComponentManager\Component[]
      */
-    protected $components;
+    protected $componentSpecifications;
 
     /**
      * Get component specifications.
@@ -38,8 +38,8 @@ class ProjectFile extends JsonFile {
      * @return \ComponentManager\ComponentSpecification[]
      */
     public function getComponentSpecifications() {
-        if ($this->components === null) {
-            $this->components = [];
+        if ($this->componentSpecifications === null) {
+            $this->componentSpecifications = [];
 
             foreach ($this->contents->components as $name => $component) {
                 $properties = array_fill_keys(
@@ -60,14 +60,14 @@ class ProjectFile extends JsonFile {
                     }
                 }
 
-                $this->components[$name] = new ComponentSpecification(
+                $this->componentSpecifications[$name] = new ComponentSpecification(
                         $name, $properties['version'],
                         $properties['packageRepository'], $properties['packageSource'],
                         (object) $extra);
             }
         }
 
-        return $this->components;
+        return $this->componentSpecifications;
     }
 
     /**

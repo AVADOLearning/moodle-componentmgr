@@ -23,7 +23,7 @@ class GitComponentSource extends AbstractComponentSource
     protected $repositoryUri;
 
     /**
-     * Git tag name.
+     * Git ref name.
      *
      * @var string
      */

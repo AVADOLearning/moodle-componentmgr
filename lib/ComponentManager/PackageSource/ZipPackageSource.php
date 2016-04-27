@@ -123,7 +123,9 @@ class ZipPackageSource extends AbstractPackageSource
         } else {
             foreach ($sources as $source) {
                 if ($source instanceof ZipComponentSource) {
-                    $moduleRootDirectory = $this->trySource($tempDirectory, $logger, $component, $version, $source);
+                    $moduleRootDirectory = $this->trySource(
+                            $tempDirectory, $logger, $component, $version,
+                            $source);
 
                     $resolvedComponentVersion->setFinalVersion((object) [
                         'archiveUri'  => $source->getArchiveUri(),
