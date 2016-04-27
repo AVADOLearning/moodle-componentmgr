@@ -1,5 +1,13 @@
 # Change log
 
+## 0.2.0: Doin' it Right
+
+Unreleased
+
+* Refactored installation and packaging operations
+* New `Directory` package source
+* New `Filesystem` package repository
+
 ## 0.1.2: packaging improvements
 
 Released 2016-02-24
