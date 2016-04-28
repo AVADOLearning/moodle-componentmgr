@@ -90,4 +90,8 @@ class Argument {
      * @var string
      */
     const OPTION_PACKAGE_DESTINATION_HELP = 'Destination of the resulting package';
+
+    const ARGUMENT_SCRIPT = 'script';
+
+    const ARGUMENT_SCRIPT_HELP = 'Name of the script to execute';
 }

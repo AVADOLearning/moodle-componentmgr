@@ -31,4 +31,8 @@ describe 'package command' do
   describe file('/tmp/package/local/componentmgrtest/version.php') do
     it { should be_a_file }
   end
+
+  describe file('/tmp/package/local/componentmgrtest/hello-world') do
+      it { should be_a_file }
+    end
 end

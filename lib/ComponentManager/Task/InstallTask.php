@@ -13,6 +13,7 @@ namespace ComponentManager\Task;
 use ComponentManager\Moodle;
 use ComponentManager\Project\Project;
 use ComponentManager\ResolvedComponentVersion;
+use ComponentManager\Step\BuildComponentsStep;
 use ComponentManager\Step\CommitProjectLockFileStep;
 use ComponentManager\Step\InstallComponentsStep;
 use ComponentManager\Step\ResolveComponentVersionsStep;
@@ -43,6 +44,7 @@ class InstallTask extends AbstractTask implements Task {
         $this->addStep(new ResolveComponentVersionsStep($project));
         $this->addStep(new InstallComponentsStep(
                 $project, $moodle, $filesystem));
+        $this->addStep(new BuildComponentsStep($moodle, $filesystem));
         $this->addStep(new CommitProjectLockFileStep(
                 $project->getProjectLockFile()));
     }

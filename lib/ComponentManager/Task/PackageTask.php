@@ -14,6 +14,7 @@ use ComponentManager\Moodle;
 use ComponentManager\MoodleApi;
 use ComponentManager\MoodleVersion;
 use ComponentManager\Project\Project;
+use ComponentManager\Step\BuildComponentsStep;
 use ComponentManager\Step\CommitProjectLockFileStep;
 use ComponentManager\Step\InstallComponentsStep;
 use ComponentManager\Step\ObtainMoodleSourceStep;
@@ -69,6 +70,7 @@ class PackageTask extends InstallTask implements Task {
                 $moodleArchive, dirname($moodleDestination)));
         $this->addStep(new InstallComponentsStep(
                 $project, $moodle, $filesystem));
+        $this->addStep(new BuildComponentsStep($moodle, $filesystem));
         $this->addStep(new CommitProjectLockFileStep(
                 $project->getProjectLockFile()));
         $this->addStep(new PackageStep(

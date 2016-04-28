@@ -298,6 +298,26 @@ $ componentmgr package --package-format=ZipArchive \
                        --project-file=moodle.org.json
 ```
 
+## Component lifecycle
+
+Component Manager allows components to execute scripts at specific stages of the
+installation and packaging processes. These are:
+
+* `build` -- fired once all components have been installed to the site, intended
+  for use to install client-side dependencies via package managers and perform
+  any building/minification of assets.
+
+To take advantage of this feature, create a `componentmgr.comnponent.json` in
+the top level of your repository with the following content:
+
+```json
+{
+    "scripts": {
+        "build": "your command (e.g. npm install && npm run gulp)"
+    }
+}
+```
+
 ## Testing
 
 Tests are written in [ServerSpec](http://serverspec.org/) and executed via
