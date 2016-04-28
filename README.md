@@ -318,6 +318,14 @@ the top level of your repository with the following content:
 }
 ```
 
+You can verify that your build steps function as expected without having to
+perform an installation or package operation with the `run-script` command:
+
+```
+$ cd local/componentmgrtest/
+$ componentmgr run-script build
+```
+
 ## Testing
 
 Tests are written in [ServerSpec](http://serverspec.org/) and executed via

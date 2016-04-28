@@ -63,10 +63,11 @@ $container->setDefinition('package_format.package_format_factory', $packageForma
  * Individual commands.
  */
 $commands = [
-    'install' => 'Install',
-    'moodle'  => 'Moodle',
-    'package' => 'Package',
-    'refresh' => 'Refresh',
+    'install'    => 'Install',
+    'moodle'     => 'Moodle',
+    'package'    => 'Package',
+    'refresh'    => 'Refresh',
+    'run-script' => 'RunScript',
 ];
 
 $commandReferences = [];
