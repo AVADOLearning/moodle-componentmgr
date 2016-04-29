@@ -76,7 +76,6 @@ class PackageTask extends InstallTask implements Task {
         $this->addStep(new PackageStep(
                 $project, $moodleDestination, $packageFormat,
                 $packageDestination));
-        //$this->addStep(new CleanUpStep($tempDirectory));
     }
 
     /**
