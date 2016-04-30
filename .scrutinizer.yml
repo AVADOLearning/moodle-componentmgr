@@ -1,0 +1,101 @@
+build:
+  environment:
+    php: '7.0.0'
+  dependencies:
+    override:
+      - 'composer install'
+  tests:
+    override:
+      -
+        command: 'vendor/bin/phpunit --exclude-group=platform-windows'
+        coverage:
+          file: 'tmp/coverage.xml'
+          format: 'php-clover'
+
+checks:
+  php:
+    avoid_fixme_comments: true
+    avoid_multiple_statements_on_same_line: true
+    avoid_superglobals: false
+    avoid_todo_comments: true
+    avoid_usage_of_logical_operators: true
+    blank_line_after_namespace_declaration: true
+    classes_in_camel_caps: true
+    encourage_postdec_operator: true
+    encourage_single_quotes: true
+    fix_line_ending: true
+    fix_php_opening_tag: true
+    fix_use_statements:
+      order_alphabetically: true
+      preserve_blanklines: false
+      preserve_multiple: false
+      remove_unused: true
+    function_in_camel_caps: true
+    line_length:
+      max_length: 80
+    more_specific_types_in_doc_comments: true
+    newline_at_end_of_file: true
+    no_exit: true
+    no_global_keyword: true
+    no_goto: true
+    no_long_variable_names:
+      maximum: 32
+    no_mixed_inline_html: true
+    no_short_method_names:
+      minimum: 3
+    no_short_variable_names:
+      minimum: 3
+    no_underscore_prefix_in_methods: true
+    no_underscore_prefix_in_properties: true
+    one_class_per_file: true
+    optional_parameters_at_the_end: true
+    param_doc_comment_if_not_inferrable: true
+    parameter_doc_comments: true
+    parameters_in_camelcaps: true
+    php5_style_constructor: true
+    phpunit_assertions: true
+    prefer_while_loop_over_for_loop: true
+    properties_in_camelcaps: true
+    psr2_class_declaration: false
+    psr2_control_structure_declaration: false
+    psr2_switch_declaration: true
+    remove_extra_empty_lines: true
+    remove_php_closing_tag: true
+    require_braces_around_control_structures: true
+    return_doc_comment_if_not_inferrable: true
+    return_doc_comments: true
+    security_vulnerabilities: true
+    side_effects_or_types: true
+    simplify_boolean_return: true
+    single_namespace_per_use: true
+    uppercase_constants: true
+
+filter: {  }
+
+coding_style:
+  php:
+    spaces:
+      around_operators:
+        concatenation: true
+    braces:
+      classes_functions:
+        class: end-of-line
+        function: end-of-line
+        closure: end-of-line
+      if:
+        opening: end-of-line
+      for:
+        opening: end-of-line
+      while:
+        opening: end-of-line
+      do_while:
+        opening: end-of-line
+      switch:
+        opening: end-of-line
+      try:
+        opening: end-of-line
+    upper_lower_casing:
+      keywords:
+        general: lower
+      constants:
+        true_false_null: lower
