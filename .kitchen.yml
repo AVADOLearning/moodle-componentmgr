@@ -6,7 +6,7 @@ driver:
 
 provisioner:
   name: shell
-  script: test/bootstrap.sh
+  script: test/integration/bootstrap.sh
   data_path: .
 
 transport:
