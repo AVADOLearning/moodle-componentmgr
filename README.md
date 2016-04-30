@@ -328,6 +328,10 @@ $ componentmgr run-script build
 
 ## Testing
 
+Component Manager is both unit and integration tested.
+
+### Integration tests
+
 Tests are written in [ServerSpec](http://serverspec.org/) and executed via
 [Test Kitchen](http://kitchen.ci/). By default, Test Kitchen is configured to
 use the [Docker](https://www.docker.com/) driver.
@@ -343,6 +347,25 @@ Then, execute the tests:
 ```
 $ bundle exec kitchen test
 ```
+
+### Unit tests
+
+Unit tests are written with PHPUnit. Ensure that Composer development
+dependencies are installed, then execute the tests:
+
+```
+$ vendor/bin/phpunit
+```
+
+This will generate various coverage and pass/fail reports in the `tmp`
+directory.
+
+Note that a portion of the tests for the platform support components will fail
+on platforms they're not designed for. To exclude them, use PHPUnit's
+`--exclude-group` switch on the following groups as appropriate:
+
+* `platform-linux`
+* `platform-windows`
 
 ## Troubleshooting
 
