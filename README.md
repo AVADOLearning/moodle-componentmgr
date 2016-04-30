@@ -1,8 +1,9 @@
 # Component Manager
 
 [![Travis](https://img.shields.io/travis/LukeCarrier/moodle-componentmgr.svg?style=flat-square)](https://travis-ci.org/LukeCarrier/moodle-componentmgr)
-[![Code Climate](https://img.shields.io/codeclimate/github/LukeCarrier/moodle-componentmgr.svg?style=flat-square)]()
+[![Code Climate](https://img.shields.io/codeclimate/github/LukeCarrier/moodle-componentmgr.svg?style=flat-square)](https://codeclimate.com/github/LukeCarrier/moodle-componentmgr)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/LukeCarrier/moodle-componentmgr.svg?style=flat-square)](https://scrutinizer-ci.com/g/LukeCarrier/moodle-componentmgr/)
+[![Scrutinizer Coverage](https://img.shields.io/scrutinizer/coverage/g/LukeCarrier/moodle-componentmgr.svg?style=flat-square)](https://scrutinizer-ci.com/g/LukeCarrier/moodle-componentmgr/)
 [![Packagist](https://img.shields.io/packagist/v/lukecarrier/moodle-componentmgr.svg?style=flat-square)](https://packagist.org/packages/lukecarrier/moodle-componentmgr)
 
 Component Manager is a tool to assist with the packaging and management
