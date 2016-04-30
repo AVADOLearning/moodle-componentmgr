@@ -8,3 +8,6 @@
 # Kitchen
 /.kitchen/
 /.kitchen.local.yml
+
+# PHPUnit reports
+/tmp/
