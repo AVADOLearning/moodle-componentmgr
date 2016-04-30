@@ -35,10 +35,10 @@ trait ComponentAwareCommandTrait {
      * Lazily loaded -- be sure to call getProject() in order to ensure the
      * value is defined.
      *
-     * @var \ComponentManager\Project\Project
+     * @var \ComponentManager\Project\ComponentProjectFile
      */
     protected $componentProjectFile;
-    
+
     /**
      * Get project.
      *
