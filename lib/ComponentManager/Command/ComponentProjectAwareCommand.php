@@ -17,6 +17,7 @@ use ComponentManager\Project\ComponentProjectFile;
 use ComponentManager\Project\Project;
 use ComponentManager\Project\ProjectFile;
 use ComponentManager\Project\ProjectLockFile;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * Project-aware command trait.
@@ -24,13 +25,10 @@ use ComponentManager\Project\ProjectLockFile;
  * Provides helpful utility methods for accessing the project in the currrent
  * working directory. Import this into command implementations to reduce
  * duplication.
- *
- * @property \Symfony\Component\DependencyInjection\ContainerInterface $container
- * @property \Psr\Log\LoggerInterface                                  $logger
  */
-trait ComponentAwareCommandTrait {
+abstract class ComponentProjectAwareCommand extends Command {
     /**
-     * Component.
+     * Component project file.
      *
      * Lazily loaded -- be sure to call getProject() in order to ensure the
      * value is defined.
@@ -40,7 +38,7 @@ trait ComponentAwareCommandTrait {
     protected $componentProjectFile;
 
     /**
-     * Get project.
+     * Get component project file.
      *
      * @return \ComponentManager\Project\ComponentProjectFile
      */

@@ -9,10 +9,6 @@
  * @license GPL-3.0+
  */
 
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-
 require_once dirname(dirname(dirname(__DIR__)))
         . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -21,14 +17,11 @@ require_once dirname(dirname(dirname(__DIR__)))
  *
  * @var string
  */
-define('CM_ETC', dirname(__DIR__) . '/etc');
+define('CM_ETC', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'etc');
 
-require CM_ETC . '/bootstrap.php';
+/** @var \Symfony\Component\DependencyInjection\ContainerBuilder $container */
+$container = require CM_ETC . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-$container = new ContainerBuilder();
-$loader = new PhpFileLoader($container, new FileLocator(CM_ETC));
-$loader->load('services.php');
-$container->compile();
-
-$app = $container->get('application');
+/** @var \ComponentManager\Console\Application $app */
+$app = $container->get('console.application');
 $app->run();

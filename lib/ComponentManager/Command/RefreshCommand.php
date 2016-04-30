@@ -23,9 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Refreshes cached package repository meta for all caching package
  * repositories.
  */
-class RefreshCommand extends AbstractCommand {
-    use ProjectAwareCommandTrait;
-
+class RefreshCommand extends ProjectAwareCommand {
     /**
      * Help text.
      *

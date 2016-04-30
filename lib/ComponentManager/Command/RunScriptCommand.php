@@ -13,6 +13,7 @@ namespace ComponentManager\Command;
 use ComponentManager\Console\Argument;
 use ComponentManager\Exception\ComponentProjectException;
 use ComponentManager\PlatformUtil;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,9 +23,7 @@ use Symfony\Component\Process\Process;
 /**
  * Run a script within a component.
  */
-class RunScriptCommand extends AbstractCommand {
-    use ComponentAwareCommandTrait;
-
+class RunScriptCommand extends ComponentProjectAwareCommand {
     /**
      * Help text.
      *

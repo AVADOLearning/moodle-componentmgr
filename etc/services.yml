@@ -1,0 +1,73 @@
+services:
+  console.application:
+    class: '\ComponentManager\Console\Application'
+    calls:
+      - [setContainer, ['@service_container']]
+  console.command.install:
+    class: '\ComponentManager\Command\InstallCommand'
+    arguments:
+      - '@package_repository.factory'
+      - '@package_source.factory'
+      - '@package_format.factory'
+      - '@filesystem'
+      - '@logger'
+    tags:
+      - { name: 'console.command' }
+  console.command.moodle:
+    class: '\ComponentManager\Command\MoodleCommand'
+    tags:
+      - { name: 'console.command' }
+  console.command.package:
+    class: '\ComponentManager\Command\PackageCommand'
+    arguments:
+      - '@package_repository.factory'
+      - '@package_source.factory'
+      - '@package_format.factory'
+      - '@moodle_api'
+      - '@filesystem'
+      - '@logger'
+    tags:
+      - { name: 'console.command' }
+  console.command.refresh:
+    class: '\ComponentManager\Command\RefreshCommand'
+    arguments:
+      - '@package_repository.factory'
+      - '@package_source.factory'
+      - '@package_format.factory'
+      - '@logger'
+    tags:
+    - { name: 'console.command' }
+  console.command.run_script:
+    class: '\ComponentManager\Command\RunScriptCommand'
+    tags:
+      - { name: 'console.command' }
+  filesystem:
+    class: '\Symfony\Component\Filesystem\Filesystem'
+  logger.console.formatter:
+    class: 'Bramus\Monolog\Formatter\ColoredLineFormatter'
+  moodle_api:
+    class: '\ComponentManager\MoodleApi'
+  package_format.factory:
+    class: '\ComponentManager\PackageFormat\PackageFormatFactory'
+    arguments:
+      - '@filesystem'
+  package_repository.factory:
+    class: '\ComponentManager\PackageRepository\PackageRepositoryFactory'
+    arguments:
+      - '@filesystem'
+      - '%package_repository.cache_directory%'
+  package_source.factory:
+    class: '\ComponentManager\PackageSource\PackageSourceFactory'
+    arguments:
+      - '@filesystem'
+monolog:
+  channels:
+    - 'console'
+  handlers:
+    console:
+      type: 'stream'
+      path: 'php://stdout'
+      formatter: 'logger.console.formatter'
+      level: 'debug'
+      channels:
+        - 'console'

@@ -11,10 +11,16 @@
 namespace ComponentManager\Command;
 
 use ComponentManager\Moodle;
+use ComponentManager\PackageFormat\PackageFormatFactory;
+use ComponentManager\PackageRepository\PackageRepository;
+use ComponentManager\PackageRepository\PackageRepositoryFactory;
+use ComponentManager\PackageSource\PackageSourceFactory;
 use ComponentManager\PlatformUtil;
 use ComponentManager\Project\Project;
 use ComponentManager\Project\ProjectFile;
 use ComponentManager\Project\ProjectLockFile;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * Project-aware command trait.
@@ -22,17 +28,42 @@ use ComponentManager\Project\ProjectLockFile;
  * Provides helpful utility methods for accessing the project in the currrent
  * working directory. Import this into command implementations to reduce
  * duplication.
- *
- * @property \Symfony\Component\DependencyInjection\ContainerInterface $container
- * @property \Psr\Log\LoggerInterface                                  $logger
  */
-trait ProjectAwareCommandTrait {
+abstract class ProjectAwareCommand extends Command {
+    /**
+     * Logger.
+     *
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $logger;
+
     /**
      * Moodle bridge.
      *
      * @var \ComponentManager\Moodle
      */
     protected $moodle;
+
+    /**
+     * Package format factory.
+     *
+     * @var \ComponentManager\PackageFormat\PackageFormatFactory
+     */
+    protected $packageFormatFactory;
+
+    /**
+     * Package repository factory.
+     *
+     * @var \ComponentManager\PackageRepository\PackageRepositoryFactory
+     */
+    protected $packageRepositoryFactory;
+
+    /**
+     * Package source factory.
+     *
+     * @var \ComponentManager\PackageSource\PackageSourceFactory
+     */
+    protected $packageSourceFactory;
 
     /**
      * Project.
@@ -43,6 +74,27 @@ trait ProjectAwareCommandTrait {
      * @var \ComponentManager\Project\Project
      */
     protected $project;
+
+    /**
+     * Initialiser.
+     *
+     * @param \ComponentManager\PackageFormat\PackageFormatFactory         $packageFormatFactory
+     * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
+     * @param \ComponentManager\PackageSource\PackageSourceFactory         $packageSourceFactory
+     * @param \Psr\Log\LoggerInterface                                     $logger
+     */
+    public function __construct(PackageRepositoryFactory $packageRepositoryFactory,
+                                PackageSourceFactory $packageSourceFactory,
+                                PackageFormatFactory $packageFormatFactory,
+                                LoggerInterface $logger) {
+        $this->packageRepositoryFactory = $packageRepositoryFactory;
+        $this->packageSourceFactory     = $packageSourceFactory;
+        $this->packageFormatFactory     = $packageFormatFactory;
+
+        $this->logger = $logger;
+
+        parent::__construct();
+    }
 
     /**
      * Get the Moodle bridge.
@@ -89,21 +141,15 @@ trait ProjectAwareCommandTrait {
                         $projectLockFilename);
             }
 
-            $packageRepositoryFactory = $this->container->get(
-                    'package_repository.package_repository_factory');
-            $packageSourceFactory = $this->container->get(
-                    'package_source.package_source_factory');
-            $packageFormatFactory = $this->container->get(
-                    'package_format.package_format_factory');
-
             $this->logger->info('Parsing project file', [
                 'filename' => $projectFilename,
             ]);
             $this->project = new Project(
                     new ProjectFile($projectFilename),
                     new ProjectLockFile($projectLockFilename),
-                    $packageRepositoryFactory, $packageSourceFactory,
-                    $packageFormatFactory);
+                    $this->packageRepositoryFactory,
+                    $this->packageSourceFactory,
+                    $this->packageFormatFactory);
         }
 
         return $this->project;

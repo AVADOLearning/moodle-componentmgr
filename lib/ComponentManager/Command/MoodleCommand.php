@@ -14,6 +14,7 @@ use ComponentManager\Console\Argument;
 use ComponentManager\Exception\MoodleException;
 use ComponentManager\MoodleInstallation;
 use ComponentManager\PlatformUtil;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Provides a query interface to a Moodle installation.
  */
-class MoodleCommand extends AbstractCommand {
+class MoodleCommand extends Command {
     /**
      * Help text.
      *

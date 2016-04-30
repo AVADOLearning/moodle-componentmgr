@@ -12,15 +12,26 @@ namespace ComponentManager\Command;
 
 use ComponentManager\Console\Argument;
 use ComponentManager\Moodle;
+use ComponentManager\MoodleApi;
+use ComponentManager\PackageFormat\PackageFormatFactory;
+use ComponentManager\PackageRepository\PackageRepositoryFactory;
+use ComponentManager\PackageSource\PackageSourceFactory;
 use ComponentManager\PlatformUtil;
 use ComponentManager\Task\PackageTask;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
-class PackageCommand extends AbstractCommand {
-        use ProjectAwareCommandTrait;
+/**
+ * Package command.
+ *
+ * Assembles an entire Moodle instance from the specified project file, then
+ * packages it in the specified format.
+ */
+class PackageCommand extends ProjectAwareCommand {
     /**
      * Help.
      *
@@ -29,6 +40,39 @@ class PackageCommand extends AbstractCommand {
     const HELP = <<<HELP
 Packages a Moodle site from a project file.
 HELP;
+
+    /**
+     * Filesystem.
+     *
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * Moodle.org plugin and update API.
+     *
+     * @var MoodleApi
+     */
+    protected $moodleApi;
+
+    /**
+     * Initialiser.
+     *
+     * @param \ComponentManager\MoodleApi              $moodleApi
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     */
+    public function __construct(PackageRepositoryFactory $packageRepositoryFactory,
+                                PackageSourceFactory $packageSourceFactory,
+                                PackageFormatFactory $packageFormatFactory,
+                                MoodleApi $moodleApi, Filesystem $filesystem,
+                                LoggerInterface $logger) {
+        $this->moodleApi  = $moodleApi;
+        $this->filesystem = $filesystem;
+
+        parent::__construct(
+                $packageRepositoryFactory, $packageSourceFactory,
+                $packageFormatFactory, $logger);
+    }
 
     /**
      * @override \ComponentManager\Command\AbstractCommand
@@ -69,17 +113,13 @@ HELP;
         $projectLockFilename = $destination . PlatformUtil::directorySeparator()
                              . 'componentmgr.lock.json';
 
-        /** @var \Symfony\Component\Filesystem\Filesystem $filesystem */
-        $filesystem = $this->container->get('filesystem');
-        /** @var \ComponentManager\MoodleApi $moodleApi */
-        $moodleApi  = $this->container->get('moodleApi');
-
         $moodle  = new Moodle($destination);
         $project = $this->getProject($projectFilename, $projectLockFilename);
 
         $task = new PackageTask(
-                $moodleApi, $project, $archive, $destination, $filesystem,
-                $moodle, $packageFormat, $packageDestination);
+                $this->moodleApi, $project, $archive, $destination,
+                $this->filesystem, $moodle, $packageFormat,
+                $packageDestination);
         $task->execute($this->logger);
     }
 }
