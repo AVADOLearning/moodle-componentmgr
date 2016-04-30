@@ -42,9 +42,8 @@ class DirectoryPackageSource extends AbstractPackageSource
                                   ResolvedComponentVersion $resolvedComponentVersion,
                                   Filesystem $filesystem,
                                   LoggerInterface $logger) {
-        $component = $resolvedComponentVersion->getComponent();
-        $version   = $resolvedComponentVersion->getVersion();
-        $sources   = $version->getSources();
+        $version = $resolvedComponentVersion->getVersion();
+        $sources = $version->getSources();
 
         foreach ($sources as $source) {
             if ($source instanceof DirectoryComponentSource) {
