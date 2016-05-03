@@ -12,7 +12,13 @@ moodle_tarball='moodle-30.tar.gz'
 moodle_url='https://download.moodle.org/download.php/direct/stable30/moodle-latest-30.tgz'
 
 sudo apt-get update
-sudo apt-get install -y curl git-core php5-cli php5-curl php5-json ruby1.9.1
+sudo apt-get install -y software-properties-common
+LC_ALL=C.UTF-8 sudo add-apt-repository -y ppa:ondrej/php
+
+sudo apt-get update
+sudo apt-get install -y \
+        curl git-core \
+        php-cli php-curl php-json php-xml php-zip ruby1.9.1
 
 pushd "$root"
 curl -o 'composer.phar' 'https://getcomposer.org/composer.phar'
