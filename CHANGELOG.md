@@ -4,10 +4,13 @@
 
 Unreleased
 
-* Refactored installation and packaging operations
 * New component build steps support
 * New `Directory` package source
 * New `Filesystem` package repository
+* Internal improvements
+    * Refactored installation and packaging operations
+    * Update Composer dependencies
+    * Rework service definitions
 
 ## 0.1.2: packaging improvements
 
