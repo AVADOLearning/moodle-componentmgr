@@ -3,6 +3,7 @@
 /vendor/
 
 # Bundler
+/.bundle/
 /Gemfile.lock
 
 # Kitchen
