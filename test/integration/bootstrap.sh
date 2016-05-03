@@ -26,6 +26,9 @@ chmod +x 'composer.phar'
 './composer.phar' install
 popd
 
+# Necessary for hosts that don't use POSIX-like filesystem permissions
+chmod +x "$componentmgr"
+
 "$componentmgr" refresh --project-file="$project_install"
 
 dir=/tmp/install
