@@ -19,9 +19,25 @@ use Symfony\Component\DependencyInjection\Reference;
  * Add tagged console commands.
  */
 class ConsoleCommandsPass implements CompilerPassInterface {
+    /**
+     * Console command class.
+     *
+     * @var string
+     */
     const CONSOLE_COMMAND = 'Symfony\\Component\\Console\\Command\\Command';
+
+    /**
+     * Method to call on console application to add commands.
+     *
+     * @var string
+     */
     const ADD_METHOD = 'add';
 
+    /**
+     * Console application ID.
+     *
+     * @var string
+     */
     protected $appId;
 
     /**
@@ -46,7 +62,7 @@ class ConsoleCommandsPass implements CompilerPassInterface {
      * @override \CompilerPassInterface
      */
     public function process(ContainerBuilder $container) {
-        $services   = $container->findTaggedServiceIds($this->tagName);
+        $services      = $container->findTaggedServiceIds($this->tagName);
         $appDefinition = $container->getDefinition($this->appId);
 
         // TODO: verify $appDefinition's class is actually legit
