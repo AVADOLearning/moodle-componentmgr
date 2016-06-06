@@ -9,7 +9,6 @@
  */
 
 use ComponentManager\Console\DependencyInjection\ConsoleCommandsPass;
-use ComponentManager\PlatformUtil;
 use Symfony\Bundle\MonologBundle\DependencyInjection\Compiler\LoggerChannelPass;
 use Symfony\Bundle\MonologBundle\DependencyInjection\MonologExtension;
 use Symfony\Component\Config\FileLocator;
@@ -27,18 +26,13 @@ if (!ini_get('date.timezone')) {
 
 $container = new ContainerBuilder();
 $container->addCompilerPass(new ConsoleCommandsPass());
+$container->setParameter('platform.name', PHP_OS);
 
 $container->registerExtension(new MonologExtension());
 $container->addCompilerPass(new LoggerChannelPass());
-
-$container->setParameter('package_repository.cache_directory',
-        PlatformUtil::localSharedDirectory()
-                . PlatformUtil::directorySeparator() . 'componentmgr'
-                . PlatformUtil::directorySeparator() . 'cache');
 
 $loader = new YamlFileLoader($container, new FileLocator(CM_ETC));
 $loader->load('services.yml');
 
 $container->compile();
-
 return $container;

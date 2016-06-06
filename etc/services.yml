@@ -55,11 +55,18 @@ services:
     class: '\ComponentManager\PackageRepository\PackageRepositoryFactory'
     arguments:
       - '@filesystem'
-      - '%package_repository.cache_directory%'
+      - '@platform'
   package_source.factory:
     class: '\ComponentManager\PackageSource\PackageSourceFactory'
     arguments:
       - '@filesystem'
+  platform:
+    class: '\ComponentManager\Platform\Platform'
+    factory: ['@platform.factory', 'getPlatform']
+    arguments:
+      - '%platform.name%'
+  platform.factory:
+    class: '\ComponentManager\Platform\PlatformFactory'
 monolog:
   channels:
     - 'console'
