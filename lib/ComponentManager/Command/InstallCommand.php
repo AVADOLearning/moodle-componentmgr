@@ -14,7 +14,7 @@ use ComponentManager\Moodle;
 use ComponentManager\PackageFormat\PackageFormatFactory;
 use ComponentManager\PackageRepository\PackageRepositoryFactory;
 use ComponentManager\PackageSource\PackageSourceFactory;
-use ComponentManager\PlatformUtil;
+use ComponentManager\Platform\Platform;
 use ComponentManager\Task\InstallTask;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,27 +38,23 @@ Installs, into the Moodle installation in the present working directory, all of 
 HELP;
 
     /**
-     * Filesystem.
-     *
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
-    protected $filesystem;
-
-    /**
      * Initialiser.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
+     * @param \ComponentManager\PackageSource\PackageSourceFactory $packageSourceFactory
+     * @param \ComponentManager\PackageFormat\PackageFormatFactory $packageFormatFactory
+     * @param \ComponentManager\Platform\Platform                  $platform
+     * @param \Symfony\Component\Filesystem\Filesystem             $filesystem
+     * @param \Psr\Log\LoggerInterface                             $logger
      */
     public function __construct(PackageRepositoryFactory $packageRepositoryFactory,
                                 PackageSourceFactory $packageSourceFactory,
                                 PackageFormatFactory $packageFormatFactory,
-                                Filesystem $filesystem,
+                                Platform $platform, Filesystem $filesystem,
                                 LoggerInterface $logger) {
-        $this->filesystem = $filesystem;
-
         parent::__construct(
                 $packageRepositoryFactory, $packageSourceFactory,
-                $packageFormatFactory, $logger);
+                $packageFormatFactory, $platform, $filesystem, $logger);
     }
 
     /**
@@ -76,7 +72,8 @@ HELP;
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $project = $this->getProject();
-        $moodle  = new Moodle(PlatformUtil::workingDirectory());
+        $moodle  = new Moodle(
+                $this->platform->getWorkingDirectory(), $this->platform);
 
         $task = new InstallTask($project, $this->filesystem, $moodle);
         $task->execute($this->logger);

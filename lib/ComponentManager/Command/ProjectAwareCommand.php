@@ -12,24 +12,45 @@ namespace ComponentManager\Command;
 
 use ComponentManager\Moodle;
 use ComponentManager\PackageFormat\PackageFormatFactory;
-use ComponentManager\PackageRepository\PackageRepository;
 use ComponentManager\PackageRepository\PackageRepositoryFactory;
 use ComponentManager\PackageSource\PackageSourceFactory;
-use ComponentManager\PlatformUtil;
+use ComponentManager\Platform\Platform;
 use ComponentManager\Project\Project;
 use ComponentManager\Project\ProjectFile;
 use ComponentManager\Project\ProjectLockFile;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Project-aware command trait.
+ * Project-aware command.
  *
- * Provides helpful utility methods for accessing the project in the currrent
- * working directory. Import this into command implementations to reduce
- * duplication.
+ * Provides helpful utility methods for accessing the project in the current
+ * working directory. Commands requiring interaction with the Moodle instance
+ * being processed should extend this class.
  */
 abstract class ProjectAwareCommand extends Command {
+    /**
+     * Project filename.
+     *
+     * @var string
+     */
+    const PROJECT_FILENAME = 'componentmgr.json';
+
+    /**
+     * Project lock filename.
+     *
+     * @var string
+     */
+    const PROJECT_LOCK_FILENAME = 'componentmgr.lock.json';
+
+    /**
+     * Filesystem.
+     *
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    protected $filesystem;
+
     /**
      * Logger.
      *
@@ -74,22 +95,34 @@ abstract class ProjectAwareCommand extends Command {
      * @var \ComponentManager\Project\Project
      */
     protected $project;
+    /**
+     * Platform support library.
+     *
+     * @var \ComponentManager\Platform\Platform
+     */
+    protected $platform;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\PackageFormat\PackageFormatFactory         $packageFormatFactory
      * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
      * @param \ComponentManager\PackageSource\PackageSourceFactory         $packageSourceFactory
+     * @param \ComponentManager\PackageFormat\PackageFormatFactory         $packageFormatFactory
+     * @param \ComponentManager\Platform\Platform                          $platform
+     * @param \Symfony\Component\Filesystem\Filesystem                     $filesystem
      * @param \Psr\Log\LoggerInterface                                     $logger
      */
     public function __construct(PackageRepositoryFactory $packageRepositoryFactory,
                                 PackageSourceFactory $packageSourceFactory,
                                 PackageFormatFactory $packageFormatFactory,
+                                Platform $platform, Filesystem $filesystem,
                                 LoggerInterface $logger) {
         $this->packageRepositoryFactory = $packageRepositoryFactory;
         $this->packageSourceFactory     = $packageSourceFactory;
         $this->packageFormatFactory     = $packageFormatFactory;
+
+        $this->filesystem = $filesystem;
+        $this->platform   = $platform;
 
         $this->logger = $logger;
 
@@ -106,9 +139,9 @@ abstract class ProjectAwareCommand extends Command {
     protected function getMoodle($moodleDirectory=null) {
         if ($this->moodle === null) {
             $moodleDirectory = ($moodleDirectory === null)
-                    ? PlatformUtil::workingDirectory() : $moodleDirectory;
+                    ? $this->platform->getWorkingDirectory() : $moodleDirectory;
 
-            $this->moodle = new Moodle($moodleDirectory);
+            $this->moodle = new Moodle($moodleDirectory, $this->platform);
         }
 
         return $this->moodle;
@@ -123,21 +156,26 @@ abstract class ProjectAwareCommand extends Command {
      * @return \ComponentManager\Project\Project
      */
     protected function getProject($projectFilename=null, $projectLockFilename=null) {
+        $workingDirectory = $this->platform->getWorkingDirectory();
+
         if ($this->project === null) {
             if ($projectFilename === null) {
-                $projectFilename = PlatformUtil::workingDirectory()
-                                 . PlatformUtil::directorySeparator()
-                                 . 'componentmgr.json';
+                $projectFilename = $this->platform->joinPaths([
+                    $workingDirectory,
+                    static::PROJECT_FILENAME,
+                ]);
             } else {
-                $projectFilename = PlatformUtil::expandPath($projectFilename);
+                $projectFilename = $this->platform->expandPath(
+                        $projectFilename);
             }
 
             if ($projectLockFilename === null) {
-                $projectLockFilename = PlatformUtil::workingDirectory()
-                                     . PlatformUtil::directorySeparator()
-                                     . 'componentmgr.lock.json';
+                $projectLockFilename = $this->platform->joinPaths([
+                    $workingDirectory,
+                    static::PROJECT_LOCK_FILENAME,
+                ]);
             } else {
-                $projectLockFilename = PlatformUtil::expandPath(
+                $projectLockFilename = $this->platform->expandPath(
                         $projectLockFilename);
             }
 

@@ -16,7 +16,7 @@ use ComponentManager\MoodleApi;
 use ComponentManager\PackageFormat\PackageFormatFactory;
 use ComponentManager\PackageRepository\PackageRepositoryFactory;
 use ComponentManager\PackageSource\PackageSourceFactory;
-use ComponentManager\PlatformUtil;
+use ComponentManager\Platform\Platform;
 use ComponentManager\Task\PackageTask;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -42,13 +42,6 @@ Packages a Moodle site from a project file.
 HELP;
 
     /**
-     * Filesystem.
-     *
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
-    protected $filesystem;
-
-    /**
      * Moodle.org plugin and update API.
      *
      * @var MoodleApi
@@ -58,20 +51,24 @@ HELP;
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\MoodleApi              $moodleApi
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
+     * @param \ComponentManager\PackageSource\PackageSourceFactory         $packageSourceFactory
+     * @param \ComponentManager\PackageFormat\PackageFormatFactory         $packageFormatFactory
+     * @param \ComponentManager\MoodleApi                                  $moodleApi
+     * @param \Symfony\Component\Filesystem\Filesystem                     $filesystem
+     * @param \ComponentManager\Platform\Platform                          $platform
+     * @param \Psr\Log\LoggerInterface                                     $logger
      */
     public function __construct(PackageRepositoryFactory $packageRepositoryFactory,
                                 PackageSourceFactory $packageSourceFactory,
                                 PackageFormatFactory $packageFormatFactory,
                                 MoodleApi $moodleApi, Filesystem $filesystem,
-                                LoggerInterface $logger) {
-        $this->moodleApi  = $moodleApi;
-        $this->filesystem = $filesystem;
+                                Platform $platform, LoggerInterface $logger) {
+        $this->moodleApi = $moodleApi;
 
         parent::__construct(
                 $packageRepositoryFactory, $packageSourceFactory,
-                $packageFormatFactory, $logger);
+                $packageFormatFactory, $platform, $filesystem, $logger);
     }
 
     /**
@@ -100,20 +97,20 @@ HELP;
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $projectFilename = $input->getOption(Argument::OPTION_PROJECT_FILE);
-        $packageDestination = PlatformUtil::expandPath(
+        $packageDestination = $this->platform->expandPath(
                 $input->getOption(Argument::OPTION_PACKAGE_DESTINATION));
         $packageFormat   = $input->getOption(Argument::OPTION_PACKAGE_FORMAT);
 
-        $tempDirectory       = PlatformUtil::createTempDirectory();
+        $tempDirectory       = $this->platform->createTempDirectory();
         $archive             = $tempDirectory
-                             . PlatformUtil::directorySeparator()
+                             . $this->platform->getDirectorySeparator()
                              . 'moodle.zip';
         $destination         = $tempDirectory
-                             . PlatformUtil::directorySeparator() . 'moodle';
-        $projectLockFilename = $destination . PlatformUtil::directorySeparator()
+                             . $this->platform->getDirectorySeparator() . 'moodle';
+        $projectLockFilename = $destination . $this->platform->getDirectorySeparator()
                              . 'componentmgr.lock.json';
 
-        $moodle  = new Moodle($destination);
+        $moodle  = new Moodle($destination, $this->platform);
         $project = $this->getProject($projectFilename, $projectLockFilename);
 
         $task = new PackageTask(

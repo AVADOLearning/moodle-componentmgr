@@ -12,8 +12,6 @@ namespace ComponentManager\Command;
 
 use ComponentManager\Console\Argument;
 use ComponentManager\Exception\ComponentProjectException;
-use ComponentManager\PlatformUtil;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -55,7 +53,7 @@ HELP;
         $script = $this->getComponentProjectFile()->getScript(
                 $input->getArgument(Argument::ARGUMENT_SCRIPT));
 
-        $process = new Process($script, PlatformUtil::workingDirectory());
+        $process = new Process($script, $this->platform->getWorkingDirectory());
         $process->run(function($type, $buffer) {
             echo $buffer;
         });

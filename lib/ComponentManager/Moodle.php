@@ -9,7 +9,9 @@
  */
 
 namespace ComponentManager;
+
 use ComponentManager\Exception\MoodleException;
+use ComponentManager\Platform\Platform;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
@@ -25,12 +27,20 @@ class Moodle {
     protected $moodleDir;
 
     /**
+     * Platform support library.
+     *
+     * @var \ComponentManager\Platform\Platform
+     */
+    protected $platform;
+
+    /**
      * Initialiser.
      *
      * @param string $moodleDir
      */
-    public function __construct($moodleDir) {
+    public function __construct($moodleDir, Platform $platform) {
         $this->moodleDir = $moodleDir;
+        $this->platform  = $platform;
     }
 
     /**
@@ -69,8 +79,8 @@ class Moodle {
      */
     protected function getProcess($arguments) {
         $prefix = [
-            PlatformUtil::phpExecutable(),
-            PlatformUtil::phpScript(),
+            $this->platform->getPhpExecutable(),
+            $this->platform->getPhpScript(),
             'moodle',
         ];
 

@@ -13,8 +13,6 @@ namespace ComponentManager\Command;
 use ComponentManager\Console\Argument;
 use ComponentManager\Exception\MoodleException;
 use ComponentManager\MoodleInstallation;
-use ComponentManager\PlatformUtil;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Provides a query interface to a Moodle installation.
  */
-class MoodleCommand extends Command {
+class MoodleCommand extends ProjectAwareCommand {
     /**
      * Help text.
      *
@@ -60,7 +58,7 @@ HELP;
     protected function execute(InputInterface $input, OutputInterface $output) {
         $action = $input->getArgument(Argument::ARGUMENT_ACTION);
         if (!$moodleDir = $input->getOption(Argument::ARGUMENT_MOODLE_DIR)) {
-            $moodleDir = PlatformUtil::workingDirectory();
+            $moodleDir = $this->platform->getWorkingDirectory();
         }
         $moodle = new MoodleInstallation($moodleDir);
 

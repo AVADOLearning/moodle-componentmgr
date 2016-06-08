@@ -10,13 +10,8 @@
 
 namespace ComponentManager\Command;
 
-use ComponentManager\Component;
-use ComponentManager\Moodle;
-use ComponentManager\PlatformUtil;
+use ComponentManager\Platform\Platform;
 use ComponentManager\Project\ComponentProjectFile;
-use ComponentManager\Project\Project;
-use ComponentManager\Project\ProjectFile;
-use ComponentManager\Project\ProjectLockFile;
 use Symfony\Component\Console\Command\Command;
 
 /**
@@ -36,6 +31,24 @@ abstract class ComponentProjectAwareCommand extends Command {
      * @var \ComponentManager\Project\ComponentProjectFile
      */
     protected $componentProjectFile;
+
+    /**
+     * Platform support library.
+     *
+     * @var \ComponentManager\Platform\Platform
+     */
+    protected $platform;
+
+    /**
+     * Initialiser.
+     *
+     * @param \ComponentManager\Platform\Platform $platform
+     */
+    public function __construct(Platform $platform) {
+        $this->platform = $platform;
+
+        parent::__construct();
+    }
 
     /**
      * Get component project file.

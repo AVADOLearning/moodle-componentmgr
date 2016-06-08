@@ -9,12 +9,20 @@ services:
       - '@package_repository.factory'
       - '@package_source.factory'
       - '@package_format.factory'
+      - '@platform'
       - '@filesystem'
       - '@logger'
     tags:
       - { name: 'console.command' }
   console.command.moodle:
     class: '\ComponentManager\Command\MoodleCommand'
+    arguments:
+      - '@package_repository.factory'
+      - '@package_source.factory'
+      - '@package_format.factory'
+      - '@platform'
+      - '@filesystem'
+      - '@logger'
     tags:
       - { name: 'console.command' }
   console.command.package:
@@ -25,6 +33,7 @@ services:
       - '@package_format.factory'
       - '@moodle_api'
       - '@filesystem'
+      - '@platform'
       - '@logger'
     tags:
       - { name: 'console.command' }
@@ -34,11 +43,15 @@ services:
       - '@package_repository.factory'
       - '@package_source.factory'
       - '@package_format.factory'
+      - '@platform'
+      - '@filesystem'
       - '@logger'
     tags:
     - { name: 'console.command' }
   console.command.run_script:
     class: '\ComponentManager\Command\RunScriptCommand'
+    arguments:
+      - '@platform'
     tags:
       - { name: 'console.command' }
   filesystem:
