@@ -11,6 +11,7 @@ Unreleased
     * Refactored installation and packaging operations
     * Update Composer dependencies
     * Rework service definitions
+    * Removed PlatformUtil in favour of per-platform classes
 
 ## 0.1.2: packaging improvements
 
