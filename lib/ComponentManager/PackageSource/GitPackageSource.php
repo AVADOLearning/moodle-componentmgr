@@ -10,11 +10,8 @@
 
 namespace ComponentManager\PackageSource;
 
-use ComponentManager\Component;
 use ComponentManager\ComponentSource\GitComponentSource;
-use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\VersionControlException;
-use ComponentManager\PlatformUtil;
 use ComponentManager\ResolvedComponentVersion;
 use ComponentManager\VersionControl\Git\GitRemote;
 use ComponentManager\VersionControl\Git\GitVersionControl;
@@ -52,10 +49,14 @@ class GitPackageSource extends AbstractPackageSource
         $sources = $componentVersion->getSources();
         foreach ($sources as $source) {
             if ($source instanceof GitComponentSource) {
-                $repositoryPath = $tempDirectory
-                                . PlatformUtil::directorySeparator() . 'repo';
-                $indexPath      = $tempDirectory
-                                . PlatformUtil::directorySeparator() . 'index';
+                $repositoryPath = $this->platform->joinPaths([
+                    $tempDirectory,
+                    'repo',
+                ]);
+                $indexPath      = $this->platform->joinPaths([
+                    $tempDirectory,
+                    'index',
+                ]);
                 $repositoryUri  = $source->getRepositoryUri();
 
                 $finalRef = $resolvedComponentVersion->getFinalVersion();
@@ -86,13 +87,15 @@ class GitPackageSource extends AbstractPackageSource
                 ]);
 
                 try {
-                    $repository = new GitVersionControl($repositoryPath);
+                    $repository = new GitVersionControl(
+                            $this->platform->getExecutablePath('git'),
+                            $repositoryPath);
                     $repository->init();
                     $repository->addRemote(new GitRemote('origin', $repositoryUri));
                     $repository->fetch('origin');
                     $repository->checkout($installRef);
                     $repository->checkoutIndex(
-                            $indexPath . PlatformUtil::directorySeparator());
+                            $indexPath . $this->platform->getDirectorySeparator());
                     $resolvedComponentVersion->setFinalVersion(
                             $repository->parseRevision($installRef));
 

@@ -11,7 +11,6 @@
 namespace ComponentManager\VersionControl\Git;
 
 use ComponentManager\Exception\VersionControlException;
-use ComponentManager\PlatformUtil;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
@@ -27,6 +26,13 @@ class GitVersionControl {
     protected $directory;
 
     /**
+     * Git executable.
+     *
+     * @var string
+     */
+    protected $gitExecutable;
+
+    /**
      * Remotes.
      *
      * @var \ComponentManager\VersionControl\Git\GitRemote[]
@@ -36,9 +42,12 @@ class GitVersionControl {
     /**
      * Initialiser.
      *
+     * @param string $gitExecutable
      * @param string $directory
      */
-    public function __construct($directory) {
+    public function __construct($gitExecutable, $directory) {
+        $this->gitExecutable = $gitExecutable;
+
         $this->directory = $directory;
         $this->remotes   = [];
     }
@@ -139,7 +148,7 @@ class GitVersionControl {
      * @return \Symfony\Component\Process\Process
      */
     protected function getProcess($arguments) {
-        array_unshift($arguments, PlatformUtil::executable('git'));
+        array_unshift($arguments, $this->gitExecutable);
 
         $builder = new ProcessBuilder($arguments);
         $builder->setWorkingDirectory($this->directory);

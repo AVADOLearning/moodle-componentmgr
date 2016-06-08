@@ -14,7 +14,6 @@ use ComponentManager\Component;
 use ComponentManager\ComponentSource\ZipComponentSource;
 use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\InstallationFailureException;
-use ComponentManager\PlatformUtil;
 use ComponentManager\ResolvedComponentVersion;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -173,12 +172,14 @@ class ZipPackageSource extends AbstractPackageSource
     protected function trySource($tempDirectory, LoggerInterface $logger,
                                  Component $component, ComponentVersion $version,
                                  ZipComponentSource $source) {
-        $archiveFilename = $tempDirectory
-                         . PlatformUtil::directorySeparator()
-                         . $this->getArchiveFilename($component, $version);
-        $targetDirectory = $tempDirectory
-                         . PlatformUtil::directorySeparator()
-                         . $this->getTargetDirectory($component, $version);
+        $archiveFilename = $this->platform->joinPaths([
+            $tempDirectory,
+            $this->getArchiveFilename($component, $version),
+        ]);
+        $targetDirectory = $this->platform->joinPaths([
+            $tempDirectory,
+            $this->getTargetDirectory($component, $version),
+        ]);
 
         $logger->debug('Trying zip source', [
             'archiveFilename' => $archiveFilename,
@@ -211,9 +212,10 @@ class ZipPackageSource extends AbstractPackageSource
                 InstallationFailureException::CODE_EXTRACTION_FAILED);
         }
 
-        $moduleRootDirectory = $targetDirectory
-                             . PlatformUtil::directorySeparator()
-                             . $component->getPluginName();
+        $moduleRootDirectory = $this->platform->joinPaths([
+            $targetDirectory,
+            $component->getPluginName(),
+        ]);
         if (!is_dir($moduleRootDirectory)) {
             throw new InstallationFailureException(
                     "Module directory {$moduleRootDirectory} did not exist",

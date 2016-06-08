@@ -72,6 +72,7 @@ services:
   package_source.factory:
     class: '\ComponentManager\PackageSource\PackageSourceFactory'
     arguments:
+      - '@platform'
       - '@filesystem'
   platform:
     class: '\ComponentManager\Platform\Platform'

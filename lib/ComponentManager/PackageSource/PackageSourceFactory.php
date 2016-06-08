@@ -10,6 +10,7 @@
 
 namespace ComponentManager\PackageSource;
 
+use ComponentManager\Platform\Platform;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -31,11 +32,20 @@ class PackageSourceFactory {
     protected $filesystem;
 
     /**
+     * Platform support library.
+     *
+     * @var \ComponentManager\Platform\Platform
+     */
+    protected $platform;
+
+    /**
      * Initialiser.
      *
+     * @param \ComponentManager\Platform\Platform      $platform
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      */
-    public function __construct(Filesystem $filesystem) {
+    public function __construct(Platform $platform, Filesystem $filesystem) {
+        $this->platform   = $platform;
         $this->filesystem = $filesystem;
     }
 
@@ -47,6 +57,6 @@ class PackageSourceFactory {
     public function getPackageSource($name) {
         $className = sprintf(static::CLASS_NAME_FORMAT, $name);
 
-        return new $className($this->filesystem);
+        return new $className($this->platform, $this->filesystem);
     }
 }

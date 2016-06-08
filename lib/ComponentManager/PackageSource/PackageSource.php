@@ -10,8 +10,6 @@
 
 namespace ComponentManager\PackageSource;
 
-use ComponentManager\Component;
-use ComponentManager\ComponentVersion;
 use ComponentManager\ResolvedComponentVersion;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
