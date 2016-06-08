@@ -10,9 +10,9 @@
 
 namespace ComponentManager;
 
-use core_plugin_manager;
 use ComponentManager\Exception\MoodleException;
-use Symfony\Component\Process\Process;
+use ComponentManager\Platform\Platform;
+use core_plugin_manager;
 
 /**
  * Moodle installation.
@@ -39,6 +39,13 @@ class MoodleInstallation {
     protected $config;
 
     /**
+     * Platform support library.
+     *
+     * @var \ComponentManager\Platform\Platform
+     */
+    protected $platform;
+
+    /**
      * Root directory of the Moodle installation.
      *
      * @var string
@@ -48,9 +55,11 @@ class MoodleInstallation {
     /**
      * Initialiser.
      *
-     * @param string $rootDirectory
+     * @param \ComponentManager\Platform\Platform $platform
+     * @param string                              $rootDirectory
      */
-    public function __construct($rootDirectory) {
+    public function __construct(Platform $platform, $rootDirectory) {
+        $this->platform      = $platform;
         $this->rootDirectory = $rootDirectory;
     }
 
@@ -58,6 +67,8 @@ class MoodleInstallation {
      * Require the configuration file.
      *
      * @return \stdClass The $CFG object.
+     *
+     * @throws \ComponentManager\Exception\MoodleException
      */
     protected function getConfig() {
         if ($this->config === null) {
@@ -76,8 +87,10 @@ class MoodleInstallation {
                 define($constant, true);
             }
 
-            $path = $this->rootDirectory . PlatformUtil::directorySeparator()
-                  . static::CONFIG_FILENAME;
+            $path = $this->platform->joinPaths([
+                $this->rootDirectory,
+                static::CONFIG_FILENAME,
+            ]);
             if (is_file($path)) {
                 require_once $path;
 
@@ -96,7 +109,7 @@ class MoodleInstallation {
                 global $CFG;
                 $CFG = (object) [
                     'dirroot'  => $this->rootDirectory,
-                    'dataroot' => PlatformUtil::createTempDirectory(),
+                    'dataroot' => $this->platform->createTempDirectory(),
                     'wwwroot'  => 'http://localhost',
                 ];
 

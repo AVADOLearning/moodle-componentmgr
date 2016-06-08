@@ -60,7 +60,7 @@ HELP;
         if (!$moodleDir = $input->getOption(Argument::ARGUMENT_MOODLE_DIR)) {
             $moodleDir = $this->platform->getWorkingDirectory();
         }
-        $moodle = new MoodleInstallation($moodleDir);
+        $moodle = new MoodleInstallation($this->platform, $moodleDir);
 
         switch ($action) {
             case Argument::ARGUMENT_ACTION_LIST_PLUGIN_TYPES:
