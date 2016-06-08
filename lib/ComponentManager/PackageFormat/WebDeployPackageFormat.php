@@ -11,15 +11,11 @@
 namespace ComponentManager\PackageFormat;
 
 use ComponentManager\Exception\PackageFailureException;
-use ComponentManager\PlatformUtil;
 use ComponentManager\Project\ProjectFile;
 use ComponentManager\Project\ProjectLockFile;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\ProcessUtils;
-use Symfony\Component\Process\Tests\ProcessFailedExceptionTest;
 
 /**
  * Microsoft Web Deploy package format.
@@ -37,7 +33,7 @@ class WebDeployPackageFormat extends AbstractPackageFormat
                             ProjectFile $projectFile,
                             ProjectLockFile $projectLockFile,
                             LoggerInterface $logger) {
-        $msdeploy = PlatformUtil::executable('msdeploy');
+        $msdeploy = $this->platform->getExecutablePath('msdeploy');
 
         $args = [
             '-verb:sync',

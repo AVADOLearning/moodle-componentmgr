@@ -63,6 +63,7 @@ services:
   package_format.factory:
     class: '\ComponentManager\PackageFormat\PackageFormatFactory'
     arguments:
+      - '@platform'
       - '@filesystem'
   package_repository.factory:
     class: '\ComponentManager\PackageRepository\PackageRepositoryFactory'

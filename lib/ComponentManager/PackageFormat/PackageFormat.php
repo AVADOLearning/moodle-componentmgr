@@ -13,7 +13,6 @@ namespace ComponentManager\PackageFormat;
 use ComponentManager\Project\ProjectFile;
 use ComponentManager\Project\ProjectLockFile;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Package format.

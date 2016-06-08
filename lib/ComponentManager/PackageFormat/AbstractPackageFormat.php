@@ -10,6 +10,7 @@
 
 namespace ComponentManager\PackageFormat;
 
+use ComponentManager\Platform\Platform;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -24,11 +25,20 @@ abstract class AbstractPackageFormat {
     protected $filesystem;
 
     /**
+     * Platform support library.
+     *
+     * @var \ComponentManager\Platform\Platform
+     */
+    protected $platform;
+
+    /**
      * Initialiser.
      *
+     * @param \ComponentManager\Platform\Platform      $platform
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      */
-    public function __construct(Filesystem $filesystem) {
+    public function __construct(Platform $platform, Filesystem $filesystem) {
+        $this->platform   = $platform;
         $this->filesystem = $filesystem;
     }
 }

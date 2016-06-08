@@ -10,7 +10,6 @@
 
 namespace ComponentManager\PackageFormat;
 
-use ComponentManager\PlatformUtil;
 use ComponentManager\Project\ProjectFile;
 use ComponentManager\Project\ProjectLockFile;
 use Psr\Log\LoggerInterface;
@@ -33,7 +32,7 @@ class ZipArchivePackageFormat extends AbstractPackageFormat
                             ProjectFile $projectFile,
                             ProjectLockFile $projectLockFile,
                             LoggerInterface $logger) {
-        $sep = PlatformUtil::directorySeparator();
+        $sep = $this->platform->getDirectorySeparator();
 
         $archive = new ZipArchive();
         $archive->open($destination, ZipArchive::CREATE);

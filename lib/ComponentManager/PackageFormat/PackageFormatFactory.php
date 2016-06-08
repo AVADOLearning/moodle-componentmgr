@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager\PackageFormat;
+use ComponentManager\Platform\Platform;
 
 /**
  * Package format factory.
@@ -29,11 +30,20 @@ class PackageFormatFactory {
     protected $filesystem;
 
     /**
+     * Platform support library.
+     *
+     * @var \ComponentManager\Platform\Platform
+     */
+    protected $platform;
+
+    /**
      * Initialiser.
      *
+     * @param \ComponentManager\Platform\Platform      $platform
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      */
-    public function __construct($filesystem) {
+    public function __construct(Platform $platform, $filesystem) {
+        $this->platform   = $platform;
         $this->filesystem = $filesystem;
     }
 
@@ -47,6 +57,6 @@ class PackageFormatFactory {
     public function getPackageFormat($name) {
         $className = sprintf(static::CLASS_NAME_FORMAT, $name);
 
-        return new $className($this->filesystem);
+        return new $className($this->platform, $this->filesystem);
     }
 }
