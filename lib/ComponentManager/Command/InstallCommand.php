@@ -75,7 +75,8 @@ HELP;
         $moodle  = new Moodle(
                 $this->platform->getWorkingDirectory(), $this->platform);
 
-        $task = new InstallTask($project, $this->filesystem, $moodle);
+        $task = new InstallTask(
+                $project, $this->platform, $this->filesystem, $moodle);
         $task->execute($this->logger);
     }
 }

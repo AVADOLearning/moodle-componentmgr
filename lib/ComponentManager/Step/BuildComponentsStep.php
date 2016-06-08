@@ -12,7 +12,7 @@ namespace ComponentManager\Step;
 
 use ComponentManager\Exception\ComponentProjectException;
 use ComponentManager\Moodle;
-use ComponentManager\PlatformUtil;
+use ComponentManager\Platform\Platform;
 use ComponentManager\Project\ComponentProject;
 use ComponentManager\Project\ComponentProjectFile;
 use ComponentManager\ResolvedComponentVersion;
@@ -39,12 +39,24 @@ class BuildComponentsStep implements Step {
     private $filesystem;
 
     /**
+     * Platform support library.
+     *
+     * @var \ComponentManager\Platform\Platform
+     */
+    protected $platform;
+
+    /**
      * Initialiser.
      *
-     * @param \ComponentManager\Moodle $moodle
+     * @param \ComponentManager\Moodle                 $moodle
+     * @param \ComponentManager\Platform\Platform      $platform
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      */
-    public function __construct(Moodle $moodle, Filesystem $filesystem) {
+    public function __construct(Moodle $moodle, Platform $platform,
+                                Filesystem $filesystem) {
         $this->moodle = $moodle;
+
+        $this->platform   = $platform;
         $this->filesystem = $filesystem;
     }
 
@@ -77,14 +89,15 @@ class BuildComponentsStep implements Step {
         $typeDirectory = $this->moodle->getPluginTypeDirectory(
                 $component->getPluginType());
 
-        $targetDirectory = $typeDirectory
-                . PlatformUtil::directorySeparator()
-                . $component->getPluginName();
-        $componentProjectFilename = $typeDirectory
-                . PlatformUtil::directorySeparator()
-                . $component->getPluginName()
-                . PlatformUtil::directorySeparator()
-                . ComponentProjectFile::FILENAME;
+        $targetDirectory = $this->platform->joinPaths([
+            $typeDirectory,
+            $component->getPluginName(),
+        ]);
+        $componentProjectFilename = $this->platform->joinPaths([
+            $typeDirectory,
+            $component->getPluginName(),
+            ComponentProjectFile::FILENAME,
+        ]);
 
         $logContext = [
             'component'                => $component->getName(),

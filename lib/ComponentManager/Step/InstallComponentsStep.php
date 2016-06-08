@@ -11,7 +11,7 @@
 namespace ComponentManager\Step;
 
 use ComponentManager\Moodle;
-use ComponentManager\PlatformUtil;
+use ComponentManager\Platform\Platform;
 use ComponentManager\Project\Project;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -40,17 +40,27 @@ class InstallComponentsStep implements Step {
     protected $filesystem;
 
     /**
+     * Platform support library.
+     *
+     * @var \ComponentManager\Platform\Platform
+     */
+    protected $platform;
+
+    /**
      * Initialiser.
      *
      * @param \ComponentManager\Project\Project        $project
      * @param \ComponentManager\Moodle                 $moodle
+     * @param \ComponentManager\Platform\Platform      $platform
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      */
     public function __construct(Project $project, Moodle $moodle,
-                                Filesystem $filesystem) {
-        $this->project    = $project;
-        $this->moodle     = $moodle;
+                                Platform $platform, Filesystem $filesystem) {
+        $this->project = $project;
+        $this->moodle  = $moodle;
+
         $this->filesystem = $filesystem;
+        $this->platform   = $platform;
     }
 
     /**
@@ -76,11 +86,12 @@ class InstallComponentsStep implements Step {
             $typeDirectory = $this->moodle->getPluginTypeDirectory(
                     $component->getPluginType());
 
-            $targetDirectory = $typeDirectory
-                    . PlatformUtil::directorySeparator()
-                    . $component->getPluginName();
+            $targetDirectory = $this->platform->joinPaths([
+                $typeDirectory,
+                $component->getPluginName(),
+            ]);
 
-            $tempDirectory = PlatformUtil::createTempDirectory();
+            $tempDirectory = $this->platform->createTempDirectory();
 
             $sourceDirectory = $packageSource->obtainPackage(
                     $tempDirectory, $resolvedComponentVersion,

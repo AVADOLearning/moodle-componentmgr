@@ -115,7 +115,7 @@ HELP;
 
         $task = new PackageTask(
                 $this->moodleApi, $project, $archive, $destination,
-                $this->filesystem, $moodle, $packageFormat,
+                $this->platform, $this->filesystem, $moodle, $packageFormat,
                 $packageDestination);
         $task->execute($this->logger);
     }

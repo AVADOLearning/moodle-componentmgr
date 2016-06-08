@@ -13,6 +13,7 @@ namespace ComponentManager\Task;
 use ComponentManager\Moodle;
 use ComponentManager\MoodleApi;
 use ComponentManager\MoodleVersion;
+use ComponentManager\Platform\Platform;
 use ComponentManager\Project\Project;
 use ComponentManager\Step\BuildComponentsStep;
 use ComponentManager\Step\CommitProjectLockFileStep;
@@ -53,8 +54,9 @@ class PackageTask extends InstallTask implements Task {
      */
     public function __construct(MoodleApi $moodleApi, Project $project,
                                 $moodleArchive, $moodleDestination,
-                                Filesystem $filesystem, Moodle $moodle,
-                                $packageFormat, $packageDestination) {
+                                Platform $platform, Filesystem $filesystem,
+                                Moodle $moodle, $packageFormat,
+                                $packageDestination) {
         /* Because we're reordering the installation steps, we don't want to
          * call InstallTask's constructor. */
         AbstractTask::__construct();
@@ -69,8 +71,9 @@ class PackageTask extends InstallTask implements Task {
         $this->addStep(new ObtainMoodleSourceStep(
                 $moodleArchive, dirname($moodleDestination)));
         $this->addStep(new InstallComponentsStep(
-                $project, $moodle, $filesystem));
-        $this->addStep(new BuildComponentsStep($moodle, $filesystem));
+                $project, $moodle, $platform, $filesystem));
+        $this->addStep(new BuildComponentsStep(
+                $moodle, $platform, $filesystem));
         $this->addStep(new CommitProjectLockFileStep(
                 $project->getProjectLockFile()));
         $this->addStep(new PackageStep(

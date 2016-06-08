@@ -11,6 +11,7 @@
 namespace ComponentManager\Task;
 
 use ComponentManager\Moodle;
+use ComponentManager\Platform\Platform;
 use ComponentManager\Project\Project;
 use ComponentManager\ResolvedComponentVersion;
 use ComponentManager\Step\BuildComponentsStep;
@@ -32,19 +33,21 @@ class InstallTask extends AbstractTask implements Task {
      * Initialiser.
      *
      * @param \ComponentManager\Project\Project        $project
+     * @param \ComponentManager\Platform\Platform      $platform
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      * @param \ComponentManager\Moodle                 $moodle
      */
-    public function __construct(Project $project, Filesystem $filesystem,
-                                Moodle $moodle) {
+    public function __construct(Project $project, Platform $platform,
+                                Filesystem $filesystem, Moodle $moodle) {
         parent::__construct();
 
         $this->addStep(new VerifyPackageRepositoriesCachedStep(
                 $project->getPackageRepositories()));
         $this->addStep(new ResolveComponentVersionsStep($project));
         $this->addStep(new InstallComponentsStep(
-                $project, $moodle, $filesystem));
-        $this->addStep(new BuildComponentsStep($moodle, $filesystem));
+                $project, $moodle, $platform, $filesystem));
+        $this->addStep(new BuildComponentsStep(
+                $moodle, $platform, $filesystem));
         $this->addStep(new CommitProjectLockFileStep(
                 $project->getProjectLockFile()));
     }
