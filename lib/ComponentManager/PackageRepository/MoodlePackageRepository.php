@@ -16,24 +16,22 @@ use ComponentManager\ComponentSource\ZipComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\InvalidProjectException;
-use ComponentManager\PlatformUtil;
 use DateTime;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use stdClass;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Moodle.org/plugins package repository.
  */
-class MoodlePackageRepository extends AbstractPackageRepository
+class MoodlePackageRepository extends AbstractCachingPackageRepository
         implements CachingPackageRepository, PackageRepository {
     /**
      * Metadata cache filename.
      *
      * @var string
      */
-    const METADATA_CACHE_FILENAME = '%s%sMoodle%scomponents.json';
+    const METADATA_CACHE_FILENAME = 'components.json';
 
     /**
      * Plugin information endpoint URL.
@@ -68,10 +66,10 @@ class MoodlePackageRepository extends AbstractPackageRepository
      * @return string
      */
     protected function getMetadataCacheFilename() {
-        return sprintf(static::METADATA_CACHE_FILENAME,
-                       $this->cacheDirectory,
-                       PlatformUtil::directorySeparator(),
-                       PlatformUtil::directorySeparator());
+        return $this->platform->joinPaths([
+            $this->getMetadataCacheDirectory(),
+            static::METADATA_CACHE_FILENAME,
+        ]);
     }
 
     /**

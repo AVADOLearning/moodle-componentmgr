@@ -14,14 +14,13 @@ use ComponentManager\Component;
 use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
-use ComponentManager\PlatformUtil;
 use Github\Client;
 use Github\HttpClient\CachedHttpClient;
 
 /**
  * GitHub package repository.
  */
-class GithubPackageRepository extends AbstractPackageRepository
+class GithubPackageRepository extends AbstractCachingPackageRepository
         implements PackageRepository {
     /**
      * Cache directory.
@@ -53,17 +52,6 @@ class GithubPackageRepository extends AbstractPackageRepository
      */
     public function getName() {
         return 'GitHub package repository';
-    }
-
-    /**
-     * Get the metadata cache directory.
-     *
-     * @return string
-     */
-    protected function getMetadataCacheDirectory() {
-        return sprintf(static::CACHE_DIRECTORY,
-                       $this->cacheDirectory,
-                       PlatformUtil::directorySeparator());
     }
 
     /**

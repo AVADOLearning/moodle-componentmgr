@@ -10,6 +10,7 @@
 
 namespace ComponentManager\PackageRepository;
 
+use ComponentManager\Platform\Platform;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -31,21 +32,21 @@ class PackageRepositoryFactory {
     protected $filesystem;
 
     /**
-     * Base directory for package repository caches.
+     * Platform.
      *
-     * @var string
+     * @var \ComponentManager\Platform\Platform
      */
-    protected $cacheDirectory;
+    protected $platform;
 
     /**
      * Initialiser.
      *
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param string                                   $cacheDirectory
+     * @param \ComponentManager\Platform\Platform      $platform
      */
-    public function __construct(Filesystem $filesystem, $cacheDirectory) {
-        $this->filesystem     = $filesystem;
-        $this->cacheDirectory = $cacheDirectory;
+    public function __construct(Filesystem $filesystem, Platform $platform) {
+        $this->filesystem = $filesystem;
+        $this->platform   = $platform;
     }
 
     /**
@@ -60,7 +61,7 @@ class PackageRepositoryFactory {
         // @todo diagnose the cause of static::CLASS_NAME_FORMAT not working
         $className = sprintf(self::CLASS_NAME_FORMAT, $id);
 
-        return new $className($this->filesystem, $this->cacheDirectory,
-                              $options);
+        return new $className(
+                $this->filesystem, $this->platform, $options);
     }
 }

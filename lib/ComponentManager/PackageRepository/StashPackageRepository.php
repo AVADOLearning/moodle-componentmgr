@@ -15,7 +15,6 @@ use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\InvalidProjectException;
-use ComponentManager\PlatformUtil;
 use DateTime;
 use GuzzleHttp\Client;
 use OutOfBoundsException;
@@ -45,14 +44,14 @@ use stdClass;
  * To use multiple projects, add one stanza to the configuration file for each
  * Stash project.
  */
-class StashPackageRepository extends AbstractPackageRepository
+class StashPackageRepository extends AbstractCachingPackageRepository
         implements CachingPackageRepository, PackageRepository {
     /**
      * Metadata cache filename.
      *
      * @var string
      */
-    const METADATA_CACHE_FILENAME = '%s%sStash%s%s.json';
+    const METADATA_CACHE_FILENAME = '%s.json';
 
     /**
      * Path to the list of repositories within a project.
@@ -274,11 +273,10 @@ class StashPackageRepository extends AbstractPackageRepository
         $urlHash = parse_url($this->options->uri, PHP_URL_HOST) . '-'
                  . $this->options->project;
 
-        return sprintf(static::METADATA_CACHE_FILENAME,
-                       $this->cacheDirectory,
-                       PlatformUtil::directorySeparator(),
-                       PlatformUtil::directorySeparator(),
-                       $urlHash);
+        return $this->platform->joinPaths([
+            parent::getMetadataCacheDirectory(),
+            sprintf(static::METADATA_CACHE_FILENAME, $urlHash),
+        ]);
     }
 
     /**
