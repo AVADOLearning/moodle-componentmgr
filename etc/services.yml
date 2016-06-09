@@ -82,6 +82,8 @@ services:
       - '%platform.name%'
   platform.factory:
     class: '\ComponentManager\Platform\PlatformFactory'
+    arguments:
+      - '@filesystem'
 monolog:
   channels:
     - 'console'

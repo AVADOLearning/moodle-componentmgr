@@ -9,19 +9,45 @@
  */
 
 namespace ComponentManager\Platform;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Abstract platform implementation.
  *
  * Utility methods for individual platforms.
  */
-abstract class AbstractPlatform implements Platform {
+abstract class AbstractPlatform {
+    /**
+     * Temporary directories.
+     *
+     * @var string[]
+     */
+    protected $tempDirectories;
+
     /**
      * Temporary file/directory prefix.
      *
      * @var string
      */
     const TEMP_PREFIX = 'componentmgr-';
+
+    /**
+     * Initialiser.
+     *
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     */
+    public function __construct(Filesystem $filesystem) {
+        $this->filesystem = $filesystem;
+    }
+
+    /**
+     * Destructor.
+     *
+     * @return void
+     */
+    public function __destruct() {
+        $this->removeTempDirectories();
+    }
 
     /**
      * @override \ComponentManager\Platform\Platform
@@ -32,6 +58,8 @@ abstract class AbstractPlatform implements Platform {
 
         unlink($directory);
         mkdir($directory);
+
+        $this->tempDirectories[] = $directory;
 
         return $directory;
     }
@@ -54,7 +82,7 @@ abstract class AbstractPlatform implements Platform {
      * @override \ComponentManager\Platform\Platform
      */
     public function joinPaths($parts) {
-        return implode(static::getDirectorySeparator(), $parts);
+        return implode($this->getDirectorySeparator(), $parts);
     }
 
     /**
@@ -69,5 +97,12 @@ abstract class AbstractPlatform implements Platform {
      */
     public function getPhpScript() {
         return $_SERVER['argv'][0];
+    }
+
+    /**
+     * @override \ComponentManager\Platform\Platform
+     */
+    public function removeTempDirectories() {
+        $this->filesystem->remove($this->tempDirectories);
     }
 }

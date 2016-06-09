@@ -12,8 +12,25 @@ namespace ComponentManager\Platform;
 
 use ComponentManager\Exception\PlatformException;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\Filesystem\Filesystem;
 
 class PlatformFactory {
+    /**
+     * Filesystem.
+     *
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * Initialiser.
+     *
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     */
+    public function __construct(Filesystem $filesystem) {
+        $this->filesystem = $filesystem;
+    }
+
     /**
      * Get the platform with the specified name.
      *
@@ -29,12 +46,12 @@ class PlatformFactory {
             case 'Darwin':
             case 'FreeBSD':
             case 'Linux':
-                return new LinuxPlatform();
+                return new LinuxPlatform($this->filesystem);
                 break;
 
             case 'WINNT':
             case 'Windows':
-                return new WindowsPlatform();
+                return new WindowsPlatform($this->filesystem);
                 break;
 
             default:

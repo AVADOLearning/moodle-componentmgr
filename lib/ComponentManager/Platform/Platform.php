@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager\Platform;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Platform interface.
@@ -17,6 +18,13 @@ namespace ComponentManager\Platform;
  * behaviours.
  */
 interface Platform {
+    /**
+     * Initialiser.
+     *
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     */
+    public function __construct(Filesystem $filesystem);
+
     /**
      * Create a temporary directory.
      *
@@ -96,4 +104,11 @@ interface Platform {
      * @return string
      */
     public function joinPaths($parts);
+
+    /**
+     * Remove all created temporary directories.
+     *
+     * @return void
+     */
+    public function removeTempDirectories();
 }
