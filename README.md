@@ -327,6 +327,20 @@ $ cd local/componentmgrtest/
 $ componentmgr run-script build
 ```
 
+## Development
+
+Milestones are prepared from GitHub issues and maintained using
+[HuBoard](https://huboard.com/LukeCarrier/moodle-componentmgr).
+
+To get a change into Component Manager:
+
+1. Fork a new branch off of `develop` if it's a feature for the next major
+   release, or off `master` if it's a bug fix.
+2. Make your changes, and commit them. Try to be mindful of commit messages,
+   and don't be afraid of spreading particularly large or complex changes
+   across commits.
+3. Submit a pull request.
+
 ## Testing
 
 Component Manager is both unit and integration tested.
