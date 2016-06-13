@@ -181,10 +181,8 @@ zipped distributions on Moodle.org would look like the following:
 
 ```json
 {
-    "components":
-    {
-        "local_cpd":
-        {
+    "components": {
+        "local_cpd": {
             "version": "0.4.0",
             "packageRepository": "moodle",
             "packageSource": "Zip"
@@ -198,20 +196,16 @@ something like the following:
 
 ```json
 {
-    "components":
-    {
-        "local_cpd":
-        {
+    "components": {
+        "local_cpd": {
             "version": "0.4.0",
             "packageRepository": "moodle",
             "packageSource": "Zip"
         }
     },
 
-    "packageRepositories":
-    {
-        "moodle":
-        {
+    "packageRepositories": {
+        "moodle": {
             "type": "Moodle"
         }
     }
