@@ -117,14 +117,27 @@ class BuildComponentsStep implements Step {
             $buildScript = $componentProjectFile->getScript(
                     ComponentProjectFile::SCRIPT_BUILD);
         } catch (ComponentProjectException $e) {
-            $logger->debug(
+            $logger->info(
                     'Component project file doesn\'t contain a build script; skipping build',
                     $logContext);
             return;
         }
 
+        $logger->info('Running build script for component', $logContext);
         $process = new Process($buildScript, $targetDirectory);
-        $process->run();
+        $process->setTimeout(3600);
+        $process->run(function($type, $buffer) use($logger) {
+            $buffer = sprintf('build: %s', $buffer);
+
+            switch ($type) {
+                case Process::ERR:
+                    $logger->error($buffer);
+                    break;
+                case Process::OUT:
+                    $logger->debug($buffer);
+                    break;
+            }
+        });
 
         if (!$process->isSuccessful()) {
             throw new ComponentProjectException(
