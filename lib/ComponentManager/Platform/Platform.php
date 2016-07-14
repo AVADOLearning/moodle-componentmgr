@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager\Platform;
+
 use Symfony\Component\Filesystem\Filesystem;
 
 /**

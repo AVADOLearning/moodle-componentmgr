@@ -111,7 +111,7 @@ class BuildComponentsStep implements Step {
             return;
         }
         $componentProjectFile = new ComponentProjectFile(
-            $componentProjectFilename);
+                $componentProjectFilename);
 
         try {
             $buildScript = $componentProjectFile->getScript(
