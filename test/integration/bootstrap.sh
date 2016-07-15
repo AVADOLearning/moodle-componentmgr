@@ -2,6 +2,7 @@
 
 set -euo pipefail
 IFS=$'\n\t'
+export LC_ALL=C
 
 root='/tmp/kitchen/data'
 componentmgr="${root}/bin/componentmgr"
