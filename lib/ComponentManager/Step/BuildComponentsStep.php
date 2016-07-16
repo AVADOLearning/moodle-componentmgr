@@ -106,8 +106,8 @@ class BuildComponentsStep implements Step {
 
         if (!$this->filesystem->exists($componentProjectFilename)) {
             $logger->debug(
-                'Component project file not found; skipping build',
-                $logContext);
+                    'Component project file not found; skipping build',
+                    $logContext);
             return;
         }
         $componentProjectFile = new ComponentProjectFile(
@@ -127,7 +127,8 @@ class BuildComponentsStep implements Step {
         $process = new Process($buildScript, $targetDirectory);
         $process->setTimeout(3600);
         $process->run(function($type, $buffer) use($logger) {
-            $buffer = sprintf('build: %s', $buffer);
+            $buffer = sprintf(
+                    '%s: %s', ComponentProjectFile::SCRIPT_BUILD, $buffer);
 
             switch ($type) {
                 case Process::ERR:

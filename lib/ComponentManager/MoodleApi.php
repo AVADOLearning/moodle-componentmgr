@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Interface to the Moodle.org API.
- * 
+ *
  * Provides access to Moodle release and plugin information.
  */
 class MoodleApi {
@@ -50,7 +50,7 @@ class MoodleApi {
                     "Request failed to \"{$uri}\" failed",
                     MoodleApiException::CODE_REQUEST_FAILED);
         }
-        
+
         return $response;
     }
 
@@ -73,7 +73,7 @@ class MoodleApi {
                     $version->version, $version->release, $version->branch,
                     $version->maturity, $version->download);
         }
-        
+
         return $result;
     }
 }
