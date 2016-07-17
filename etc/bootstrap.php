@@ -8,7 +8,7 @@
  * @license GPL-3.0+
  */
 
-use ComponentManager\Console\DependencyInjection\ConsoleCommandsPass;
+use ComponentManager\DependencyInjection\ConsoleCommandsPass;
 use Symfony\Bundle\MonologBundle\DependencyInjection\Compiler\LoggerChannelPass;
 use Symfony\Bundle\MonologBundle\DependencyInjection\MonologExtension;
 use Symfony\Component\Config\FileLocator;

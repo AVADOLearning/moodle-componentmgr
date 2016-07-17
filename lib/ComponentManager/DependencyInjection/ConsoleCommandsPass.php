@@ -8,7 +8,7 @@
  * @license GPL-3.0+
  */
 
-namespace ComponentManager\Console\DependencyInjection;
+namespace ComponentManager\DependencyInjection;
 
 use InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

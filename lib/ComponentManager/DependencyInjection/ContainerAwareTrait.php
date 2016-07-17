@@ -8,7 +8,7 @@
  * @license GPL-3.0+
  */
 
-namespace ComponentManager;
+namespace ComponentManager\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

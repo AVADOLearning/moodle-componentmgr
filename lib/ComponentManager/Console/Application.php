@@ -10,7 +10,7 @@
 
 namespace ComponentManager\Console;
 
-use ComponentManager\ContainerAwareTrait;
+use ComponentManager\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
