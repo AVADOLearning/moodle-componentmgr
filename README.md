@@ -345,7 +345,8 @@ Tests are written in [ServerSpec](http://serverspec.org/) and executed via
 [Test Kitchen](http://kitchen.ci/). By default, Test Kitchen is configured to
 use the [Docker](https://www.docker.com/) driver.
 
-To get started, install Kitchen and the necessary dependencies with Bundler:
+To get started, install Kitchen and the necessary dependencies with
+[Bundler](http://bundler.io/):
 
 ```
 $ bundle install
