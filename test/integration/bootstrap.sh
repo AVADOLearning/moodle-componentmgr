@@ -2,6 +2,8 @@
 
 set -euo pipefail
 IFS=$'\n\t'
+
+export DEBIAN_FRONTEND=noninteractive
 export LC_ALL=C
 
 root='/tmp/kitchen/data'
