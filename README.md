@@ -28,8 +28,8 @@ deployments of platforms which are comprised of countless separate modules.
 
 By defining your requirements in one single file, you remove a great deal of the
 complexity involved in managing your deployment environments. Just drop a single
-manifest file into the top of your Moodle installation, execute one command and
-watch the deployment happen.
+manifest file into the top of your Moodle installation, and launch a single
+command to install all of your desired components.
 
 This has several key advantages over manual deployments:
 
@@ -86,7 +86,7 @@ all of your projects. This approach is recommended for most users.
 1. Install PHP for your platform.
 2. Install Composer as per their
    [Getting Started](https://getcomposer.org/doc/00-intro.md) guide. We assume
-   that you can execute `composer` on your shell.
+   that you can launch `composer` on your shell.
 3. Ensure Composer's global `vendor/bin` directory is on your `PATH`:
   * On Linux/Mac, it's probably `$HOME/.composer/vendor/bin`
   * On Windows, this is usually `%APPDATA%\Roaming\Composer\vendor\bin`
@@ -111,11 +111,11 @@ development within Component Manager itself.
 
 1. Clone this repository somewhere on your disk.
 2. Ensure our `bin` directory is on your system `PATH`.
-3. Execute `composer install` within the repository to obtain the dependencies.
+3. Run `composer install` within the repository to obtain the dependencies.
 
 ## `install` usage
 
-In this mode, Component Manager is executed from the root directory of a Moodle
+In this mode, Component Manager is launched from the root directory of a Moodle
 site. It reads the project and project lock files from the present working
 directory, then deploys the specified components from the specified package
 repositories. This mode is designed for use in development environments.
@@ -237,7 +237,7 @@ $ php admin/cli/upgrade.php
 
 ## `package` usage
 
-In this mode, Component Manager can be executed from any arbitrary location, and
+In this mode, Component Manager can be launched from any arbitrary location, and
 it generates a package containing an entire Moodle site. The version of Moodle
 and related components to deploy is determined from a property in the project
 file. This mode is designed for use in CI and production environments.
@@ -285,7 +285,7 @@ Packages can be generated in the following formats:
 * `"ZipArchive"` packages are suited to deployment everywhere.
 
 For example, to generate a generic zip ball containing your Moodle site, you
-can execute the following command:
+can run the following command:
 
 ```
 $ componentmgr package --package-format=ZipArchive \
@@ -295,7 +295,7 @@ $ componentmgr package --package-format=ZipArchive \
 
 ## Component lifecycle
 
-Component Manager allows components to execute scripts at specific stages of the
+Component Manager allows components to run scripts at specific stages of the
 installation and packaging processes. These are:
 
 * `build` -- fired once all components have been installed to the site, intended
@@ -341,9 +341,9 @@ Component Manager is both unit and integration tested.
 
 ### Integration tests
 
-Tests are written in [ServerSpec](http://serverspec.org/) and executed via
-[Test Kitchen](http://kitchen.ci/). By default, Test Kitchen is configured to
-use the [Docker](https://www.docker.com/) driver.
+Integration tests are written in [ServerSpec](http://serverspec.org/), with
+[Test Kitchen](http://kitchen.ci/) configured to run them in a clean environment
+using the [Docker](https://www.docker.com/) driver.
 
 To get started, install Kitchen and the necessary dependencies with
 [Bundler](http://bundler.io/):
@@ -352,7 +352,7 @@ To get started, install Kitchen and the necessary dependencies with
 $ bundle install
 ```
 
-Then, execute the tests:
+Then run the tests:
 
 ```
 $ bundle exec kitchen test
@@ -360,8 +360,8 @@ $ bundle exec kitchen test
 
 ### Unit tests
 
-Unit tests are written with PHPUnit. Ensure that Composer development
-dependencies are installed, then execute the tests:
+Unit tests are written with [PHPUnit](https://phpunit.de/). Ensure that
+Composer development dependencies are installed, then run the tests:
 
 ```
 $ vendor/bin/phpunit
