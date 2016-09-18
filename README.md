@@ -77,11 +77,22 @@ license as the core Moodle distribution.
 Component Manager can be installed in various different ways, each appropriate
 for different use cases.
 
-### Globally, via Composer (recommended)
+### Globally, via CGR (recommended)
+
+[CGR](https://github.com/consolidation/cgr) provides a safe alternative to
+globally requiring packages by sandboxing individual sandboxing individual
+packages and their dependencies. This approach is recommended for most users.
+
+1. Globally require CGR with `composer global require consolidation/cgr`.
+2. Install Component Manager with `cgr lukecarrier/moodle-componentmgr`.
+
+### Globally, via Composer
 
 In this configuration, Component Manager is accessible on the shell (via your
 preferred `$SHELL` or Command Prompt), and the same installation is used across
-all of your projects. This approach is recommended for most users.
+all of your projects. This approach is not recommended for Component Manager, as
+globally requiring packages with dependencies is likely to lead to dependency
+problems.
 
 1. Install PHP for your platform.
 2. Install Composer as per their
@@ -104,7 +115,7 @@ shell, so `package` operations can only be performed by manually adding the
 $ composer require lukecarrier/moodle-componentmgr
 ```
 
-### Manually
+### Manually (ideal for development)
 
 Component Manager can also be run in-place. This is recommended for performing
 development within Component Manager itself.
