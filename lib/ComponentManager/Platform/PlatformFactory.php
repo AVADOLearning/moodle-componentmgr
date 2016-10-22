@@ -11,7 +11,6 @@
 namespace ComponentManager\Platform;
 
 use ComponentManager\Exception\PlatformException;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\Filesystem\Filesystem;
 
 class PlatformFactory {
