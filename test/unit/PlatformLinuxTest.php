@@ -9,6 +9,7 @@
  */
 
 use ComponentManager\Platform\LinuxPlatform;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @coversDefaultClass \ComponentManager\Platform\LinuxPlatform
@@ -26,20 +27,29 @@ class PlatformLinuxTest extends PHPUnit_Framework_TestCase {
      */
     protected $platform;
 
+    /**
+     * @override \PHPUnit_Framework_TestCase
+     */
     public function setUp() {
         $this->oldPath = getenv('PATH');
         putenv("PATH=/bin:{$this->oldPath}");
 
-        $this->platform = new LinuxPlatform();
+        $filesystem = $this->createMock(Filesystem::class);
+        $this->platform = new LinuxPlatform($filesystem);
     }
 
+    /**
+     * @override \PHPUnit_Framework_TestCase
+     */
     public function tearDown() {
         putenv("PATH={$this->oldPath}");
     }
 
     /**
      * @covers ::expandPath
+     * @covers \ComponentManager\Platform\AbstractPlatform::__construct
      * @covers \ComponentManager\Platform\AbstractPlatform::getDirectorySeparator
+     * @covers \ComponentManager\Platform\LinuxPlatform::getHomeDirectory
      */
     public function testExpandPath() {
         $expected = getenv('HOME') . '/test';
@@ -50,6 +60,7 @@ class PlatformLinuxTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers ::getExecutablePath
+     * @covers \ComponentManager\Platform\AbstractPlatform::__construct
      * @covers \ComponentManager\Platform\AbstractPlatform::getDirectorySeparator
      * @covers \ComponentManager\Platform\AbstractPlatform::joinPaths
      */
@@ -60,6 +71,7 @@ class PlatformLinuxTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers ::getExecutablePath
+     * @covers \ComponentManager\Platform\AbstractPlatform::__construct
      * @covers \ComponentManager\Platform\AbstractPlatform::getDirectorySeparator
      * @covers \ComponentManager\Platform\AbstractPlatform::joinPaths
      * @expectedException \ComponentManager\Exception\PlatformException
@@ -71,13 +83,16 @@ class PlatformLinuxTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers ::getHomeDirectory
+     * @covers \ComponentManager\Platform\AbstractPlatform::__construct
      */
     public function testGetHomeDirectory() {
         $this->assertFileExists($this->platform->getHomeDirectory());
     }
 
     /**
+     * @covers ::getHomeDirectory
      * @covers ::getLocalSharedDirectory
+     * @covers \ComponentManager\Platform\AbstractPlatform::__construct
      * @covers \ComponentManager\Platform\AbstractPlatform::getDirectorySeparator
      * @covers \ComponentManager\Platform\AbstractPlatform::joinPaths
      */
