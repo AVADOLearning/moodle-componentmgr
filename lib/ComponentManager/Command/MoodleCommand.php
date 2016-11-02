@@ -61,6 +61,7 @@ HELP;
             $moodleDir = $this->platform->getWorkingDirectory();
         }
         $moodle = new MoodleInstallation($this->platform, $moodleDir);
+        $moodle->configure();
 
         switch ($action) {
             case Argument::ARGUMENT_ACTION_LIST_PLUGIN_TYPES:
@@ -69,6 +70,8 @@ HELP;
             default:
                 throw new MoodleException("Invalid action \"{$action}\"", MoodleException::CODE_INVALID_ACTION);
         }
+
+        $moodle->dispose();
 
         $output->writeln(json_encode($result, JSON_PRETTY_PRINT));
     }

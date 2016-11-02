@@ -112,4 +112,13 @@ interface Platform {
      * @return void
      */
     public function removeTempDirectories();
+
+    /**
+     * Remove an individual temporary directory.
+     *
+     * @param string $directory
+     *
+     * @return void
+     */
+    public function removeTempDirectory($directory);
 }

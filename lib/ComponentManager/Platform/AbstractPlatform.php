@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Platform;
 
+use ComponentManager\Exception\PlatformException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -96,5 +97,21 @@ abstract class AbstractPlatform implements Platform {
      */
     public function removeTempDirectories() {
         $this->filesystem->remove($this->tempDirectories);
+    }
+
+    /**
+     * @override \ComponentManager\Platform\Platform
+     */
+    public function removeTempDirectory($directory) {
+        $index = array_search($directory, $this->tempDirectories, true);
+
+        if ($index === false) {
+            throw new PlatformException(
+                    sprintf('Directory "%s" is not a known temporary directory', $directory),
+                    PlatformException::CODE_UNKNOWN_TEMP_DIRECTORY);
+        }
+
+        $this->filesystem->remove($directory);
+        unset($this->tempDirectories[$index]);
     }
 }

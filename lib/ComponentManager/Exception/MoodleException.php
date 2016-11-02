@@ -39,6 +39,13 @@ class MoodleException extends AbstractException {
     const CODE_NOT_CONFIGURED = 3;
 
     /**
+     * Code: MoodleInstallation instance in wrong state.
+     *
+     * @var integer
+     */
+    const CODE_INVALID_STATE = 4;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -56,6 +63,8 @@ class MoodleException extends AbstractException {
                 return 'Invalid action specified';
             case static::CODE_NOT_CONFIGURED:
                 return 'The Moodle instance\'s configuration file did not define $CFG';
+            case static::CODE_INVALID_STATE:
+                return 'The MoodleInstallation instance was in an invalid state';
         }
     }
 }

@@ -32,6 +32,13 @@ class PlatformException extends AbstractException {
     const CODE_MISSING_EXECUTABLE = 2;
 
     /**
+     * Code: unknown temporary directory.
+     *
+     * @var integer
+     */
+    const CODE_UNKNOWN_TEMP_DIRECTORY = 3;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -48,6 +55,9 @@ class PlatformException extends AbstractException {
 
             case static::CODE_MISSING_EXECUTABLE:
                 return 'Required executable could not be found on PATH';
+
+            case static::CODE_UNKNOWN_TEMP_DIRECTORY:
+                return 'Attempted to remove an unknown temporary directory';
         }
     }
 }
