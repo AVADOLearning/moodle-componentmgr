@@ -42,15 +42,6 @@ abstract class AbstractPlatform implements Platform {
     }
 
     /**
-     * Destructor.
-     *
-     * @return void
-     */
-    public function __destruct() {
-        $this->removeTempDirectories();
-    }
-
-    /**
      * @override \ComponentManager\Platform\Platform
      */
     public function createTempDirectory() {
