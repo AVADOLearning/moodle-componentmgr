@@ -11,8 +11,8 @@ componentmgr="${root}/bin/componentmgr"
 project_install="${root}/test/fixtures/componentmgr.install.json"
 project_package="${root}/test/fixtures/componentmgr.package.json"
 
-moodle_tarball='moodle-30.tar.gz'
-moodle_url='https://download.moodle.org/download.php/direct/stable30/moodle-latest-30.tgz'
+moodle_tarball='moodle-31.tar.gz'
+moodle_url='https://download.moodle.org/download.php/direct/stable31/moodle-latest-31.tgz'
 
 sudo apt-get update
 sudo apt-get install -y software-properties-common
@@ -21,7 +21,8 @@ LC_ALL=C.UTF-8 sudo add-apt-repository -y ppa:ondrej/php
 sudo apt-get update
 sudo apt-get install -y \
         curl git-core \
-        php-cli php-curl php-json php-xml php-zip ruby1.9.1
+        php-cli php-curl php-json php-mbstring php-xml php-zip \
+        ruby1.9.1
 
 pushd "$root"
 curl -o 'composer.phar' 'https://getcomposer.org/composer.phar'
