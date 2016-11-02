@@ -12,6 +12,7 @@ Unreleased
     * Update Composer dependencies
     * Rework service definitions
     * Removed PlatformUtil in favour of per-platform classes
+    * Clean up temporary directories, like a good citizen
 
 ## 0.1.2: packaging improvements
 
