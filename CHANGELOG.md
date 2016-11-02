@@ -2,7 +2,7 @@
 
 ## 0.2.0: Doin' it Right
 
-Unreleased
+Released 2016-11-02
 
 * New component build steps support
 * New `Directory` package source
