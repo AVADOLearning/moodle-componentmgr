@@ -17,7 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
  *
  * Utility methods for individual platforms.
  */
-abstract class AbstractPlatform {
+abstract class AbstractPlatform implements Platform {
     /**
      * Temporary directories.
      *
