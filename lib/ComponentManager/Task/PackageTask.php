@@ -20,6 +20,7 @@ use ComponentManager\Step\CommitProjectLockFileStep;
 use ComponentManager\Step\InstallComponentsStep;
 use ComponentManager\Step\ObtainMoodleSourceStep;
 use ComponentManager\Step\PackageStep;
+use ComponentManager\Step\RemoveTempDirectoriesStep;
 use ComponentManager\Step\ResolveComponentVersionsStep;
 use ComponentManager\Step\ResolveMoodleVersionStep;
 use ComponentManager\Step\VerifyPackageRepositoriesCachedStep;
@@ -79,6 +80,7 @@ class PackageTask extends InstallTask implements Task {
         $this->addStep(new PackageStep(
                 $project, $moodleDestination, $packageFormat,
                 $packageDestination));
+        $this->addStep(new RemoveTempDirectoriesStep($platform));
     }
 
     /**
