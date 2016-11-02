@@ -19,18 +19,18 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 abstract class AbstractPlatform implements Platform {
     /**
-     * Temporary directories.
-     *
-     * @var string[]
-     */
-    protected $tempDirectories;
-
-    /**
      * Temporary file/directory prefix.
      *
      * @var string
      */
     const TEMP_PREFIX = 'componentmgr-';
+
+    /**
+     * Temporary directories.
+     *
+     * @var string[]
+     */
+    protected $tempDirectories;
 
     /**
      * Initialiser.
