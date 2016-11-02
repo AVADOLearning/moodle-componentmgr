@@ -1,5 +1,5 @@
 {
     "scripts": {
-        "build": "touch hello-word"
+        "build": "touch hello-world"
     }
 }
