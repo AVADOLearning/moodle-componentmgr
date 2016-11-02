@@ -184,7 +184,7 @@ class GitVersionControl {
         $process->run();
 
         $this->ensureSuccess(
-            $process, VersionControlException::CODE_REV_PARSE_FAILED);
+                $process, VersionControlException::CODE_REV_PARSE_FAILED);
 
         return trim($process->getOutput());
     }
