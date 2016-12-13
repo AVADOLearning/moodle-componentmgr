@@ -15,7 +15,7 @@ use ComponentManager\Project\ComponentProjectFile;
 use Symfony\Component\Console\Command\Command;
 
 /**
- * Project-aware command trait.
+ * Component project-aware command.
  *
  * Provides helpful utility methods for accessing the project in the currrent
  * working directory. Import this into command implementations to reduce
