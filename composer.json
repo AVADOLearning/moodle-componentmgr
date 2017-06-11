@@ -32,6 +32,7 @@
 
     "require": {
         "php": ">= 5.6.0",
+        "ext-curl": "*",
         "bramus/monolog-colored-line-formatter": "2.0.*",
         "kdyby/curl-ca-bundle": "~1.0",
         "knplabs/gaufrette": "^0.2.0",
