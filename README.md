@@ -5,6 +5,7 @@
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/LukeCarrier/moodle-componentmgr.svg?style=flat-square)](https://scrutinizer-ci.com/g/LukeCarrier/moodle-componentmgr/)
 [![Scrutinizer Coverage](https://img.shields.io/scrutinizer/coverage/g/LukeCarrier/moodle-componentmgr.svg?style=flat-square)](https://scrutinizer-ci.com/g/LukeCarrier/moodle-componentmgr/)
 [![Packagist](https://img.shields.io/packagist/v/lukecarrier/moodle-componentmgr.svg?style=flat-square)](https://packagist.org/packages/lukecarrier/moodle-componentmgr)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FLukeCarrier%2Fmoodle-componentmgr.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FLukeCarrier%2Fmoodle-componentmgr?ref=badge_shield)
 
 Component Manager is a tool to assist with the packaging and management
 of Moodle-based learning environments.
@@ -66,6 +67,8 @@ Moodle's!).
 
 Component Manager is released under the terms of the GPL v3. This is the same
 license as the core Moodle distribution.
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FLukeCarrier%2Fmoodle-componentmgr.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FLukeCarrier%2Fmoodle-componentmgr?ref=badge_large)
 
 ## Requirements
 
