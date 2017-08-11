@@ -163,6 +163,7 @@ need the following stanza in your project file:
 Other package repositories are available, allowing deployment from corporate
 version control and distribution systems. At the moment:
 * `"Filesystem"` can be used to lookup components on the local disk.
+* `"Git"` lets you directly specify local and remote Git repository URIs.
 * `"Github"` allows Component Manager to query GitHub.com repositories,
   specified with the `"repository"` property of each component.
 * `"Moodle"` allows access to the
