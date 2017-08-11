@@ -162,6 +162,7 @@ need the following stanza in your project file:
 
 Other package repositories are available, allowing deployment from corporate
 version control and distribution systems. At the moment:
+* `"Filesystem"` can be used to lookup components on the local disk.
 * `"Github"` allows Component Manager to query GitHub.com repositories,
   specified with the `"repository"` property of each component.
 * `"Moodle"` allows access to the
@@ -185,6 +186,7 @@ component object has three keys:
   used as the source of data for this component.
 * Finally, the `"packageSource"` key specifies which type of component source
   to obtain. At the moment, the following sources are available:
+    * `"Directory"` sources components from the specified filesystem location.
     * `"Git"` sources components from the specified Git reference.
     * `"Zip"` sources components via zip archives from remote locations.
 
