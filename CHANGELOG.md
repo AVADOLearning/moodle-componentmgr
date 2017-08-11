@@ -1,5 +1,15 @@
 # Change log
 
+## 0.3.0: Shuffle
+
+Released 2017-08-12
+
+* New `Git` package repository
+* Add missing PHP extension dependencies
+    * `curl` for Guzzle HTTP client
+    * `dom` for the Monolog bundle
+    * `zip` for `ZipArchive` package format
+
 ## 0.2.0: Doin' it Right
 
 Released 2016-11-02

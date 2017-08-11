@@ -26,7 +26,7 @@ class Application extends ConsoleApplication
      *
      * @var string
      */
-    const VERSION = '0.2.0';
+    const VERSION = '0.3.0';
 
     /**
      * Initialiser.
