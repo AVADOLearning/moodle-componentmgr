@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Step;
 
+use ComponentManager\Exception\UnsatisfiedVersionException;
 use ComponentManager\Moodle;
 use ComponentManager\Platform\Platform;
 use ComponentManager\Project\Project;
@@ -96,6 +97,15 @@ class InstallComponentsStep implements Step {
             $sourceDirectory = $packageSource->obtainPackage(
                     $tempDirectory, $resolvedComponentVersion,
                     $this->filesystem, $logger);
+
+            if (!$sourceDirectory) {
+                throw new UnsatisfiedVersionException(
+                        sprintf(
+                                'Package source "%s" unable to obtain component "%s"',
+                                $packageSource->getId(),
+                                $resolvedComponentVersion->getComponent()->getName()),
+                        UnsatisfiedVersionException::CODE_PACKAGE_SOURCE_FAILED);
+            }
 
             if ($resolvedComponentVersion->getFinalVersion() === null) {
                 $logger->warning('Package source did not indicate final version; defaulting to desired version', [

@@ -25,6 +25,13 @@ class UnsatisfiedVersionException extends AbstractException {
     const CODE_UNKNOWN_VERSION = 1;
 
     /**
+     * Code: package source failed.
+     *
+     * @var integer
+     */
+    const CODE_PACKAGE_SOURCE_FAILED = 2;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -38,6 +45,9 @@ class UnsatisfiedVersionException extends AbstractException {
         switch ($this->code) {
             case static::CODE_UNKNOWN_VERSION:
                 return 'Unknown component version';
+
+            case static::CODE_PACKAGE_SOURCE_FAILED:
+                return 'Package source failed to obtain package for component';
         }
     }
 }

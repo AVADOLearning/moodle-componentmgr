@@ -4,7 +4,8 @@
 
 Unreleased
 
-* Validate project file before `build` and `package` operations 
+* Improve package source error handling
+* Validate project file before `build` and `package` operations
 
 ## 0.3.0: Shuffle
 
