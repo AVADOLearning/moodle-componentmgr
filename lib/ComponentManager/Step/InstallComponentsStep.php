@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Step;
 
+use ComponentManager\Exception\InstallationFailureException;
 use ComponentManager\Exception\UnsatisfiedVersionException;
 use ComponentManager\Moodle;
 use ComponentManager\Platform\Platform;
@@ -84,14 +85,21 @@ class InstallComponentsStep implements Step {
             $component       = $resolvedComponentVersion->getComponent();
             $packageSource   = $this->project->getPackageSource(
                     $resolvedComponentVersion->getSpecification()->getPackageSource());
+
             $typeDirectory = $this->moodle->getPluginTypeDirectory(
                     $component->getPluginType());
+            if (!$typeDirectory) {
+                throw new InstallationFailureException(
+                        sprintf(
+                                'Target directory for component "%s" unknown; is its parent installed?',
+                                $component->getName()),
+                        InstallationFailureException::CODE_UNKNOWN_TARGET_DIRECTORY);
+            }
 
             $targetDirectory = $this->platform->joinPaths([
                 $typeDirectory,
                 $component->getPluginName(),
             ]);
-
             $tempDirectory = $this->platform->createTempDirectory();
 
             $sourceDirectory = $packageSource->obtainPackage(

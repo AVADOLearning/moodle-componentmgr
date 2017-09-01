@@ -67,7 +67,7 @@ class Moodle {
     public function getPluginTypeDirectory($type) {
         $pluginTypes = $this->getPluginTypes();
 
-        return $pluginTypes->{$type};
+        return property_exists($pluginTypes, $type) ? $pluginTypes->{$type} : null;
     }
 
     /**

@@ -46,6 +46,13 @@ class InstallationFailureException extends AbstractException {
     const CODE_SOURCE_MISSING = 4;
 
     /**
+     * Code: unknown target directory.
+     *
+     * @var integer
+     */
+    const CODE_UNKNOWN_TARGET_DIRECTORY = 5;
+
+    /**
      * @override \ComponentManager\Exception\AbstractException
      */
     public function getExceptionType() {
@@ -68,6 +75,9 @@ class InstallationFailureException extends AbstractException {
 
             case static::CODE_SOURCE_MISSING:
                 return 'Unable to locate module root directory in source';
+
+            case static::CODE_UNKNOWN_TARGET_DIRECTORY:
+                return 'Component target directory not known';
         }
     }
 }
