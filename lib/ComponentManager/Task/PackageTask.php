@@ -23,6 +23,7 @@ use ComponentManager\Step\PackageStep;
 use ComponentManager\Step\RemoveTempDirectoriesStep;
 use ComponentManager\Step\ResolveComponentVersionsStep;
 use ComponentManager\Step\ResolveMoodleVersionStep;
+use ComponentManager\Step\ValidateProjectStep;
 use ComponentManager\Step\VerifyPackageRepositoriesCachedStep;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -64,6 +65,7 @@ class PackageTask extends InstallTask implements Task {
 
         $this->resolvedComponentVersions = [];
 
+        $this->addStep(new ValidateProjectStep($project));
         $this->addStep(new VerifyPackageRepositoriesCachedStep(
                 $project->getPackageRepositories()));
         $this->addStep(new ResolveMoodleVersionStep(

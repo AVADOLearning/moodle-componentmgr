@@ -19,6 +19,7 @@ use ComponentManager\Step\CommitProjectLockFileStep;
 use ComponentManager\Step\InstallComponentsStep;
 use ComponentManager\Step\RemoveTempDirectoriesStep;
 use ComponentManager\Step\ResolveComponentVersionsStep;
+use ComponentManager\Step\ValidateProjectStep;
 use ComponentManager\Step\VerifyPackageRepositoriesCachedStep;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -42,6 +43,7 @@ class InstallTask extends AbstractTask implements Task {
                                 Filesystem $filesystem, Moodle $moodle) {
         parent::__construct();
 
+        $this->addStep(new ValidateProjectStep($project));
         $this->addStep(new VerifyPackageRepositoriesCachedStep(
                 $project->getPackageRepositories()));
         $this->addStep(new ResolveComponentVersionsStep($project));

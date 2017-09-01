@@ -1,5 +1,11 @@
 # Change log
 
+## 0.4.0: Beings
+
+Unreleased
+
+* Validate project file before `build` and `package` operations 
+
 ## 0.3.0: Shuffle
 
 Released 2017-08-12

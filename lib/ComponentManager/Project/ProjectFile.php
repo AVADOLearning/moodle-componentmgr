@@ -94,12 +94,9 @@ class ProjectFile extends JsonFile {
      * @throws \ComponentManager\Exception\InvalidProjectException
      */
     public function getMoodleVersion() {
-        if (!property_exists($this->contents, 'moodle')
-                || !property_exists($this->contents->moodle, 'version')) {
-            throw new InvalidProjectException('Missing "moodle.version" key',
-                    InvalidProjectException::CODE_MISSING_MOODLE_VALUE);
-        }
+        $hasProperties = property_exists($this->contents, 'moodle')
+                && property_exists($this->contents->moodle, 'version');
 
-        return $this->contents->moodle->version;
+        return $hasProperties ? $this->contents->moodle->version : null;
     }
 }

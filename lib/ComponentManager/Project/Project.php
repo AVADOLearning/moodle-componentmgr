@@ -117,13 +117,7 @@ class Project {
     public function getPackageRepository($packageRepository) {
         $packageRepositories = $this->getPackageRepositories();
 
-        if (array_key_exists($packageRepository, $packageRepositories)) {
-            return $packageRepositories[$packageRepository];
-        } else {
-            throw new InvalidProjectException(
-                    "The package repository named '{$packageRepository}' was not listed in your project file",
-                    InvalidProjectException::CODE_MISSING_PACKAGE_REPOSITORY);
-        }
+        return $packageRepositories[$packageRepository];
     }
 
     /**
