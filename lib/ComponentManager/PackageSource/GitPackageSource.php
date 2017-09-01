@@ -11,6 +11,7 @@
 namespace ComponentManager\PackageSource;
 
 use ComponentManager\ComponentSource\GitComponentSource;
+use ComponentManager\Exception\UnsatisfiedVersionException;
 use ComponentManager\Exception\VersionControlException;
 use ComponentManager\ResolvedComponentVersion;
 use ComponentManager\VersionControl\Git\GitRemote;
@@ -101,7 +102,7 @@ class GitPackageSource extends AbstractPackageSource
 
                     return $indexPath;
                 } catch (VersionControlException $e) {
-                    $logger->debug('Version control failed; skipping', [
+                    $logger->warn('Version control failed; skipping', [
                         'code'    => $e->getCode(),
                         'message' => $e->getMessage(),
                     ]);
