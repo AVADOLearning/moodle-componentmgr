@@ -46,6 +46,10 @@ interface PackageSource {
      * that the package source should attempt to determine a final version from
      * the supplied specification.
      *
+     * Implementations should raise an exception on failure.
+     * {@link \ComponentManager\Exception\RetryablePackageFailureException}
+     * will be treated as non-fatal until the last attempt.
+     *
      * @param string                                     $tempDirectory
      * @param \ComponentManager\ResolvedComponentVersion $resolvedComponentVersion
      * @param \Symfony\Component\Filesystem\Filesystem   $filesystem

@@ -89,6 +89,9 @@ HELP;
                 new InputOption(Argument::OPTION_PACKAGE_DESTINATION, null,
                                 InputOption::VALUE_REQUIRED,
                                 Argument::OPTION_PACKAGE_DESTINATION_HELP),
+                new InputOption(Argument::OPTION_ATTEMPTS, null,
+                                InputOption::VALUE_REQUIRED,
+                                Argument::OPTION_ATTEMPTS_HELP, 0),
             ]));
     }
 
@@ -116,7 +119,8 @@ HELP;
         $task = new PackageTask(
                 $this->moodleApi, $project, $archive, $destination,
                 $this->platform, $this->filesystem, $moodle, $packageFormat,
-                $packageDestination);
+                $packageDestination,
+                $input->getOption(Argument::OPTION_ATTEMPTS));
         $task->execute($this->logger);
     }
 }

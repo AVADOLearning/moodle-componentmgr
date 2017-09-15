@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Command;
 
+use ComponentManager\Console\Argument;
 use ComponentManager\Moodle;
 use ComponentManager\PackageFormat\PackageFormatFactory;
 use ComponentManager\PackageRepository\PackageRepositoryFactory;
@@ -18,6 +19,7 @@ use ComponentManager\Platform\Platform;
 use ComponentManager\Task\InstallTask;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -64,7 +66,12 @@ HELP;
         $this
             ->setName('install')
             ->setDescription('Installs all packages from componentmgr.json')
-            ->setHelp(static::HELP);
+            ->setHelp(static::HELP)
+            ->setDefinition([
+                new InputOption(Argument::OPTION_ATTEMPTS, null,
+                                InputOption::VALUE_REQUIRED,
+                                Argument::OPTION_ATTEMPTS_HELP),
+            ]);
     }
 
     /**
@@ -76,7 +83,8 @@ HELP;
                 $this->platform->getWorkingDirectory(), $this->platform);
 
         $task = new InstallTask(
-                $project, $this->platform, $this->filesystem, $moodle);
+                $project, $this->platform, $this->filesystem, $moodle,
+                $input->getOption(Argument::OPTION_ATTEMPTS));
         $task->execute($this->logger);
     }
 }

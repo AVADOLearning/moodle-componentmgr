@@ -53,12 +53,13 @@ class PackageTask extends InstallTask implements Task {
      * @param \ComponentManager\Moodle                 $moodle
      * @param string                                   $packageFormat
      * @param string                                   $packageDestination
+     * @param integer                                  $retries
      */
     public function __construct(MoodleApi $moodleApi, Project $project,
                                 $moodleArchive, $moodleDestination,
                                 Platform $platform, Filesystem $filesystem,
                                 Moodle $moodle, $packageFormat,
-                                $packageDestination) {
+                                $packageDestination, $retries) {
         /* Because we're reordering the installation steps, we don't want to
          * call InstallTask's constructor. */
         AbstractTask::__construct();
@@ -74,7 +75,7 @@ class PackageTask extends InstallTask implements Task {
         $this->addStep(new ObtainMoodleSourceStep(
                 $moodleArchive, dirname($moodleDestination)));
         $this->addStep(new InstallComponentsStep(
-                $project, $moodle, $platform, $filesystem));
+                $project, $moodle, $platform, $filesystem, $retries));
         $this->addStep(new BuildComponentsStep(
                 $moodle, $platform, $filesystem));
         $this->addStep(new CommitProjectLockFileStep(

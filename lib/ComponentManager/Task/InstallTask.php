@@ -38,9 +38,11 @@ class InstallTask extends AbstractTask implements Task {
      * @param \ComponentManager\Platform\Platform      $platform
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      * @param \ComponentManager\Moodle                 $moodle
+     * @param integer                                  $attempts
      */
     public function __construct(Project $project, Platform $platform,
-                                Filesystem $filesystem, Moodle $moodle) {
+                                Filesystem $filesystem, Moodle $moodle,
+                                $attempts) {
         parent::__construct();
 
         $this->addStep(new ValidateProjectStep($project));
@@ -48,7 +50,7 @@ class InstallTask extends AbstractTask implements Task {
                 $project->getPackageRepositories()));
         $this->addStep(new ResolveComponentVersionsStep($project));
         $this->addStep(new InstallComponentsStep(
-                $project, $moodle, $platform, $filesystem));
+                $project, $moodle, $platform, $filesystem, $attempts));
         $this->addStep(new BuildComponentsStep(
                 $moodle, $platform, $filesystem));
         $this->addStep(new CommitProjectLockFileStep(

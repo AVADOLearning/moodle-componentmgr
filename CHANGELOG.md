@@ -7,6 +7,7 @@ Unreleased
 * Improve error handling
     * Missing plugin type target directory
     * Package source failures
+* Package source retry behaviour
 * Validate project file before `build` and `package` operations
 
 ## 0.3.0: Shuffle

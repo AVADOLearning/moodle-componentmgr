@@ -64,6 +64,20 @@ class Argument {
     const OPTION_PROJECT_FILE_HELP = 'The project file from which to source version information';
 
     /**
+     * Option: attempts.
+     *
+     * @var string
+     */
+    const OPTION_ATTEMPTS = 'attempts';
+
+    /**
+     * Option help: attempts.
+     *
+     * @var string
+     */
+    const OPTION_ATTEMPTS_HELP = 'Number of attempts for an operation before giving up';
+
+    /**
      * Option: Moodle directory.
      *
      * @var string

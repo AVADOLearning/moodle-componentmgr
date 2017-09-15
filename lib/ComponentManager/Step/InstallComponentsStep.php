@@ -11,6 +11,7 @@
 namespace ComponentManager\Step;
 
 use ComponentManager\Exception\InstallationFailureException;
+use ComponentManager\Exception\RetryablePackageFailureException;
 use ComponentManager\Exception\UnsatisfiedVersionException;
 use ComponentManager\Moodle;
 use ComponentManager\Platform\Platform;
@@ -49,20 +50,31 @@ class InstallComponentsStep implements Step {
     protected $platform;
 
     /**
+     * Number of retries.
+     *
+     * @var integer
+     */
+    protected $attempts;
+
+    /**
      * Initialiser.
      *
      * @param \ComponentManager\Project\Project        $project
      * @param \ComponentManager\Moodle                 $moodle
      * @param \ComponentManager\Platform\Platform      $platform
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param integer                                  $attempts
      */
     public function __construct(Project $project, Moodle $moodle,
-                                Platform $platform, Filesystem $filesystem) {
+                                Platform $platform, Filesystem $filesystem,
+                                $attempts) {
         $this->project = $project;
         $this->moodle  = $moodle;
 
         $this->filesystem = $filesystem;
         $this->platform   = $platform;
+
+        $this->attempts = $attempts;
     }
 
     /**
@@ -74,6 +86,9 @@ class InstallComponentsStep implements Step {
         $resolvedComponentVersions = $task->getResolvedComponentVersions();
 
         foreach ($resolvedComponentVersions as $resolvedComponentVersion) {
+            $obtained = false;
+            $remainingAttempts = $this->attempts;
+
             $logger->info('Installing component', [
                 'component'         => $resolvedComponentVersion->getComponent()->getName(),
                 'packageRepository' => $resolvedComponentVersion->getPackageRepository()->getName(),
@@ -82,8 +97,8 @@ class InstallComponentsStep implements Step {
             ]);
 
             $projectLockFile = $this->project->getProjectLockFile();
-            $component       = $resolvedComponentVersion->getComponent();
-            $packageSource   = $this->project->getPackageSource(
+            $component = $resolvedComponentVersion->getComponent();
+            $packageSource = $this->project->getPackageSource(
                     $resolvedComponentVersion->getSpecification()->getPackageSource());
 
             $typeDirectory = $this->moodle->getPluginTypeDirectory(
@@ -91,8 +106,8 @@ class InstallComponentsStep implements Step {
             if (!$typeDirectory) {
                 throw new InstallationFailureException(
                         sprintf(
-                                'Target directory for component "%s" unknown; is its parent installed?',
-                                $component->getName()),
+                            'Target directory for component "%s" unknown; is its parent installed?',
+                            $component->getName()),
                         InstallationFailureException::CODE_UNKNOWN_TARGET_DIRECTORY);
             }
 
@@ -102,11 +117,23 @@ class InstallComponentsStep implements Step {
             ]);
             $tempDirectory = $this->platform->createTempDirectory();
 
-            $sourceDirectory = $packageSource->obtainPackage(
-                    $tempDirectory, $resolvedComponentVersion,
-                    $this->filesystem, $logger);
+            do {
+                try {
+                    $sourceDirectory = $packageSource->obtainPackage(
+                            $tempDirectory, $resolvedComponentVersion,
+                            $this->filesystem, $logger);
+                    $obtained = true;
+                } catch (RetryablePackageFailureException $e) {
+                    $remainingAttempts--;
+                    $logger->warning('Failed to obtain package', [
+                        'attempt'   => $this->attempts - $remainingAttempts,
+                        'attempts'  => $this->attempts,
+                        'exception' => $e->getPrevious(),
+                    ]);
+                }
+            } while ($remainingAttempts > 0 && !$obtained);
 
-            if (!$sourceDirectory) {
+            if (!$obtained) {
                 throw new UnsatisfiedVersionException(
                         sprintf(
                                 'Package source "%s" unable to obtain component "%s"',
