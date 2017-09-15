@@ -130,7 +130,7 @@ class InstallComponentsStep implements Step {
             ]);
 
             if ($this->filesystem->exists($targetDirectory)) {
-                $logger->info('Component directory already exists; removing', [
+                $logger->warning('Component directory already exists; removing', [
                     'targetDirectory' => $targetDirectory,
                 ]);
 
