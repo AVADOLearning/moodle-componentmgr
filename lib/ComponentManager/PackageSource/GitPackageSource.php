@@ -11,7 +11,7 @@
 namespace ComponentManager\PackageSource;
 
 use ComponentManager\ComponentSource\GitComponentSource;
-use ComponentManager\Exception\UnsatisfiedVersionException;
+use ComponentManager\Exception\RetryablePackageFailureException;
 use ComponentManager\Exception\VersionControlException;
 use ComponentManager\ResolvedComponentVersion;
 use ComponentManager\VersionControl\Git\GitRemote;
@@ -87,28 +87,26 @@ class GitPackageSource extends AbstractPackageSource
                     'indexPath'      => $indexPath,
                 ]);
 
+                $repository = new GitVersionControl(
+                        $this->platform->getExecutablePath('git'),
+                        $repositoryPath);
+                $repository->init();
+                $repository->addRemote(new GitRemote('origin', $repositoryUri));
+
                 try {
-                    $repository = new GitVersionControl(
-                            $this->platform->getExecutablePath('git'),
-                            $repositoryPath);
-                    $repository->init();
-                    $repository->addRemote(new GitRemote('origin', $repositoryUri));
                     $repository->fetch('origin');
-                    $repository->checkout($installRef);
-                    $repository->checkoutIndex(
-                            $indexPath . $this->platform->getDirectorySeparator());
-                    $resolvedComponentVersion->setFinalVersion(
-                            $repository->parseRevision($installRef));
-
-                    return $indexPath;
                 } catch (VersionControlException $e) {
-                    $logger->warn('Version control failed; skipping', [
-                        'code'    => $e->getCode(),
-                        'message' => $e->getMessage(),
-                    ]);
-
                     $filesystem->remove($paths);
+                    throw new RetryablePackageFailureException($e);
                 }
+
+                $repository->checkout($installRef);
+                $repository->checkoutIndex(
+                        $indexPath . $this->platform->getDirectorySeparator());
+                $resolvedComponentVersion->setFinalVersion(
+                        $repository->parseRevision($installRef));
+
+                return $indexPath;
             } else {
                 $logger->debug('Cannot accept component source; skipping', [
                     'componentSource' => $source,
