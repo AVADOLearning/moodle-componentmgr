@@ -17,12 +17,10 @@ IF NOT DEFINED PHP (
 
 SET binDir=%~dp0
 CALL :resolvePath !binDir!\.. rootDir
-SET caBundle=!rootDir!\vendor\kdyby\curl-ca-bundle\src\ca-bundle.crt
 
 %PHP% -d variables_order=EGPCS ^
     -d error_reporting=-1 ^
     -d display_errors=On ^
-    -d curl.cainfo=!caBundle! ^
     !rootDir!\libexec\componentmgr-local %*
 SET errno=%errorlevel%
 EXIT /B !errno!

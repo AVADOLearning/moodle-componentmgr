@@ -36,7 +36,6 @@
         "ext-dom": "*",
         "ext-zip": "*",
         "bramus/monolog-colored-line-formatter": "2.0.*",
-        "kdyby/curl-ca-bundle": "~1.0",
         "guzzlehttp/guzzle": "~6.1",
         "knplabs/github-api": "^2.6",
         "php-http/guzzle6-adapter": "^1.1",
