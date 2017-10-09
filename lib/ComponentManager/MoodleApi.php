@@ -26,7 +26,7 @@ class MoodleApi {
      *
      * @var string
      */
-    const URL_UPDATES = 'http://download.moodle.org/api/1.3/updates.php';
+    const URL_UPDATES = 'https://download.moodle.org/api/1.3/updates.php';
 
     /**
      * HTTP client.
