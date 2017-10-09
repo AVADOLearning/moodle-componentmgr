@@ -9,6 +9,8 @@ Unreleased
     * Package source failures
 * Package source retry behaviour
 * Validate project file before `build` and `package` operations
+* Switch from Guzzle to HTTPlug
+* Provide a fallback CA bundle for all platforms
 
 ## 0.3.0: Shuffle
 
