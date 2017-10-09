@@ -15,12 +15,11 @@ use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
 use Github\Client;
-use Github\HttpClient\CachedHttpClient;
 
 /**
  * GitHub package repository.
  */
-class GithubPackageRepository extends AbstractCachingPackageRepository
+class GithubPackageRepository extends AbstractPackageRepository
         implements PackageRepository {
     /**
      * Cache directory.
@@ -61,9 +60,7 @@ class GithubPackageRepository extends AbstractCachingPackageRepository
      */
     protected function getClient() {
         if ($this->client === null) {
-            $this->client = new Client(new CachedHttpClient([
-                'cache_dir' => $this->getMetadataCacheDirectory(),
-            ]));
+            $this->client = new Client();
         }
 
         return $this->client;
