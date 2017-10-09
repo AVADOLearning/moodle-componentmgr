@@ -9,6 +9,7 @@
  */
 
 use ComponentManager\DependencyInjection\ConsoleCommandsPass;
+use Composer\CaBundle\CaBundle;
 use Symfony\Bundle\MonologBundle\DependencyInjection\Compiler\LoggerChannelPass;
 use Symfony\Bundle\MonologBundle\DependencyInjection\MonologExtension;
 use Symfony\Component\Config\FileLocator;
@@ -27,6 +28,9 @@ if (!ini_get('date.timezone')) {
 $container = new ContainerBuilder();
 $container->addCompilerPass(new ConsoleCommandsPass());
 $container->setParameter('platform.name', PHP_OS);
+$container->setParameter('http_client.options', [
+    'verify' => CaBundle::getSystemCaRootBundlePath(),
+]);
 
 $container->registerExtension(new MonologExtension());
 $container->addCompilerPass(new LoggerChannelPass());
