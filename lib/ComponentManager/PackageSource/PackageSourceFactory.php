@@ -10,6 +10,7 @@
 
 namespace ComponentManager\PackageSource;
 
+use ComponentManager\HttpClient;
 use ComponentManager\Platform\Platform;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -32,6 +33,13 @@ class PackageSourceFactory {
     protected $filesystem;
 
     /**
+     * HTTP client.
+     *
+     * @var HttpClient
+     */
+    protected $httpClient;
+
+    /**
      * Platform support library.
      *
      * @var \ComponentManager\Platform\Platform
@@ -42,10 +50,13 @@ class PackageSourceFactory {
      * Initialiser.
      *
      * @param \ComponentManager\Platform\Platform      $platform
+     * @param HttpClient                               $httpClient
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      */
-    public function __construct(Platform $platform, Filesystem $filesystem) {
+    public function __construct(Platform $platform, HttpClient $httpClient,
+                                Filesystem $filesystem) {
         $this->platform   = $platform;
+        $this->httpClient = $httpClient;
         $this->filesystem = $filesystem;
     }
 
@@ -57,6 +68,6 @@ class PackageSourceFactory {
     public function getPackageSource($name) {
         $className = sprintf(static::CLASS_NAME_FORMAT, $name);
 
-        return new $className($this->platform, $this->filesystem);
+        return new $className($this->platform, $this->httpClient, $this->filesystem);
     }
 }

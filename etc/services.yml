@@ -92,6 +92,7 @@ services:
     class: '\ComponentManager\PackageSource\PackageSourceFactory'
     arguments:
       - '@platform'
+      - '@http_client'
       - '@filesystem'
   platform:
     class: '\ComponentManager\Platform\Platform'

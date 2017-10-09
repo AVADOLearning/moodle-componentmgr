@@ -19,6 +19,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
 use ZipArchive;
 
 /**
@@ -52,8 +53,10 @@ class ZipPackageSource extends AbstractPackageSource
      * @return void
      */
     protected function download($uri, $filename) {
-        $client = new Client();
-        $client->get($uri, ['sink' => $filename]);
+        $message = $this->httpClient->createRequest(
+                Request::METHOD_GET, $uri);
+        $response = $this->httpClient->sendRequest($message);
+        file_put_contents($filename, $response->getBody());
     }
 
     /**

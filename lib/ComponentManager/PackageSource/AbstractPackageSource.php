@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager\PackageSource;
+use ComponentManager\HttpClient;
 use ComponentManager\Platform\Platform;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -24,6 +25,13 @@ abstract class AbstractPackageSource {
     protected $filesystem;
 
     /**
+     * HTTP client.
+     *
+     * @var HttpClient
+     */
+    protected $httpClient;
+
+    /**
      * Platform support library.
      *
      * @var \ComponentManager\Platform\Platform
@@ -34,10 +42,13 @@ abstract class AbstractPackageSource {
      * Initialiser.
      *
      * @param \ComponentManager\Platform\Platform      $platform
+     * @param HttpClient                               $httpClient
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      */
-    public function __construct(Platform $platform, Filesystem $filesystem) {
+    public function __construct(Platform $platform, HttpClient $httpClient,
+                                Filesystem $filesystem) {
         $this->platform   = $platform;
+        $this->httpClient = $httpClient;
         $this->filesystem = $filesystem;
     }
 }
