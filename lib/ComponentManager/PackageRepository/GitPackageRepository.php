@@ -14,8 +14,6 @@ use ComponentManager\Component;
 use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
-use Github\Client;
-use Github\HttpClient\CachedHttpClient;
 
 /**
  * Git package repository.
