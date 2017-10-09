@@ -11,8 +11,8 @@
 namespace ComponentManager;
 
 use ComponentManager\Exception\MoodleApiException;
-use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -29,6 +29,22 @@ class MoodleApi {
     const URL_UPDATES = 'http://download.moodle.org/api/1.3/updates.php';
 
     /**
+     * HTTP client.
+     *
+     * @var HttpClient
+     */
+    protected $client;
+
+    /**
+     * Initialiser.
+     *
+     * @param HttpClient     $client
+     */
+    public function __construct(HttpClient $client) {
+        $this->client = $client;
+    }
+
+    /**
      * Perform a GET request to the specified URI with the specified parameters.
      *
      * @param string  $uri
@@ -39,11 +55,10 @@ class MoodleApi {
      * @throws MoodleApiException
      */
     protected function get($uri, $queryParams) {
-        $client = new Client();
-
-        $response = $client->get($uri, [
-            'query' => $queryParams,
-        ]);
+        $uri = $this->client->createUri($uri)
+            ->withQuery(http_build_query($queryParams));
+        $message = $this->client->createRequest(Request::METHOD_GET, $uri);
+        $response = $this->client->sendRequest($message);
 
         if ($response->getStatusCode() !== Response::HTTP_OK) {
             throw new MoodleApiException(
@@ -63,8 +78,8 @@ class MoodleApi {
      */
     public function getMoodleVersions() {
         $responseBody = json_decode($this->get(static::URL_UPDATES, [
-            'branch'  => '',
-            'version' => '',
+            'branch'  => 0,
+            'version' => 0,
         ])->getBody());
 
         $result = [];

@@ -75,6 +75,8 @@ services:
     class: '\Bramus\Monolog\Formatter\ColoredLineFormatter'
   moodle_api:
     class: '\ComponentManager\MoodleApi'
+    arguments:
+      - '@http_client'
   package_format.factory:
     class: '\ComponentManager\PackageFormat\PackageFormatFactory'
     arguments:
