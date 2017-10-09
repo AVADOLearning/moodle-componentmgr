@@ -57,7 +57,7 @@ services:
   filesystem:
     class: '\Symfony\Component\Filesystem\Filesystem'
   logger.console.formatter:
-    class: 'Bramus\Monolog\Formatter\ColoredLineFormatter'
+    class: '\Bramus\Monolog\Formatter\ColoredLineFormatter'
   moodle_api:
     class: '\ComponentManager\MoodleApi'
   package_format.factory:
