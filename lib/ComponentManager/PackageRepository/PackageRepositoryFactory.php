@@ -10,6 +10,7 @@
 
 namespace ComponentManager\PackageRepository;
 
+use ComponentManager\HttpClient;
 use ComponentManager\Platform\Platform;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -39,13 +40,22 @@ class PackageRepositoryFactory {
     protected $platform;
 
     /**
+     * HTTP client.
+     *
+     * @var HttpClient
+     */
+    private $httpClient;
+
+    /**
      * Initialiser.
      *
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param \ComponentManager\Platform\Platform      $platform
+     * @param HttpClient $httpClient
+     * @param \ComponentManager\Platform\Platform $platform
      */
-    public function __construct(Filesystem $filesystem, Platform $platform) {
+    public function __construct(Filesystem $filesystem, HttpClient $httpClient, Platform $platform) {
         $this->filesystem = $filesystem;
+        $this->httpClient = $httpClient;
         $this->platform   = $platform;
     }
 
@@ -62,6 +72,6 @@ class PackageRepositoryFactory {
         $className = sprintf(self::CLASS_NAME_FORMAT, $id);
 
         return new $className(
-                $this->filesystem, $this->platform, $options);
+                $this->filesystem, $this->httpClient, $this->platform, $options);
     }
 }

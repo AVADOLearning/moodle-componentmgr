@@ -86,6 +86,7 @@ services:
     class: '\ComponentManager\PackageRepository\PackageRepositoryFactory'
     arguments:
       - '@filesystem'
+      - '@http_client'
       - '@platform'
   package_source.factory:
     class: '\ComponentManager\PackageSource\PackageSourceFactory'

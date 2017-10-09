@@ -10,6 +10,7 @@
 
 namespace ComponentManager\PackageRepository;
 
+use ComponentManager\HttpClient;
 use ComponentManager\Platform\Platform;
 use stdClass;
 use Symfony\Component\Filesystem\Filesystem;
@@ -40,15 +41,24 @@ abstract class AbstractPackageRepository {
     protected $options;
 
     /**
+     * HTTP client.
+     *
+     * @var HttpClient
+     */
+    protected $httpClient;
+
+    /**
      * Initialiser.
      *
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param HttpClient                               $httpClient
      * @param \ComponentManager\Platform\Platform      $platform
      * @param \stdClass                                $options
      */
-    public function __construct(Filesystem $filesystem, Platform $platform,
-                                stdClass $options) {
+    public function __construct(Filesystem $filesystem, HttpClient $httpClient,
+                                Platform $platform, stdClass $options) {
         $this->filesystem = $filesystem;
+        $this->httpClient = $httpClient;
         $this->platform   = $platform;
         $this->options    = $options;
     }

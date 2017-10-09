@@ -16,10 +16,10 @@ use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\InvalidProjectException;
 use DateTime;
-use GuzzleHttp\Client;
 use OutOfBoundsException;
 use Psr\Log\LoggerInterface;
 use stdClass;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Atlassian Stash project package repository.
@@ -322,14 +322,11 @@ class StashPackageRepository extends AbstractCachingPackageRepository
      */
     protected function get($path, array $queryParams=[]) {
         $uri = $this->options->uri . $path;
-
-        $client = new Client();
-        $response = $client->get($uri, [
-            'headers' => [
-                'Authorization' => "Basic {$this->options->authentication}",
-            ],
-            'query' => $queryParams,
-        ]);
+        $uri = $this->httpClient->createUri($uri)
+            ->withQuery(http_build_query($queryParams));
+        $message = $this->httpClient->createRequest(Request::METHOD_GET, $uri)
+            ->withHeader('Authorization', "Basic {$this->options->authentication}");
+        $response = $this->httpClient->sendRequest($message);
 
         return json_decode($response->getBody());
     }

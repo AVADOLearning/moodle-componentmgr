@@ -12,6 +12,7 @@ namespace ComponentManager\PackageRepository;
 
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
+use ComponentManager\HttpClient;
 use ComponentManager\Platform\Platform;
 use stdClass;
 use Symfony\Component\Filesystem\Filesystem;
@@ -27,11 +28,12 @@ interface PackageRepository {
      * Initialiser.
      *
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param HttpClient                               $httpClient
      * @param \ComponentManager\Platform\Platform      $platform
      * @param \stdClass                                $options
      */
-    public function __construct(Filesystem $filesystem, Platform $platform,
-                                stdClass $options);
+    public function __construct(Filesystem $filesystem, HttpClient $httpClient,
+                                Platform $platform, stdClass $options);
 
     /**
      * Get repository identifier.

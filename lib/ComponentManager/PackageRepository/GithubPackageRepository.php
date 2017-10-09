@@ -22,15 +22,6 @@ use Github\Client;
 class GithubPackageRepository extends AbstractPackageRepository
         implements PackageRepository {
     /**
-     * Cache directory.
-     *
-     * Path to the Gaufrette response cache for the GitHub API client.
-     *
-     * @var string
-     */
-    const CACHE_DIRECTORY = '%s%sGithub';
-
-    /**
      * GitHub client instance.
      *
      * Lazily loaded -- use {@link getClient()} to ensure it's initialised.

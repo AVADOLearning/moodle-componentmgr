@@ -17,9 +17,9 @@ use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\InvalidProjectException;
 use DateTime;
-use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use stdClass;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Moodle.org/plugins package repository.
@@ -167,8 +167,9 @@ class MoodlePackageRepository extends AbstractCachingPackageRepository
             'url' => static::PLUGIN_LIST_URL,
         ]);
 
-        $client   = new Client();
-        $response = $client->get(static::PLUGIN_LIST_URL);
+        $message = $this->httpClient->createRequest(
+                Request::METHOD_GET, static::PLUGIN_LIST_URL);
+        $response = $this->httpClient->sendRequest($message);
 
         $logger->debug('Indexing component data');
         $rawComponents = json_decode($response->getBody());
