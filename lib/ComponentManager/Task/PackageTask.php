@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Task;
 
+use ComponentManager\HttpClient;
 use ComponentManager\Moodle;
 use ComponentManager\MoodleApi;
 use ComponentManager\MoodleVersion;
@@ -50,6 +51,7 @@ class PackageTask extends InstallTask implements Task {
      * @param string                                   $moodleArchive
      * @param string                                   $moodleDestination
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param HttpClient                               $httpClient
      * @param \ComponentManager\Moodle                 $moodle
      * @param string                                   $packageFormat
      * @param string                                   $packageDestination
@@ -58,8 +60,9 @@ class PackageTask extends InstallTask implements Task {
     public function __construct(MoodleApi $moodleApi, Project $project,
                                 $moodleArchive, $moodleDestination,
                                 Platform $platform, Filesystem $filesystem,
-                                Moodle $moodle, $packageFormat,
-                                $packageDestination, $retries) {
+                                HttpClient $httpClient, Moodle $moodle,
+                                $packageFormat, $packageDestination,
+                                $retries) {
         /* Because we're reordering the installation steps, we don't want to
          * call InstallTask's constructor. */
         AbstractTask::__construct();
@@ -73,7 +76,7 @@ class PackageTask extends InstallTask implements Task {
                 $moodleApi, $project->getProjectFile()->getMoodleVersion()));
         $this->addStep(new ResolveComponentVersionsStep($project));
         $this->addStep(new ObtainMoodleSourceStep(
-                $moodleArchive, dirname($moodleDestination)));
+                $httpClient, $moodleArchive, dirname($moodleDestination)));
         $this->addStep(new InstallComponentsStep(
                 $project, $moodle, $platform, $filesystem, $retries));
         $this->addStep(new BuildComponentsStep(

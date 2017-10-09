@@ -11,8 +11,10 @@
 namespace ComponentManager\Step;
 
 use ComponentManager\Exception\InstallationFailureException;
+use ComponentManager\HttpClient;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use ZipArchive;
 
 /**
@@ -36,14 +38,23 @@ class ObtainMoodleSourceStep implements Step {
     protected $destination;
 
     /**
+     * HTTP client.
+     *
+     * @var HttpClient
+     */
+    protected $httpClient;
+
+    /**
      * Initialiser.
      *
-     * @param \ComponentManager\MoodleVersion $version
-     * @param \Psr\Log\LoggerInterface        $logger
-     * @param string                          $archive
-     * @param string                          $destination
+     * @param HttpClient $httpClient
+     * @param string     $archive
+     * @param string     $destination
      */
-    public function __construct($archive, $destination) {
+    public function __construct(HttpClient $httpClient, $archive,
+                                $destination) {
+        $this->httpClient = $httpClient;
+
         $this->archive     = $archive;
         $this->destination = $destination;
     }
@@ -61,10 +72,9 @@ class ObtainMoodleSourceStep implements Step {
             'archive' => $this->archive,
         ]);
 
-        $client = new Client();
-        $client->get($uri, [
-            'sink' => $this->archive,
-        ]);
+        $message = $this->httpClient->createRequest(Request::METHOD_GET, $uri);
+        $response = $this->httpClient->sendRequest($message);
+        file_put_contents($this->archive, $response->getBody());
 
         $logger->info('Extracting Moodle archive', [
             'archive'     => $this->archive,

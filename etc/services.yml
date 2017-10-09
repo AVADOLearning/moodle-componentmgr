@@ -33,6 +33,7 @@ services:
       - '@package_format.factory'
       - '@moodle_api'
       - '@filesystem'
+      - '@http_client'
       - '@platform'
       - '@logger'
     tags:

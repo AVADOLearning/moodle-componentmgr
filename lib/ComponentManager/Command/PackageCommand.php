@@ -11,6 +11,7 @@
 namespace ComponentManager\Command;
 
 use ComponentManager\Console\Argument;
+use ComponentManager\HttpClient;
 use ComponentManager\Moodle;
 use ComponentManager\MoodleApi;
 use ComponentManager\PackageFormat\PackageFormatFactory;
@@ -49,6 +50,13 @@ HELP;
     protected $moodleApi;
 
     /**
+     * HTTP client.
+     *
+     * @var HttpClient
+     */
+    protected $httpClient;
+
+    /**
      * Initialiser.
      *
      * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
@@ -56,6 +64,7 @@ HELP;
      * @param \ComponentManager\PackageFormat\PackageFormatFactory         $packageFormatFactory
      * @param \ComponentManager\MoodleApi                                  $moodleApi
      * @param \Symfony\Component\Filesystem\Filesystem                     $filesystem
+     * @param HttpClient                                                   $httpClient
      * @param \ComponentManager\Platform\Platform                          $platform
      * @param \Psr\Log\LoggerInterface                                     $logger
      */
@@ -63,8 +72,10 @@ HELP;
                                 PackageSourceFactory $packageSourceFactory,
                                 PackageFormatFactory $packageFormatFactory,
                                 MoodleApi $moodleApi, Filesystem $filesystem,
-                                Platform $platform, LoggerInterface $logger) {
+                                HttpClient $httpClient, Platform $platform,
+                                LoggerInterface $logger) {
         $this->moodleApi = $moodleApi;
+        $this->httpClient = $httpClient;
 
         parent::__construct(
                 $packageRepositoryFactory, $packageSourceFactory,
@@ -118,8 +129,8 @@ HELP;
 
         $task = new PackageTask(
                 $this->moodleApi, $project, $archive, $destination,
-                $this->platform, $this->filesystem, $moodle, $packageFormat,
-                $packageDestination,
+                $this->platform, $this->filesystem, $this->httpClient, $moodle,
+                $packageFormat, $packageDestination,
                 $input->getOption(Argument::OPTION_ATTEMPTS));
         $task->execute($this->logger);
     }
