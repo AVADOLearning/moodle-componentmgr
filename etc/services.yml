@@ -56,6 +56,21 @@ services:
       - { name: 'console.command' }
   filesystem:
     class: '\Symfony\Component\Filesystem\Filesystem'
+  http_client:
+    class: '\ComponentManager\HttpClient'
+    arguments:
+      - '@http_client.client'
+      - '@http_client.message_factory'
+      - '@http_client.uri_factory'
+  http_client.client:
+    class: '\Http\Client\HttpClient'
+    factory: [ 'Http\Adapter\Guzzle6\Client', createWithConfig ]
+    arguments:
+      - '%http_client.options%'
+  http_client.message_factory:
+    class: '\Http\Message\MessageFactory\GuzzleMessageFactory'
+  http_client.uri_factory:
+    class: '\Http\Message\UriFactory\GuzzleUriFactory'
   logger.console.formatter:
     class: '\Bramus\Monolog\Formatter\ColoredLineFormatter'
   moodle_api:
