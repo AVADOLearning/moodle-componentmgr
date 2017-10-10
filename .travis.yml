@@ -1,14 +1,17 @@
+sudo: required
+
 language: ruby
 rvm:
   - 2.3.0
 
-sudo: true
+services:
+  - docker
 
 before_script:
   - eval $(ssh-agent)
   - chmod 0600 test/travis/id_rsa
   - ssh-add test/travis/id_rsa
-  - . test/travis/before_script.sh
+  - bundle install
 
 script:
   - bundle exec kitchen test
