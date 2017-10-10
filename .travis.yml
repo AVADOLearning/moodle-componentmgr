@@ -1,20 +1,22 @@
-sudo: required
+matrix:
+  include:
+    - sudo: required
 
-language: ruby
-rvm:
-  - 2.3.0
+      language: ruby
+      rvm:
+        - 2.3.0
 
-services:
-  - docker
+      services:
+        - docker
 
-before_script:
-  - eval $(ssh-agent)
-  - chmod 0600 test/travis/id_rsa
-  - ssh-add test/travis/id_rsa
-  - bundle install
+      before_script:
+        - eval $(ssh-agent)
+        - chmod 0600 test/travis/id_rsa
+        - ssh-add test/travis/id_rsa
+        - bundle install
 
-script:
-  - bundle exec kitchen test
+      script:
+        - bundle exec kitchen test
 
-after_failure:
-  - test/travis/after_fail.sh
+      after_failure:
+        - test/travis/after_fail.sh
