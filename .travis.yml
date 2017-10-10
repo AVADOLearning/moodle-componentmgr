@@ -1,22 +1,31 @@
 matrix:
   include:
     - sudo: required
-
       language: ruby
       rvm:
         - 2.3.0
-
       services:
         - docker
-
       before_script:
         - eval $(ssh-agent)
         - chmod 0600 test/travis/id_rsa
         - ssh-add test/travis/id_rsa
         - bundle install
-
       script:
         - bundle exec kitchen test
-
       after_failure:
         - test/travis/after_fail.sh
+
+    - language: php
+      php: '5.6'
+      before_script:
+        - composer install
+      script:
+        - vendor/bin/phpunit --exclude-group=platform-windows
+
+    - language: php
+      php: '7.1'
+      before_script:
+        - composer install
+      script:
+        - vendor/bin/phpunit --exclude-group=platform-windows
