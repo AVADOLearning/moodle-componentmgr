@@ -12,44 +12,9 @@ of Moodle-based learning environments.
 
 * * *
 
-## Moodle is great.
-
-Moodle is the world's most popular learning management system. It's open source,
-has a huge developer community and an enormous user base. Its modular design
-allows developers to seamlessly extend the platform with new functionality and
-integrate it with other business systems.
-
-### But it's hard to manage.
-
-Moodle's modular design empowers developers to create highly bespoke online
-learning platforms, but it can become difficult to manage large scale
-deployments of platforms which are comprised of countless separate modules.
-
-### Component Manager aims to fix this problem.
-
-By defining your requirements in one single file, you remove a great deal of the
-complexity involved in managing your deployment environments. Just drop a single
-manifest file into the top of your Moodle installation, and launch a single
-command to install all of your desired components.
-
-This has several key advantages over manual deployments:
-
-* If you're deploying to a clustered environment, you can guarantee that each
-  individual application server is running the same code as its neighbours.
-* When managing multiple environments, e.g. test, UAT and production, you can be
-  sure that the code you're deploying to UAT is the same code that passed your
-  automated tests. Likewise, production deployments are guaranteed to contain
-  only the code that passed your UAT testing.
-
-### This is not a new concept.
-
-Linux distributions have been managing system libraries, applications and
-configuration files within package managers for years. Perl has had CPAN for a
-very long time. Magento developers even use a tool called Modman to manage
-Magento modules (and Magento's module system is a great deal more difficult than
-Moodle's!).
-
 ## Key concepts
+
+For the sales pitch, see the [presentation](https://www.youtube.com/watch?v=1yspa9o-fMA) and [slides](https://docs.google.com/presentation/d/1SR-VWrZBAwlWMBrHzD5zCo1Lhz-4noeidOJJNbBYFyI/edit?usp=sharing).
 
 * _Package repositories_ contain metadata about components. This metadata
   describes the components themselves and contains information about available
