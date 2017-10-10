@@ -37,7 +37,7 @@ license as the core Moodle distribution.
 
 ## Requirements
 
-* PHP >= 5.5
+* PHP >= 5.6
 * Moodle >= 2.7
 
 ## Installation
