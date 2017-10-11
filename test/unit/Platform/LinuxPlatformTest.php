@@ -17,7 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * @group platform
  * @group platform-linux
  */
-class PlatformLinuxTest extends TestCase {
+class PlatformLinuxPlatformTest extends TestCase {
     /**
      * @var string
      */

@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  * @group platform
  * @group platform-windows
  */
-class PlatformWindowsTest extends TestCase {
+class PlatformWindowsPlatformTest extends TestCase {
     /**
      * @var string
      */
