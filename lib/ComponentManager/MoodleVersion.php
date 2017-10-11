@@ -144,7 +144,7 @@ class MoodleVersion {
      */
     public function satisfies($specification) {
         if ((float) $specification === $this->build) {
-            return true;
+            return 100;
         }
 
         $parts = [];
