@@ -9,6 +9,7 @@
  */
 
 use ComponentManager\Platform\LinuxPlatform;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -16,7 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * @group platform
  * @group platform-linux
  */
-class PlatformLinuxTest extends PHPUnit_Framework_TestCase {
+class PlatformLinuxTest extends TestCase {
     /**
      * @var string
      */

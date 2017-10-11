@@ -9,13 +9,14 @@
  */
 
 use ComponentManager\Platform\WindowsPlatform;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \ComponentManager\Platform\WindowsPlatform
  * @group platform
  * @group platform-windows
  */
-class PlatformWindowsTest extends PHPUnit_Framework_TestCase {
+class PlatformWindowsTest extends TestCase {
     /**
      * @var string
      */
