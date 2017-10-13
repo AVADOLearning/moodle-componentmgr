@@ -94,7 +94,8 @@ class GitPackageSource extends AbstractPackageSource
                 $repository->addRemote(new GitRemote('origin', $repositoryUri));
 
                 try {
-                    $repository->fetch('origin');
+                    $repository->fetch();
+                    $repository->fetchTags();
                 } catch (VersionControlException $e) {
                     $filesystem->remove($paths);
                     throw new RetryablePackageFailureException($e);
@@ -103,8 +104,8 @@ class GitPackageSource extends AbstractPackageSource
                 $repository->checkout($installRef);
                 $repository->checkoutIndex(
                         $indexPath . $this->platform->getDirectorySeparator());
-                $resolvedComponentVersion->setFinalVersion(
-                        $repository->parseRevision($installRef));
+                $resolvedComponentVersion->setFinalVersion(trim(
+                        $repository->parseRevision($installRef)->getOutput()));
 
                 return $indexPath;
             } else {

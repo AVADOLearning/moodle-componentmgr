@@ -11,6 +11,13 @@
 namespace ComponentManager\VersionControl\Git;
 
 use ComponentManager\Exception\VersionControlException;
+use ComponentManager\VersionControl\Git\Command\CheckoutCommand;
+use ComponentManager\VersionControl\Git\Command\CheckoutIndexCommand;
+use ComponentManager\VersionControl\Git\Command\Command;
+use ComponentManager\VersionControl\Git\Command\FetchCommand;
+use ComponentManager\VersionControl\Git\Command\InitCommand;
+use ComponentManager\VersionControl\Git\Command\RevParseCommand;
+use ComponentManager\VersionControl\Git\Command\RemoteAddCommand;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
@@ -35,7 +42,7 @@ class GitVersionControl {
     /**
      * Remotes.
      *
-     * @var \ComponentManager\VersionControl\Git\GitRemote[]
+     * @var GitRemote[]
      */
     protected $remotes;
 
@@ -53,101 +60,13 @@ class GitVersionControl {
     }
 
     /**
-     * Add the specified remote to the repository.
-     *
-     * @param \ComponentManager\VersionControl\Git\GitRemote $remote
-     */
-    public function addRemote(GitRemote $remote) {
-        $name = $remote->getName();
-        $uri  = $remote->getUri();
-
-        $this->remotes[$name] = $remote;
-
-        $process = $this->getProcess(['remote', 'add', $name, $uri]);
-        $process->run();
-
-        $this->ensureSuccess(
-                $process, VersionControlException::CODE_REMOTE_ADD_FAILED);
-    }
-
-    /**
-     * Checkout the specified reference.
-     *
-     * @param string $ref
-     *
-     * @return void
-     */
-    public function checkout($ref) {
-        $process = $this->getProcess(['checkout', $ref]);
-        $process->run();
-
-        $this->ensureSuccess(
-                $process, VersionControlException::CODE_CHECKOUT_FAILED);
-    }
-
-    /**
-     * Checkout all files in the index to the specified directory.
-     *
-     * @param string $prefix
-     *
-     * @throws \ComponentManager\Exception\PlatformException
-     */
-    public function checkoutIndex($prefix) {
-        $process = $this->getProcess(
-                ['checkout-index', '--all', "--prefix={$prefix}"]);
-        $process->run();
-
-        $this->ensureSuccess(
-                $process, VersionControlException::CODE_CHECKOUT_INDEX_FAILED);
-    }
-
-    /**
-     * Fetch references from the specified remote.
-     *
-     * @param string  $remote
-     * @param boolean $withTags
-     *
-     * @return void
-     */
-    public function fetch($remote, $withTags=true) {
-        $process = $this->getProcess(['fetch', $remote]);
-        $process->run();
-
-        $this->ensureSuccess(
-                $process, VersionControlException::CODE_FETCH_FAILED);
-
-        if ($withTags) {
-            $process = $this->getProcess(['fetch', '--tags', $remote]);
-            $process->run();
-
-            $this->ensureSuccess(
-                    $process, VersionControlException::CODE_FETCH_FAILED);
-        }
-    }
-
-    /**
-     * Ensure the specified command executed successfully.
-     *
-     * @param \Symfony\Component\Process\Process $process
-     * @param integer                            $code
-     *
-     * @throws \ComponentManager\Exception\VersionControlException
-     */
-    protected function ensureSuccess(Process $process, $code) {
-        if (!$process->isSuccessful()) {
-            throw new VersionControlException(
-                    $process->getCommandLine(), $code);
-        }
-    }
-
-    /**
      * Get a ready-to-run Process instance.
      *
-     * @param  mixed[] $arguments Arguments to pass to the Git binary.
+     * @param string[] $arguments Arguments to pass to the Git binary.
      *
      * @return \Symfony\Component\Process\Process
      */
-    protected function getProcess($arguments) {
+    public function createProcess($arguments) {
         array_unshift($arguments, $this->gitExecutable);
 
         $builder = new ProcessBuilder($arguments);
@@ -157,17 +76,123 @@ class GitVersionControl {
     }
 
     /**
+     * Execute and ensure successful execution of a command.
+     *
+     * @param Command $command
+     * @param integer|null $exceptionCode
+     *
+     * @return Process
+     *
+     * @throws VersionControlException
+     */
+    public function runCommand(Command $command, $exceptionCode=null) {
+        $process = $this->createProcess($command->getCommandLine());
+        $process->run();
+
+        if ($exceptionCode !== null && !$process->isSuccessful()) {
+            throw new VersionControlException(
+                $process->getCommandLine(), $exceptionCode);
+        }
+
+        return $process;
+    }
+
+    /**
+     * Add the specified remote to the repository.
+     *
+     * @param GitRemote $remote
+     *
+     * @return Process
+     *
+     * @throws VersionControlException
+     *
+     * @codeCoverageIgnore
+     */
+    public function addRemote(GitRemote $remote) {
+        $command = new RemoteAddCommand($remote);
+        return $this->runCommand($command,
+                VersionControlException::CODE_REMOTE_ADD_FAILED);
+    }
+
+    /**
+     * Checkout the specified reference.
+     *
+     * @param string $ref
+     *
+     * @return Process
+     *
+     * @throws VersionControlException
+     *
+     * @codeCoverageIgnore
+     */
+    public function checkout($ref) {
+        $command = new CheckoutCommand($ref);
+        return $this->runCommand(
+                $command, VersionControlException::CODE_CHECKOUT_FAILED);
+    }
+
+    /**
+     * Checkout all files in the index to the specified directory.
+     *
+     * @param string $prefix
+     *
+     * @return Process
+     *
+     * @throws VersionControlException
+     *
+     * @codeCoverageIgnore
+     */
+    public function checkoutIndex($prefix) {
+        $command = new CheckoutIndexCommand($prefix);
+        return $this->runCommand(
+                $command, VersionControlException::CODE_CHECKOUT_INDEX_FAILED);
+    }
+
+    /**
+     * Fetch references from the specified remote.
+     *
+     * @param string|null $remote
+     *
+     * @return Process
+     *
+     * @throws VersionControlException
+     *
+     * @codeCoverageIgnore
+     */
+    public function fetch($remote=null) {
+        $command = new FetchCommand($remote);
+        return $this->runCommand(
+                $command, VersionControlException::CODE_FETCH_FAILED);
+    }
+
+    /**
+     * Fetch tags from the specified remote.
+     *
+     * @param string|null $remote
+     *
+     * @return Process
+     *
+     * @throws VersionControlException
+     *
+     * @codeCoverageIgnore
+     */
+    public function fetchTags($remote=null) {
+        $command = new FetchCommand($remote);
+        $command->setTags(true);
+        return $this->runCommand(
+                $command, VersionControlException::CODE_FETCH_FAILED);
+    }
+
+    /**
      * Initialise Git repository.
      *
      * @throws VersionControlException
-     * @throws \ComponentManager\Exception\PlatformException
+     *
+     * @codeCoverageIgnore
      */
     public function init() {
-        $process = $this->getProcess(['init']);
-        $process->run();
-
-        $this->ensureSuccess(
-                $process, VersionControlException::CODE_INIT_FAILED);
+        $command = new InitCommand();
+        return $this->runCommand($command);
     }
 
     /**
@@ -175,17 +200,15 @@ class GitVersionControl {
      *
      * @param string $ref
      *
-     * @return string
+     * @return Process
      *
-     * @throws \ComponentManager\Exception\VersionControlException
+     * @throws VersionControlException
+     *
+     * @codeCoverageIgnore
      */
     public function parseRevision($ref) {
-        $process = $this->getProcess(['rev-parse', $ref]);
-        $process->run();
-
-        $this->ensureSuccess(
-                $process, VersionControlException::CODE_REV_PARSE_FAILED);
-
-        return trim($process->getOutput());
+        $command = new RevParseCommand($ref);
+        return $this->runCommand(
+                $command, VersionControlException::CODE_REV_PARSE_FAILED);
     }
 }
