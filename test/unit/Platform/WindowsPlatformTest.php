@@ -8,6 +8,8 @@
  * @license GPL-3.0+
  */
 
+namespace ComponentManager\Test\Platform;
+
 use ComponentManager\Platform\WindowsPlatform;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  * @group platform
  * @group platform-windows
  */
-class PlatformWindowsPlatformTest extends TestCase {
+class WindowsPlatformTest extends TestCase {
     /**
      * @var string
      */

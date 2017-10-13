@@ -8,6 +8,8 @@
  * @license GPL-3.0+
  */
 
+namespace ComponentManager\Test\Platform;
+
 use ComponentManager\Platform\LinuxPlatform;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
@@ -17,7 +19,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * @group platform
  * @group platform-linux
  */
-class PlatformLinuxPlatformTest extends TestCase {
+class LinuxPlatformTest extends TestCase {
     /**
      * @var string
      */

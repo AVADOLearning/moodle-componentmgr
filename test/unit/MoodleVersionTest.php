@@ -8,6 +8,8 @@
  * @license GPL-3.0+
  */
 
+namespace ComponentManager\Test;
+
 use ComponentManager\MoodleVersion;
 use PHPUnit\Framework\TestCase;
 

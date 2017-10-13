@@ -8,6 +8,8 @@
  * @license GPL-3.0+
  */
 
+namespace ComponentManager\Test;
+
 use ComponentManager\Component;
 use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\UnsatisfiedVersionException;

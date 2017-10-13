@@ -8,7 +8,10 @@
  * @license GPL-3.0+
  */
 
+namespace ComponentManager\Test;
+
 use ComponentManager\ComponentSpecification;
+use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 
 /**
