@@ -48,8 +48,8 @@ for different use cases.
 ### Globally, via CGR (recommended)
 
 [CGR](https://github.com/consolidation/cgr) provides a safe alternative to
-globally requiring packages by sandboxing individual sandboxing individual
-packages and their dependencies. This approach is recommended for most users.
+globally requiring packages by sandboxing individual packages and their
+dependencies. This approach is recommended for most users.
 
 1. Globally require CGR with `composer global require consolidation/cgr`.
 2. Install Component Manager with `cgr lukecarrier/moodle-componentmgr`.
