@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager\PackageSource;
+
 use ComponentManager\HttpClient;
 use ComponentManager\Platform\Platform;
 use Symfony\Component\Filesystem\Filesystem;

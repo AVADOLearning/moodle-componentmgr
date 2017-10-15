@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager\Project;
+
 use ComponentManager\ResolvedComponentVersion;
 
 /**

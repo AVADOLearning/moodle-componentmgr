@@ -9,6 +9,7 @@
  */
 
 namespace ComponentManager\PackageFormat;
+
 use ComponentManager\Platform\Platform;
 
 /**
