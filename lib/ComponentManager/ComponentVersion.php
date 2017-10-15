@@ -102,6 +102,8 @@ class ComponentVersion {
      * @param \ComponentManager\ComponentSource\ComponentSource $source
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public function addSource(ComponentSource $source) {
         $this->sources[] = $source;
@@ -113,6 +115,8 @@ class ComponentVersion {
      * One of the MATURITY_* constants.
      *
      * @return integer
+     *
+     * @codeCoverageIgnore
      */
     public function getMaturity() {
         return $this->maturity;
@@ -122,6 +126,8 @@ class ComponentVersion {
      * Get release name.
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     public function getRelease() {
         return $this->release;
@@ -131,6 +137,8 @@ class ComponentVersion {
      * Get component sources.
      *
      * @return \ComponentManager\ComponentSource\ComponentSource[]
+     *
+     * @codeCoverageIgnore
      */
     public function getSources() {
         return $this->sources;
@@ -140,6 +148,8 @@ class ComponentVersion {
      * Get Moodle component version.
      *
      * @return integer
+     *
+     * @codeCoverageIgnore
      */
     public function getVersion() {
         return $this->version;

@@ -94,6 +94,8 @@ class MoodleVersion {
      * Get the build number.
      *
      * @return float
+     *
+     * @codeCoverageIgnore
      */
     public function getBuild() {
         return $this->build;
@@ -103,6 +105,8 @@ class MoodleVersion {
      * Get the release name.
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     public function getRelease() {
         return $this->release;
@@ -112,6 +116,8 @@ class MoodleVersion {
      * Get the branch name.
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     public function getBranch() {
         return $this->branch;
@@ -121,6 +127,8 @@ class MoodleVersion {
      * Get the maturity level.
      *
      * @return int
+     *
+     * @codeCoverageIgnore
      */
     public function getMaturity() {
         return $this->maturity;
@@ -130,6 +138,8 @@ class MoodleVersion {
      * Get the download URI.
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     public function getDownloadUri() {
         return $this->downloadUri;

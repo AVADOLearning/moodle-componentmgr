@@ -81,6 +81,8 @@ class ComponentSpecification {
      * Get the component's name.
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     public function getName() {
         return $this->name;
@@ -90,6 +92,8 @@ class ComponentSpecification {
      * Get the ID of the component's package repository.
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     public function getPackageRepository() {
         return $this->packageRepository;
@@ -99,6 +103,8 @@ class ComponentSpecification {
      * Get the ID of the component's package source.
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     public function getPackageSource() {
         return $this->packageSource;
@@ -108,6 +114,8 @@ class ComponentSpecification {
      * Get the component's version.
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     public function getVersion() {
         return $this->version;

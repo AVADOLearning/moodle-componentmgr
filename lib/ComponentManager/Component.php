@@ -74,6 +74,8 @@ class Component {
      * Get the component's name.
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     public function getName() {
         return $this->name;
@@ -83,6 +85,8 @@ class Component {
      * Get the component's package repository.
      *
      * @return \ComponentManager\PackageRepository\PackageRepository
+     *
+     * @codeCoverageIgnore
      */
     public function getPackageRepository() {
         return $this->packageRepository;
