@@ -358,10 +358,3 @@ on platforms they're not designed for. To exclude them, use PHPUnit's
 
 * `platform-linux`
 * `platform-windows`
-
-## Troubleshooting
-
-* `"cURL error 60: SSL certificate problem: unable to get local issuer
-  certificate"`
-  Ensure that `curl.cainfo` in `php.ini` is set to a valid certificate
-  bundle. A certificate bundle is provided for Windows users.
