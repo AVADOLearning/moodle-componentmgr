@@ -57,7 +57,7 @@ class FetchCommand implements Command {
     /**
      * Get the remote name.
      *
-     * @return string
+     * @return string|null
      *
      * @codeCoverageIgnore
      */
