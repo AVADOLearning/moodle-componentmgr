@@ -1,0 +1,24 @@
+version: '{build}'
+build: false
+
+install:
+  # Install PHP and Xdebug
+  - ps: |
+      .\test\env\install_php.ps1 `
+              -BaseName 56 -Version 5.6.31 `
+              -XdebugUri https://xdebug.org/files/php_xdebug-2.5.5-5.6-vc11-nts-x86_64.dll
+  - SET PATH=C:\tools\php56;%PATH%
+
+  # Install Git
+  - choco install git -y --params="/GitOnlyOnPath /NoAuthCrlf /NoShellIntegration /WindowsTerminal"
+
+  # Install Component Manager dependencies via Composer
+  - ps: |
+      $client = New-Object System.Net.WebClient
+      $client.DownloadFile( `
+              'https://getcomposer.org/composer.phar', `
+              (Join-Path $env:APPVEYOR_BUILD_FOLDER 'composer.phar'))
+  - php composer.phar install --no-progress
+
+test_script:
+  - vendor/bin/phpunit --exclude-group=platform-linux
