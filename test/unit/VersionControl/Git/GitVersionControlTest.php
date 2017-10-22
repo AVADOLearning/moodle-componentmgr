@@ -20,12 +20,26 @@ use Symfony\Component\Process\Process;
  * @coversDefaultClass \ComponentManager\VersionControl\GitVersionControl
  */
 class GitVersionControlTest extends TestCase {
-    public function testCreateProcess() {
+    /**
+     * @group platform-linux
+     */
+    public function testCreateProcessLinux() {
         $repo = new GitVersionControl('git', getcwd());
         $process = $repo->createProcess(['help']);
 
         $this->assertEquals(getcwd(), $process->getWorkingDirectory());
         $this->assertEquals('\'git\' \'help\'', $process->getCommandLine());
+    }
+
+    /**
+     * @group platform-windows
+     */
+    public function testCreateProcessWindows() {
+        $repo = new GitVersionControl('git', getcwd());
+        $process = $repo->createProcess(['help']);
+
+        $this->assertEquals(getcwd(), $process->getWorkingDirectory());
+        $this->assertEquals('git help', $process->getCommandLine());
     }
 
     public function testRunCommand() {
