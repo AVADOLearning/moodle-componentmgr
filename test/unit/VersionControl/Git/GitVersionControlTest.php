@@ -54,7 +54,7 @@ class GitVersionControlTest extends TestCase {
     }
 
     public function testRunCommandThrows() {
-        $repo = new GitVersionControl('git', 'getcwd');
+        $repo = new GitVersionControl('git', getcwd());
         $command = $this->createMock(Command::class);
         $command->method('getCommandLine')
             ->willReturn(['completely-invalid-command']);
