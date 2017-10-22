@@ -12,6 +12,7 @@ namespace ComponentManager\Test\Platform;
 
 use ComponentManager\Platform\WindowsPlatform;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @coversDefaultClass \ComponentManager\Platform\WindowsPlatform
@@ -40,7 +41,8 @@ class WindowsPlatformTest extends TestCase {
 
         $this->oldWorkingDirectory = getcwd();
 
-        $this->platform = new WindowsPlatform();
+        $filesystem = $this->createMock(Filesystem::class);
+        $this->platform = new WindowsPlatform($filesystem);
     }
 
     public function tearDown() {
