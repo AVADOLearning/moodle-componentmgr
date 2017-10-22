@@ -2,34 +2,12 @@ version: '{build}'
 build: false
 
 install:
-  # Enable the Windows Update service during PHP installation as we may need to
-  # install Windows updates.
-  - ps: Set-Service -Name wuauserv -StartupType Automatic
-  - ps: Start-Service -Name wuauserv
-  - choco install -y php
-  - ps: Set-Service -Name wuauserv -StartupType Disabled
-  - ps: Stop-Service -Name wuauserv
-  - ps: Copy-Item C:\tools\php71\php.ini-production C:\tools\php71\php.ini
+  # Install PHP and Xdebug
   - ps: |
-      (Get-Content -Path C:\tools\php71\php.ini | Out-String) `
-              -replace '; extension_dir = "ext"',     'extension_dir = "ext"'      `
-              -replace ';extension=php_curl.dll',     'extension=php_curl.dll'     `
-              -replace ';extension=php_mbstring.dll', 'extension=php_mbstring.dll' `
-              -replace ';extension=php_openssl.dll',  'extension=php_openssl.dll'  `
-              | Set-Content -Path C:\tools\php71\php.ini
+      .\test\env\install_php.ps1 `
+              -BaseName 71 -Version 7.1.10 `
+              -XdebugUri https://xdebug.org/files/php_xdebug-2.5.5-7.1-vc14-nts-x86_64.dll
   - SET PATH=C:\tools\php71;%PATH%
-
-  # Install Xdebug extension
-  - ps: New-Item -Path C:\tools\php71-xdebug -ItemType Directory
-  - ps: |
-      $client = New-Object System.Net.WebClient
-      $client.DownloadFile( `
-              'https://xdebug.org/files/php_xdebug-2.5.5-7.1-vc14-nts-x86_64.dll', `
-              'C:\tools\php71-xdebug\php_xdebug-2.5.5-7.1-vc14-nts-x86_64.dll')
-  - ps: |
-      Add-Content `
-              -Path C:\tools\php71\php.ini `
-              -Value 'zend_extension=C:\tools\php71-xdebug\php_xdebug-2.5.5-7.1-vc14-nts-x86_64.dll'
 
   # Install Git
   - choco install git -y --params="/GitOnlyOnPath /NoAuthCrlf /NoShellIntegration /WindowsTerminal"
