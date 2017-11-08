@@ -2,7 +2,7 @@
 
 ## 0.4.0: Beings
 
-Unreleased
+Released 2017-11-08
 
 * Improve error handling
     * Missing plugin type target directory
