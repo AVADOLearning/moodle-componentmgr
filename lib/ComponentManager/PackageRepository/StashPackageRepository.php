@@ -141,17 +141,10 @@ class StashPackageRepository extends AbstractCachingPackageRepository
         }
 
         if ($packageCacheDirty) {
-            // TODO: we should probably be logging writes here
             $this->writeMetadataCache($this->packageCache);
         }
 
         $versions = [];
-
-        /* TODO: For the time being, we'll do these first so that tags take
-         *       precedence over branches later when we attempt to satisfy
-         *       version specifications. We should definitely be seeking to
-         *       replace this crude approach with an indication of priority on
-         *       source or version objects later. */
         foreach ($package->tags as $tag) {
             $sources = [];
 

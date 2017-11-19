@@ -16,9 +16,6 @@ class PackageFailureException extends AbstractException {
     /**
      * Generic packaging failure.
      *
-     * @todo We probably ought to try and categorise the different types of
-     *       failure more specifically in the near future.
-     *
      * @var integer
      */
     const CODE_OTHER = 1;

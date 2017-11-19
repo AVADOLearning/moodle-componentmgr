@@ -65,8 +65,6 @@ class ConsoleCommandsPass implements CompilerPassInterface {
         $services      = $container->findTaggedServiceIds($this->tagName);
         $appDefinition = $container->getDefinition($this->appId);
 
-        // TODO: verify $appDefinition's class is actually legit
-
         foreach ($services as $id => $tags) {
             $definition = $container->getDefinition($id);
 

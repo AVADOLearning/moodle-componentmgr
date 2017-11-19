@@ -69,7 +69,6 @@ class PackageRepositoryFactory {
      * @return PackageRepository
      */
     public function getPackageRepository($id, $options) {
-        // @todo diagnose the cause of static::CLASS_NAME_FORMAT not working
         $className = sprintf(self::CLASS_NAME_FORMAT, $id);
 
         return new $className(
