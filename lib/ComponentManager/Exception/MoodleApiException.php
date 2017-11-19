@@ -10,6 +10,8 @@
 
 namespace ComponentManager\Exception;
 
+use ComponentManager\Exception\AbstractException;
+
 class MoodleApiException extends AbstractException {
     /**
      * Code: request failed.
@@ -19,14 +21,14 @@ class MoodleApiException extends AbstractException {
     const CODE_REQUEST_FAILED = 1;
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionType() {
         return 'MoodleApiException';
     }
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

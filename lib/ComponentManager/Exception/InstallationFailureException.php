@@ -10,6 +10,8 @@
 
 namespace ComponentManager\Exception;
 
+use ComponentManager\Exception\AbstractException;
+
 /**
  * Installation failure exception.
  *
@@ -53,14 +55,14 @@ class InstallationFailureException extends AbstractException {
     const CODE_UNKNOWN_TARGET_DIRECTORY = 5;
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionType() {
         return 'InstallationFailureException';
     }
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

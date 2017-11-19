@@ -29,7 +29,7 @@ class Moodle {
     /**
      * Platform support library.
      *
-     * @var \ComponentManager\Platform\Platform
+     * @var Platform
      */
     protected $platform;
 
@@ -75,7 +75,7 @@ class Moodle {
      *
      * @param mixed[] $arguments
      *
-     * @return \Symfony\Component\Process\Process
+     * @return Process
      */
     protected function getProcess($arguments) {
         $prefix = [
@@ -98,9 +98,9 @@ class Moodle {
     /**
      * Ensure the specified command executed successfully.
      *
-     * @param \Symfony\Component\Process\Process $process
+     * @param Process $process
      *
-     * @throws \ComponentManager\Exception\MoodleException
+     * @throws MoodleException
      */
     protected function ensureSuccess(Process $process) {
         if (!$process->isSuccessful()) {

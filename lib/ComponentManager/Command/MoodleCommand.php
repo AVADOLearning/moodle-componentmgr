@@ -35,7 +35,7 @@ Queries properties of the Moodle installation in the present working directory.
 HELP;
 
     /**
-     * @override \Symfony\Component\Console\Command\Command
+     * @override Command
      */
     protected function configure() {
         $this
@@ -53,7 +53,7 @@ HELP;
     }
 
     /**
-     * @override \Symfony\Component\Console\Command\Command
+     * @override Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $action = $input->getArgument(Argument::ARGUMENT_ACTION);

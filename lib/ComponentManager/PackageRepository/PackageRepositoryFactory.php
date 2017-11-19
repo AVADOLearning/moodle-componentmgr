@@ -12,6 +12,7 @@ namespace ComponentManager\PackageRepository;
 
 use ComponentManager\HttpClient;
 use ComponentManager\Platform\Platform;
+use stdClass;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -28,14 +29,14 @@ class PackageRepositoryFactory {
     /**
      * Filesystem.
      *
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $filesystem;
 
     /**
      * Platform.
      *
-     * @var \ComponentManager\Platform\Platform
+     * @var Platform
      */
     protected $platform;
 
@@ -49,9 +50,9 @@ class PackageRepositoryFactory {
     /**
      * Initialiser.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param Filesystem $filesystem
      * @param HttpClient $httpClient
-     * @param \ComponentManager\Platform\Platform $platform
+     * @param Platform   $platform
      */
     public function __construct(Filesystem $filesystem, HttpClient $httpClient, Platform $platform) {
         $this->filesystem = $filesystem;
@@ -62,10 +63,10 @@ class PackageRepositoryFactory {
     /**
      * Get package repository.
      *
-     * @param string    $id
-     * @param \stdClass $options
+     * @param string   $id
+     * @param stdClass $options
      *
-     * @return \ComponentManager\PackageRepository\PackageRepository
+     * @return PackageRepository
      */
     public function getPackageRepository($id, $options) {
         // @todo diagnose the cause of static::CLASS_NAME_FORMAT not working

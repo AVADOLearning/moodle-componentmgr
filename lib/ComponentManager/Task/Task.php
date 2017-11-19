@@ -23,7 +23,7 @@ interface Task {
     /**
      * Add a step.
      *
-     * @param \ComponentManager\Step\Step $step
+     * @param Step $step
      *
      * @return void
      */
@@ -32,7 +32,7 @@ interface Task {
     /**
      * Execute steps.
      *
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param LoggerInterface $logger
      *
      * @return void
      */

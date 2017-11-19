@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Step;
 
+use ComponentManager\Task\Task;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -22,8 +23,8 @@ interface Step {
     /**
      * Execute this action.
      *
-     * @param \ComponentManager\Task\Task $task
-     * @param \Psr\Log\LoggerInterface    $logger
+     * @param Task            $task
+     * @param LoggerInterface $logger
      *
      * @return void
      */

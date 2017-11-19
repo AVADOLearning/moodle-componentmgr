@@ -11,12 +11,13 @@
 namespace ComponentManager\Project;
 
 use ComponentManager\Exception\InvalidProjectException;
+use stdClass;
 
 abstract class JsonFile {
     /**
      * Decoded file contents.
      *
-     * @var \stdClass
+     * @var stdClass
      */
     protected $contents;
 

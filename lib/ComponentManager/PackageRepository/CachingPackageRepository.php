@@ -10,6 +10,7 @@
 
 namespace ComponentManager\PackageRepository;
 
+use DateTime;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -19,7 +20,7 @@ interface CachingPackageRepository {
     /**
      * Retrieve the time of the last cache update time.
      *
-     * @return \DateTime|null
+     * @return DateTime|null
      */
     public function metadataCacheLastRefreshed();
 

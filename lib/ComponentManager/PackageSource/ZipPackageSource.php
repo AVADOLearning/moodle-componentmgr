@@ -60,14 +60,14 @@ class ZipPackageSource extends AbstractPackageSource
     }
 
     /**
-     * @override \ComponentManager\PackageSource\PackageSource
+     * @override PackageSource
      */
     public function getId() {
         return 'Zip';
     }
 
     /**
-     * @override \ComponentManager\PackageSource\PackageSource
+     * @override PackageSource
      */
     public function getName() {
         return 'Zip';
@@ -76,8 +76,8 @@ class ZipPackageSource extends AbstractPackageSource
     /**
      * Get archive filename.
      *
-     * @param \ComponentManager\Component        $component
-     * @param \ComponentManager\ComponentVersion $version
+     * @param Component        $component
+     * @param ComponentVersion $version
      *
      * @return string
      */
@@ -90,8 +90,8 @@ class ZipPackageSource extends AbstractPackageSource
     /**
      * Get target directory.
      *
-     * @param \ComponentManager\Component        $component
-     * @param \ComponentManager\ComponentVersion $version
+     * @param Component        $component
+     * @param ComponentVersion $version
      *
      * @return string
      */
@@ -102,7 +102,7 @@ class ZipPackageSource extends AbstractPackageSource
     }
 
     /**
-     * @override \ComponentManager\PackageSource\PackageSource
+     * @override PackageSource
      */
     public function obtainPackage($tempDirectory,
                                   ResolvedComponentVersion $resolvedComponentVersion,
@@ -163,13 +163,14 @@ class ZipPackageSource extends AbstractPackageSource
     /**
      * Try the given source.
      *
-     * @param string                                               $tempDirectory
-     * @param \Psr\Log\LoggerInterface                             $logger
-     * @param \ComponentManager\Component                          $component
-     * @param \ComponentManager\ComponentVersion                   $version
-     * @param \ComponentManager\ComponentSource\ZipComponentSource $source
+     * @param string             $tempDirectory
+     * @param LoggerInterface    $logger
+     * @param Component          $component
+     * @param ComponentVersion   $version
+     * @param ZipComponentSource $source
      *
      * @return string
+     *
      * @throws InstallationFailureException
      */
     protected function trySource($tempDirectory, LoggerInterface $logger,

@@ -10,7 +10,9 @@
 
 namespace ComponentManager;
 
+use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\UnsatisfiedVersionException;
+use ComponentManager\PackageRepository\PackageRepository;
 
 /**
  * Component.
@@ -31,7 +33,7 @@ class Component {
     /**
      * Dependencies.
      *
-     * @var \ComponentManager\Component[]
+     * @var Component[]
      */
     protected $dependencies;
 
@@ -45,23 +47,23 @@ class Component {
     /**
      * Package repository.
      *
-     * @var \ComponentManager\PackageRepository\PackageRepository
+     * @var PackageRepository
      */
     protected $packageRepository;
 
     /**
      * Component versions.
      *
-     * @var \ComponentManager\ComponentVersion[]
+     * @var ComponentVersion[]
      */
     protected $versions;
 
     /**
      * Initialiser.
      *
-     * @param string                                                $name
-     * @param \ComponentManager\ComponentVersion[]                  $versions
-     * @param \ComponentManager\PackageRepository\PackageRepository $packageRepository
+     * @param string                 $name
+     * @param ComponentVersion[]     $versions
+     * @param PackageRepository|null $packageRepository
      */
     public function __construct($name, $versions, $packageRepository=null) {
         $this->name     = $name;
@@ -84,7 +86,7 @@ class Component {
     /**
      * Get the component's package repository.
      *
-     * @return \ComponentManager\PackageRepository\PackageRepository
+     * @return PackageRepository
      *
      * @codeCoverageIgnore
      */
@@ -134,7 +136,7 @@ class Component {
      *
      * @param string $versionSpecification
      *
-     * @return \ComponentManager\ComponentVersion
+     * @return ComponentVersion
      */
     public function getVersion($versionSpecification) {
         foreach ($this->versions as $version) {

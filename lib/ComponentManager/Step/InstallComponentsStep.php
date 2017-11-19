@@ -16,6 +16,7 @@ use ComponentManager\Exception\UnsatisfiedVersionException;
 use ComponentManager\Moodle;
 use ComponentManager\Platform\Platform;
 use ComponentManager\Project\Project;
+use ComponentManager\Task\InstallTask;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -24,28 +25,28 @@ class InstallComponentsStep implements Step {
     /**
      * Project.
      *
-     * @var \ComponentManager\Project\Project
+     * @var Project
      */
     protected $project;
 
     /**
      * Moodle.
      *
-     * @var \ComponentManager\Moodle
+     * @var Moodle
      */
     protected $moodle;
 
     /**
      * Filesystem.
      *
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $filesystem;
 
     /**
      * Platform support library.
      *
-     * @var \ComponentManager\Platform\Platform
+     * @var Platform
      */
     protected $platform;
 
@@ -59,11 +60,11 @@ class InstallComponentsStep implements Step {
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Project\Project        $project
-     * @param \ComponentManager\Moodle                 $moodle
-     * @param \ComponentManager\Platform\Platform      $platform
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param integer                                  $attempts
+     * @param Project    $project
+     * @param Moodle     $moodle
+     * @param Platform   $platform
+     * @param Filesystem $filesystem
+     * @param integer    $attempts
      */
     public function __construct(Project $project, Moodle $moodle,
                                 Platform $platform, Filesystem $filesystem,
@@ -78,9 +79,9 @@ class InstallComponentsStep implements Step {
     }
 
     /**
-     * @override \ComponentManager\Step\Step
+     * @override Step
      *
-     * @param \ComponentManager\Task\InstallTask $task
+     * @param InstallTask $task
      */
     public function execute($task, LoggerInterface $logger) {
         $resolvedComponentVersions = $task->getResolvedComponentVersions();

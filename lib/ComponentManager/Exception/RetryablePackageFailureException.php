@@ -10,6 +10,8 @@
 
 namespace ComponentManager\Exception;
 
+use ComponentManager\Exception\AbstractException;
+use Exception;
 use Throwable;
 
 /**
@@ -17,7 +19,7 @@ use Throwable;
  */
 class RetryablePackageFailureException extends AbstractException {
     /**
-     * @override \Exception
+     * @override Exception
      */
     public function __construct(Throwable $previous) {
         parent::__construct(
@@ -25,14 +27,14 @@ class RetryablePackageFailureException extends AbstractException {
     }
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionType() {
         return $this->getPrevious()->getExceptionType();
     }
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionCodeName() {
         return $this->getPrevious()->getExceptionCodeName();

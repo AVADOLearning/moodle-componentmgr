@@ -32,14 +32,14 @@ class DirectoryComponentSource extends AbstractComponentSource
     }
 
     /**
-     * @override \ComponentManager\ComponentSource\ComponentSource
+     * @override ComponentSource
      */
     public function getName() {
         return 'Directory';
     }
 
     /**
-     * @override \ComponentManager\ComponentSource\ComponentSource
+     * @override ComponentSource
      */
     public function getId() {
         return 'Directory';

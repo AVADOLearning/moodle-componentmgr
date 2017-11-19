@@ -10,7 +10,7 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-/** @var \stdClass $plugin */
+/** @var stdClass $plugin */
 
 $plugin->component = 'local_componentmgrtest';
 

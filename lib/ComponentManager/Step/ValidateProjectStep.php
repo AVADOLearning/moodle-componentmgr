@@ -12,6 +12,7 @@ namespace ComponentManager\Step;
 
 use ComponentManager\ComponentSpecification;
 use ComponentManager\Exception\InvalidProjectException;
+use ComponentManager\PackageRepository\PackageRepository;
 use ComponentManager\Project\Project;
 use Psr\Log\LoggerInterface;
 
@@ -22,21 +23,21 @@ class ValidateProjectStep implements Step {
     /**
      * Project to validate.
      *
-     * @var \ComponentManager\Project\Project
+     * @var Project
      */
     protected $project;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Project\Project $project
+     * @param Project $project
      */
     public function __construct(Project $project) {
         $this->project = $project;
     }
 
     /**
-     * @override \ComponentManager\Step\Step
+     * @override Step
      */
     public function execute($task, LoggerInterface $logger) {
         $componentSpecifications = $this->project->getProjectFile()->getComponentSpecifications();
@@ -83,7 +84,7 @@ class ValidateProjectStep implements Step {
     /**
      * Does the supplied component have a valid name?
      *
-     * @param \ComponentManager\ComponentSpecification $componentSpecification
+     * @param ComponentSpecification $componentSpecification
      *
      * @return boolean
      */
@@ -95,8 +96,8 @@ class ValidateProjectStep implements Step {
     /**
      * Is the supplied component's package repository known to us?
      *
-     * @param \ComponentManager\ComponentSpecification                $componentSpecification
-     * @param \ComponentManager\PackageRepository\PackageRepository[] $packageRepositories
+     * @param ComponentSpecification $componentSpecification
+     * @param PackageRepository[]    $packageRepositories
      *
      * @return boolean
      */
@@ -108,7 +109,7 @@ class ValidateProjectStep implements Step {
     /**
      * Is the supplied component's specification complete?
      *
-     * @param \ComponentManager\ComponentSpecification $componentSpecification
+     * @param ComponentSpecification $componentSpecification
      *
      * @return boolean
      */

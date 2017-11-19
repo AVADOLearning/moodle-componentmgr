@@ -10,6 +10,8 @@
 
 namespace ComponentManager\Exception;
 
+use ComponentManager\Exception\AbstractException;
+
 class PackageFailureException extends AbstractException {
     /**
      * Generic packaging failure.
@@ -22,14 +24,14 @@ class PackageFailureException extends AbstractException {
     const CODE_OTHER = 1;
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionType() {
         return 'PackageFailureException';
     }
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

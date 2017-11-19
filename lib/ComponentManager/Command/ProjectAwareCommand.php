@@ -47,42 +47,42 @@ abstract class ProjectAwareCommand extends Command {
     /**
      * Filesystem.
      *
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $filesystem;
 
     /**
      * Logger.
      *
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 
     /**
      * Moodle bridge.
      *
-     * @var \ComponentManager\Moodle
+     * @var Moodle
      */
     protected $moodle;
 
     /**
      * Package format factory.
      *
-     * @var \ComponentManager\PackageFormat\PackageFormatFactory
+     * @var PackageFormatFactory
      */
     protected $packageFormatFactory;
 
     /**
      * Package repository factory.
      *
-     * @var \ComponentManager\PackageRepository\PackageRepositoryFactory
+     * @var PackageRepositoryFactory
      */
     protected $packageRepositoryFactory;
 
     /**
      * Package source factory.
      *
-     * @var \ComponentManager\PackageSource\PackageSourceFactory
+     * @var PackageSourceFactory
      */
     protected $packageSourceFactory;
 
@@ -92,25 +92,26 @@ abstract class ProjectAwareCommand extends Command {
      * Lazily loaded -- be sure to call getProject() in order to ensure the
      * value is defined.
      *
-     * @var \ComponentManager\Project\Project
+     * @var Project
      */
     protected $project;
+
     /**
      * Platform support library.
      *
-     * @var \ComponentManager\Platform\Platform
+     * @var Platform
      */
     protected $platform;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
-     * @param \ComponentManager\PackageSource\PackageSourceFactory         $packageSourceFactory
-     * @param \ComponentManager\PackageFormat\PackageFormatFactory         $packageFormatFactory
-     * @param \ComponentManager\Platform\Platform                          $platform
-     * @param \Symfony\Component\Filesystem\Filesystem                     $filesystem
-     * @param \Psr\Log\LoggerInterface                                     $logger
+     * @param PackageRepositoryFactory $packageRepositoryFactory
+     * @param PackageSourceFactory     $packageSourceFactory
+     * @param PackageFormatFactory     $packageFormatFactory
+     * @param Platform                 $platform
+     * @param Filesystem               $filesystem
+     * @param LoggerInterface          $logger
      */
     public function __construct(PackageRepositoryFactory $packageRepositoryFactory,
                                 PackageSourceFactory $packageSourceFactory,
@@ -134,7 +135,7 @@ abstract class ProjectAwareCommand extends Command {
      *
      * @param string|null $moodleDirectory
      *
-     * @return \ComponentManager\Moodle
+     * @return Moodle
      */
     protected function getMoodle($moodleDirectory=null) {
         if ($this->moodle === null) {
@@ -153,7 +154,7 @@ abstract class ProjectAwareCommand extends Command {
      * @param string|null $projectFilename
      * @param string|null $projectLockFilename
      *
-     * @return \ComponentManager\Project\Project
+     * @return Project
      */
     protected function getProject($projectFilename=null, $projectLockFilename=null) {
         $workingDirectory = $this->platform->getWorkingDirectory();

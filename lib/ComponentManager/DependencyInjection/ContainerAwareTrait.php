@@ -16,14 +16,14 @@ trait ContainerAwareTrait {
     /**
      * Dependency injection container.
      *
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var ContainerInterface
      */
     protected $container;
 
     /**
      * Set the dependency injection container.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param ContainerInterface|null $container
      *
      * @return void
      */

@@ -22,21 +22,21 @@ abstract class AbstractPackageRepository {
     /**
      * Filesystem.
      *
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $filesystem;
 
     /**
      * Platform support library.
      *
-     * @var \ComponentManager\Platform\Platform
+     * @var Platform
      */
     protected $platform;
 
     /**
      * Options.
      *
-     * @var \stdClass
+     * @var stdClass
      */
     protected $options;
 
@@ -50,10 +50,10 @@ abstract class AbstractPackageRepository {
     /**
      * Initialiser.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param HttpClient                               $httpClient
-     * @param \ComponentManager\Platform\Platform      $platform
-     * @param \stdClass                                $options
+     * @param Filesystem $filesystem
+     * @param HttpClient $httpClient
+     * @param Platform   $platform
+     * @param stdClass   $options
      */
     public function __construct(Filesystem $filesystem, HttpClient $httpClient,
                                 Platform $platform, stdClass $options) {

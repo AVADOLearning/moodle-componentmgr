@@ -53,18 +53,18 @@ class ComponentSpecification {
     /**
      * Extra metadata.
      *
-     * @var \stdClass
+     * @var stdClass
      */
     protected $extra;
 
     /**
      * Initialiser.
      *
-     * @param string    $name
-     * @param string    $version
-     * @param string    $packageRepository
-     * @param string    $packageSource
-     * @param \stdClass $extra
+     * @param string   $name
+     * @param string   $version
+     * @param string   $packageRepository
+     * @param string   $packageSource
+     * @param stdClass $extra
      */
     public function __construct($name, $version, $packageRepository=null,
                                 $packageSource=null, stdClass $extra=null) {
@@ -128,7 +128,7 @@ class ComponentSpecification {
      *
      * @return mixed
      *
-     * @throws \OutOfBoundsException
+     * @throws OutOfBoundsException
      */
     public function getExtra($property) {
         if (!property_exists($this->extra, $property)) {

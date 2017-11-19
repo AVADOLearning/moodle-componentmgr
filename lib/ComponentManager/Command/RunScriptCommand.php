@@ -12,6 +12,7 @@ namespace ComponentManager\Command;
 
 use ComponentManager\Console\Argument;
 use ComponentManager\Exception\ComponentProjectException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,7 +33,7 @@ Executes the specified script for a component.
 HELP;
 
     /**
-     * @override \Symfony\Component\Console\Command\Command
+     * @override Command
      */
     protected function configure() {
         $this
@@ -47,7 +48,7 @@ HELP;
     }
 
     /**
-     * @override \Symfony\Component\Console\Command\Command
+     * @override Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $script = $this->getComponentProjectFile()->getScript(

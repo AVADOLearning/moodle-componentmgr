@@ -12,6 +12,8 @@ namespace ComponentManager\Step;
 
 use ComponentManager\Exception\UnsatisfiedVersionException;
 use ComponentManager\MoodleApi;
+use ComponentManager\MoodleVersion;
+use ComponentManager\Task\PackageTask;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -21,7 +23,7 @@ class ResolveMoodleVersionStep implements Step {
     /**
      * Moodle.org API client.
      *
-     * @var \ComponentManager\MoodleApi
+     * @var MoodleApi
      */
     protected $api;
 
@@ -35,8 +37,8 @@ class ResolveMoodleVersionStep implements Step {
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\MoodleApi $api
-     * @param string                      $specification
+     * @param MoodleApi $api
+     * @param string    $specification
      */
     public function __construct(MoodleApi $api, $specification) {
         $this->api           = $api;
@@ -44,9 +46,9 @@ class ResolveMoodleVersionStep implements Step {
     }
 
     /**
-     * @override \ComponentManager\Step\Step
+     * @override Step
      *
-     * @param \ComponentManager\Task\PackageTask $task
+     * @param PackageTask $task
      */
     public function execute($task, LoggerInterface $logger) {
         $versions = $this->api->getMoodleVersions();
@@ -70,7 +72,7 @@ class ResolveMoodleVersionStep implements Step {
         }
 
         ksort($scores);
-        /** @var \ComponentManager\MoodleVersion $version */
+        /** @var MoodleVersion $version */
         $version = end($scores);
 
         $logger->info('Selected Moodle release', [
@@ -82,4 +84,3 @@ class ResolveMoodleVersionStep implements Step {
         $task->setMoodleVersion($version);
     }
 }
-

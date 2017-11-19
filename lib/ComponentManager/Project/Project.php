@@ -11,9 +11,14 @@
 namespace ComponentManager\Project;
 
 use ComponentManager\Exception\InvalidProjectException;
+use ComponentManager\PackageFormat\PackageFormat;
 use ComponentManager\PackageFormat\PackageFormatFactory;
+use ComponentManager\PackageRepository\PackageRepository;
 use ComponentManager\PackageRepository\PackageRepositoryFactory;
+use ComponentManager\PackageSource\PackageSource;
 use ComponentManager\PackageSource\PackageSourceFactory;
+use ComponentManager\Project\ProjectFile;
+use ComponentManager\Project\ProjectLockFile;
 
 /**
  * Project class.
@@ -25,53 +30,53 @@ class Project {
     /**
      * Package format factory.
      *
-     * @var \ComponentManager\PackageFormat\PackageFormatFactory
+     * @var PackageFormatFactory
      */
     protected $packageFormatFactory;
 
     /**
      * Package repositories.
      *
-     * @var \ComponentManager\PackageRepository\PackageRepository[]
+     * @var PackageRepository[]
      */
     protected $packageRepositories;
 
     /**
      * Package repository factory.
      *
-     * @var \ComponentManager\PackageRepository\PackageRepositoryFactory
+     * @var PackageRepositoryFactory
      */
     protected $packageRepositoryFactory;
 
     /**
      * Package source factory.
      *
-     * @var \ComponentManager\PackageSource\PackageSourceFactory
+     * @var PackageSourceFactory
      */
     protected $packageSourceFactory;
 
     /**
      * Project file.
      *
-     * @var \ComponentManager\Project\ProjectFile
+     * @var ProjectFile
      */
     protected $projectFile;
 
     /**
      * Project lock file.
      *
-     * @var \ComponentManager\Project\ProjectLockFile
+     * @var ProjectLockFile
      */
     protected $projectLockFile;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Project\ProjectFile                        $projectFile
-     * @param \ComponentManager\Project\ProjectLockFile                    $projectLockFile
-     * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
-     * @param \ComponentManager\PackageSource\PackageSourceFactory         $packageSourceFactory
-     * @param \ComponentManager\PackageSource\PackageFormatFactory         $packageFormatFactory
+     * @param ProjectFile              $projectFile
+     * @param ProjectLockFile          $projectLockFile
+     * @param PackageRepositoryFactory $packageRepositoryFactory
+     * @param PackageSourceFactory     $packageSourceFactory
+     * @param PackageFormatFactory     $packageFormatFactory
      */
     public function __construct(ProjectFile $projectFile,
                                 ProjectLockFile $projectLockFile,
@@ -89,7 +94,7 @@ class Project {
     /**
      * Get package repositories.
      *
-     * @return \ComponentManager\PackageRepository\PackageRepository[]
+     * @return PackageRepository[]
      */
     public function getPackageRepositories() {
         if ($this->packageRepositories === null) {
@@ -110,9 +115,9 @@ class Project {
      *
      * @param string $packageRepository
      *
-     * @return \ComponentManager\PackageRepository\PackageRepository
+     * @return PackageRepository
      *
-     * @throws \ComponentManager\Exception\InvalidProjectException
+     * @throws InvalidProjectException
      */
     public function getPackageRepository($packageRepository) {
         $packageRepositories = $this->getPackageRepositories();
@@ -125,7 +130,7 @@ class Project {
      *
      * @param string $packageSource
      *
-     * @return \ComponentManager\PackageSource\PackageSource
+     * @return PackageSource
      */
     public function getPackageSource($packageSource) {
         return $this->packageSourceFactory->getPackageSource(
@@ -135,7 +140,7 @@ class Project {
     /**
      * Get the project file.
      *
-     * @return \ComponentManager\Project\ProjectFile
+     * @return ProjectFile
      */
     public function getProjectFile() {
         return $this->projectFile;
@@ -144,7 +149,7 @@ class Project {
     /**
      * Get the project lock file.
      *
-     * @return \ComponentManager\Project\ProjectLockFile
+     * @return ProjectLockFile
      */
     public function getProjectLockFile() {
         return $this->projectLockFile;
@@ -155,7 +160,7 @@ class Project {
      *
      * @param string $packageFormat
      *
-     * @return \ComponentManager\PackageFormat\PackageFormat
+     * @return PackageFormat
      */
     public function getPackageFormat($packageFormat) {
         return $this->packageFormatFactory->getPackageFormat($packageFormat);

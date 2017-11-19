@@ -10,9 +10,11 @@
 
 namespace ComponentManager\Project;
 
+use ComponentManager\Component;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\Exception\NotImplementedException;
+use stdClass;
 
 /**
  * Project file.
@@ -28,14 +30,14 @@ class ProjectFile extends JsonFile {
      * Lazily loaded -- be sure to call getComponents() in order to ensure the
      * value is defined.
      *
-     * @var \ComponentManager\Component[]
+     * @var Component[]
      */
     protected $componentSpecifications;
 
     /**
      * Get component specifications.
      *
-     * @return \ComponentManager\ComponentSpecification[]
+     * @return ComponentSpecification[]
      */
     public function getComponentSpecifications() {
         if ($this->componentSpecifications === null) {
@@ -73,14 +75,14 @@ class ProjectFile extends JsonFile {
     /**
      * Get package repositories.
      *
-     * @return \stdClass[]
+     * @return stdClass[]
      */
     public function getPackageRepositories() {
         return (array) $this->contents->packageRepositories;
     }
 
     /**
-     * @override \ComponentManager\Project\JsonFile
+     * @override JsonFile
      */
     public function dump() {
         throw new NotImplementedException();
@@ -91,7 +93,7 @@ class ProjectFile extends JsonFile {
      *
      * @return mixed
      *
-     * @throws \ComponentManager\Exception\InvalidProjectException
+     * @throws InvalidProjectException
      */
     public function getMoodleVersion() {
         $hasProperties = property_exists($this->contents, 'moodle')

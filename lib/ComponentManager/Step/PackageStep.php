@@ -22,7 +22,7 @@ class PackageStep implements Step {
     /**
      * Component Manager project.
      *
-     * @var \ComponentManager\Project\Project
+     * @var Project
      */
     protected $project;
 
@@ -50,7 +50,7 @@ class PackageStep implements Step {
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Project\Project $project
+     * @param Project $project
      * @param string                            $source
      * @param string                            $format
      * @param string                            $destination
@@ -64,7 +64,7 @@ class PackageStep implements Step {
     }
 
     /**
-     * @override \ComponentManager\Step\Step
+     * @override Step
      */
     public function execute($task, LoggerInterface $logger) {
         $packageFormat = $this->project->getPackageFormat($this->format);

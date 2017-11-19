@@ -21,7 +21,7 @@ abstract class AbstractPackageSource {
     /**
      * Filesystem.
      *
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $filesystem;
 
@@ -35,16 +35,16 @@ abstract class AbstractPackageSource {
     /**
      * Platform support library.
      *
-     * @var \ComponentManager\Platform\Platform
+     * @var Platform
      */
     protected $platform;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Platform\Platform      $platform
-     * @param HttpClient                               $httpClient
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param Platform   $platform
+     * @param HttpClient $httpClient
+     * @param Filesystem $filesystem
      */
     public function __construct(Platform $platform, HttpClient $httpClient,
                                 Filesystem $filesystem) {

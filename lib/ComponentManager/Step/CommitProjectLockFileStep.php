@@ -11,6 +11,7 @@
 namespace ComponentManager\Step;
 
 use ComponentManager\Project\ProjectLockFile;
+use ComponentManager\Task\InstallTask;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -20,23 +21,23 @@ class CommitProjectLockFileStep implements Step {
     /**
      * Project lock file.
      *
-     * @var \ComponentManager\Project\ProjectLockFile
+     * @var ProjectLockFile
      */
     protected $projectLockFile;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Project\ProjectLockFile $projectLockFile
+     * @param ProjectLockFile $projectLockFile
      */
     public function __construct(ProjectLockFile $projectLockFile) {
         $this->projectLockFile = $projectLockFile;
     }
 
     /**
-     * @override \ComponentManager\Step\Step
+     * @override Step
      *
-     * @param \ComponentManager\Task\InstallTask $task
+     * @param InstallTask $task
      */
     public function execute($task, LoggerInterface $logger) {
         $logger->info('Writing project lock file');

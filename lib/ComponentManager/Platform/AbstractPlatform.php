@@ -43,14 +43,14 @@ abstract class AbstractPlatform implements Platform {
     /**
      * Initialiser.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param Filesystem $filesystem
      */
     public function __construct(Filesystem $filesystem) {
         $this->filesystem = $filesystem;
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function createTempDirectory() {
         $root      = sys_get_temp_dir();
@@ -65,49 +65,49 @@ abstract class AbstractPlatform implements Platform {
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function getDirectorySeparator() {
         return DIRECTORY_SEPARATOR;
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function getWorkingDirectory() {
         return getcwd();
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function joinPaths($parts) {
         return implode($this->getDirectorySeparator(), $parts);
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function getPhpExecutable() {
         return PHP_BINARY;
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function getPhpScript() {
         return $_SERVER['argv'][0];
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function removeTempDirectories() {
         $this->filesystem->remove($this->tempDirectories);
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function removeTempDirectory($directory) {
         $index = array_search($directory, $this->tempDirectories, true);

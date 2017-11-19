@@ -9,6 +9,9 @@
  * @license GPL-3.0+
  */
 
+use ComponentManager\Console\Application;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 require_once dirname(dirname(dirname(__DIR__)))
         . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -19,9 +22,9 @@ require_once dirname(dirname(dirname(__DIR__)))
  */
 define('CM_ETC', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'etc');
 
-/** @var \Symfony\Component\DependencyInjection\ContainerBuilder $container */
+/** @var ContainerBuilder $container */
 $container = require CM_ETC . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-/** @var \ComponentManager\Console\Application $app */
+/** @var Application $app */
 $app = $container->get('console.application');
 $app->run();

@@ -31,7 +31,7 @@ class WindowsPlatformTest extends TestCase {
     protected $oldWorkingDirectory;
 
     /**
-     * @var \ComponentManager\Platform\WindowsPlatform
+     * @var WindowsPlatform
      */
     protected $platform;
 

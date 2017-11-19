@@ -10,6 +10,9 @@
 
 namespace ComponentManager;
 
+use ComponentManager\Component;
+use ComponentManager\ComponentSpecification;
+use ComponentManager\ComponentVersion;
 use ComponentManager\PackageRepository\PackageRepository;
 use JsonSerializable;
 
@@ -23,28 +26,28 @@ class ResolvedComponentVersion implements JsonSerializable {
     /**
      * Component.
      *
-     * @var \ComponentManager\Component
+     * @var Component
      */
     protected $component;
 
     /**
      * Package repository.
      *
-     * @var \ComponentManager\PackageRepository\PackageRepository
+     * @var PackageRepository
      */
     protected $packageRepository;
 
     /**
      * Component specification.
      *
-     * @var \ComponentManager\ComponentSpecification
+     * @var ComponentSpecification
      */
     protected $specification;
 
     /**
      * Component version.
      *
-     * @var \ComponentManager\ComponentVersion
+     * @var ComponentVersion
      */
     protected $version;
 
@@ -58,10 +61,10 @@ class ResolvedComponentVersion implements JsonSerializable {
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\ComponentSpecification              $specification
-     * @param \ComponentManager\PackageRepository\PackageRepository $packageRepository
-     * @param \ComponentManager\Component                           $component
-     * @param \ComponentManager\ComponentVersion                    $version
+     * @param ComponentSpecification $specification
+     * @param PackageRepository      $packageRepository
+     * @param Component              $component
+     * @param ComponentVersion       $version
      */
     public function __construct(ComponentSpecification $specification,
                                 PackageRepository $packageRepository,
@@ -76,7 +79,7 @@ class ResolvedComponentVersion implements JsonSerializable {
     /**
      * Get the component.
      *
-     * @return \ComponentManager\Component
+     * @return Component
      */
     public function getComponent() {
         return $this->component;
@@ -85,7 +88,7 @@ class ResolvedComponentVersion implements JsonSerializable {
     /**
      * Get the package repository.
      *
-     * @return \ComponentManager\PackageRepository\PackageRepository
+     * @return PackageRepository
      */
     public function getPackageRepository() {
         return $this->packageRepository;
@@ -94,7 +97,7 @@ class ResolvedComponentVersion implements JsonSerializable {
     /**
      * Get the component specification.
      *
-     * @return \ComponentManager\ComponentSpecification
+     * @return ComponentSpecification
      */
     public function getSpecification() {
         return $this->specification;
@@ -103,7 +106,7 @@ class ResolvedComponentVersion implements JsonSerializable {
     /**
      * Get the component version.
      *
-     * @return \ComponentManager\ComponentVersion
+     * @return ComponentVersion
      */
     public function getVersion() {
         return $this->version;
@@ -130,7 +133,7 @@ class ResolvedComponentVersion implements JsonSerializable {
     }
 
     /**
-     * @override \JsonSerializable
+     * @override JsonSerializable
      */
     public function jsonSerialize() {
         return (object) [

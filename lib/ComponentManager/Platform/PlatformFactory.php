@@ -17,14 +17,14 @@ class PlatformFactory {
     /**
      * Filesystem.
      *
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $filesystem;
 
     /**
      * Initialiser.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param Filesystem $filesystem
      */
     public function __construct(Filesystem $filesystem) {
         $this->filesystem = $filesystem;
@@ -36,9 +36,9 @@ class PlatformFactory {
      * @param string $platformName The name of the platform (retrieved from
      *                             PHP_OS).
      *
-     * @return \ComponentManager\Platform\Platform
+     * @return Platform
      *
-     * @throws \ComponentManager\Exception\PlatformException
+     * @throws PlatformException
      */
     public function getPlatform($platformName) {
         switch ($platformName) {

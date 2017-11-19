@@ -12,6 +12,7 @@ namespace ComponentManager\Step;
 
 use ComponentManager\Exception\InstallationFailureException;
 use ComponentManager\HttpClient;
+use ComponentManager\Task\PackageTask;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,9 +61,9 @@ class ObtainMoodleSourceStep implements Step {
     }
 
     /**
-     * @override \ComponentManager\Step\Step
+     * @override Step
      *
-     * @param \ComponentManager\Task\PackageTask $task
+     * @param PackageTask $task
      */
     public function execute($task, LoggerInterface $logger) {
         $uri = $task->getMoodleVersion()->getDownloadUri();

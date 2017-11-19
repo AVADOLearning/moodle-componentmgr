@@ -22,14 +22,14 @@ class ProjectLockFile extends JsonFile {
     /**
      * Resolved component versions.
      *
-     * @var \ComponentManager\ResolvedComponentVersion[]
+     * @var ResolvedComponentVersion[]
      */
     protected $resolvedComponentVersions;
 
     /**
      * Add a resolved component version.
      *
-     * @param \ComponentManager\ResolvedComponentVersion $resolvedComponentVersion
+     * @param ResolvedComponentVersion $resolvedComponentVersion
      *
      * @return void
      */
@@ -48,7 +48,7 @@ class ProjectLockFile extends JsonFile {
     }
 
     /**
-     * @override \ComponentManager\Project\JsonFile
+     * @override JsonFile
      */
     public function dump() {
         return (object) [

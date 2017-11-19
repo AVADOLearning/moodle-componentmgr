@@ -10,6 +10,8 @@
 
 namespace ComponentManager\Exception;
 
+use ComponentManager\Exception\AbstractException;
+
 /**
  * Unsatisfied version exception.
  *
@@ -32,14 +34,14 @@ class UnsatisfiedVersionException extends AbstractException {
     const CODE_PACKAGE_SOURCE_FAILED = 2;
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionType() {
         return 'UnsatisfiedVersionException';
     }
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

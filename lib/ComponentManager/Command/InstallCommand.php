@@ -42,12 +42,12 @@ HELP;
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
-     * @param \ComponentManager\PackageSource\PackageSourceFactory $packageSourceFactory
-     * @param \ComponentManager\PackageFormat\PackageFormatFactory $packageFormatFactory
-     * @param \ComponentManager\Platform\Platform                  $platform
-     * @param \Symfony\Component\Filesystem\Filesystem             $filesystem
-     * @param \Psr\Log\LoggerInterface                             $logger
+     * @param PackageRepositoryFactory $packageRepositoryFactory
+     * @param PackageSourceFactory     $packageSourceFactory
+     * @param PackageFormatFactory     $packageFormatFactory
+     * @param Platform                 $platform
+     * @param Filesystem               $filesystem
+     * @param LoggerInterface          $logger
      */
     public function __construct(PackageRepositoryFactory $packageRepositoryFactory,
                                 PackageSourceFactory $packageSourceFactory,
@@ -60,7 +60,7 @@ HELP;
     }
 
     /**
-     * @override \Symfony\Component\Console\Command\Command
+     * @override Command
      */
     protected function configure() {
         $this
@@ -75,7 +75,7 @@ HELP;
     }
 
     /**
-     * @override \Symfony\Component\Console\Command\Command
+     * @override Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $project = $this->getProject();

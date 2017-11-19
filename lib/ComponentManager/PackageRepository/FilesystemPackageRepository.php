@@ -23,21 +23,21 @@ use ComponentManager\ComponentVersion;
 class FilesystemPackageRepository extends AbstractPackageRepository
         implements PackageRepository {
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getId() {
         return 'Filesystem';
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getName() {
         return 'Filesystem package repository';
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getComponent(ComponentSpecification $componentSpecification) {
         return new Component($componentSpecification->getName(), [
@@ -48,7 +48,7 @@ class FilesystemPackageRepository extends AbstractPackageRepository
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
         return true;

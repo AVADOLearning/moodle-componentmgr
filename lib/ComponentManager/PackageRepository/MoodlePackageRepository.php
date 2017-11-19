@@ -56,7 +56,7 @@ class MoodlePackageRepository extends AbstractCachingPackageRepository
     /**
      * Package cache.
      *
-     * @var \stdClass
+     * @var stdClass
      */
     protected $packageCache;
 
@@ -73,21 +73,21 @@ class MoodlePackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getId() {
         return 'Moodle';
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getName() {
         return 'Moodle.org plugin repository';
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getComponent(ComponentSpecification $componentSpecification) {
         $this->maybeLoadPackageCache();
@@ -144,7 +144,7 @@ class MoodlePackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\CachingPackageRepository
+     * @override CachingPackageRepository
      */
     public function metadataCacheLastRefreshed() {
         $filename = $this->getMetadataCacheFilename();
@@ -160,7 +160,7 @@ class MoodlePackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\CachingPackageRepository
+     * @override CachingPackageRepository
      */
     public function refreshMetadataCache(LoggerInterface $logger) {
         $logger->debug('Fetching metadata', [
@@ -193,7 +193,7 @@ class MoodlePackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
         return $versionSpecification == $version->getVersion()

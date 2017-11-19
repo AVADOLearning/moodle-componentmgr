@@ -72,9 +72,9 @@ class MoodleApi {
     /**
      * Get available Moodle versions.
      *
-     * @return \ComponentManager\MoodleVersion[]
+     * @return MoodleVersion[]
      *
-     * @throws \ComponentManager\Exception\MoodleApiException
+     * @throws MoodleApiException
      */
     public function getMoodleVersions() {
         $responseBody = json_decode($this->get(static::URL_UPDATES, [

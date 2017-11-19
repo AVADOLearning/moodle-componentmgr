@@ -10,6 +10,8 @@
 
 namespace ComponentManager\Exception;
 
+use ComponentManager\Exception\AbstractException;
+
 /**
  * Platform exception.
  *
@@ -39,14 +41,14 @@ class PlatformException extends AbstractException {
     const CODE_UNKNOWN_TEMP_DIRECTORY = 3;
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionType() {
         return 'PlatformException';
     }
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

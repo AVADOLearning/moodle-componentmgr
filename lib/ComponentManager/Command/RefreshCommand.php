@@ -12,6 +12,7 @@ namespace ComponentManager\Command;
 
 use ComponentManager\Console\Argument;
 use ComponentManager\PackageRepository\CachingPackageRepository;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -34,7 +35,7 @@ Refreshes cached package repository meta for all caching package repositories.
 HELP;
 
     /**
-     * @override \Symfony\Component\Console\Command\Command
+     * @override Command
      */
     protected function configure() {
         $this
@@ -49,7 +50,7 @@ HELP;
     }
 
     /**
-     * @override \Symfony\Component\Console\Command\Command
+     * @override Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $projectFilename = $input->getOption(Argument::OPTION_PROJECT_FILE);

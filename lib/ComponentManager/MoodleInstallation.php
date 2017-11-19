@@ -14,6 +14,7 @@ use ComponentManager\Exception\MoodleException;
 use ComponentManager\Exception\PlatformException;
 use ComponentManager\Platform\Platform;
 use core_plugin_manager;
+use stdClass;
 
 /**
  * Moodle installation.
@@ -63,14 +64,14 @@ class MoodleInstallation {
      * We have to cache the result of the first call to getConfig() as
      * constants can be declared within this file, causing nasty warnings.
      *
-     * @var \stdClass
+     * @var stdClass
      */
     protected $config;
 
     /**
      * Platform support library.
      *
-     * @var \ComponentManager\Platform\Platform
+     * @var Platform
      */
     protected $platform;
 
@@ -91,8 +92,8 @@ class MoodleInstallation {
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Platform\Platform $platform
-     * @param string                              $rootDirectory
+     * @param Platform $platform
+     * @param string   $rootDirectory
      */
     public function __construct(Platform $platform, $rootDirectory) {
         $this->state = static::STATE_NEW;
@@ -108,7 +109,7 @@ class MoodleInstallation {
      *
      * @return void
      *
-     * @throws \ComponentManager\Exception\MoodleException
+     * @throws MoodleException
      */
     protected function assertState($expected) {
         if ($this->state !== $expected) {
@@ -123,7 +124,7 @@ class MoodleInstallation {
      *
      * @return void
      *
-     * @throws \ComponentManager\Exception\MoodleException
+     * @throws MoodleException
      */
     public function configure() {
         $this->assertState(static::STATE_NEW);

@@ -22,7 +22,7 @@ abstract class AbstractTask {
     /**
      * Steps.
      *
-     * @var \ComponentManager\Step\Step[]
+     * @var Step[]
      */
     protected $steps;
 
@@ -34,14 +34,14 @@ abstract class AbstractTask {
     }
 
     /**
-     * @override \ComponentManager\Task\Task
+     * @override Task
      */
     public function addStep(Step $step) {
         $this->steps[] = $step;
     }
 
     /**
-     * @override \ComponentManager\Task\Task
+     * @override Task
      */
     public function execute(LoggerInterface $logger) {
         foreach ($this->steps as $step) {

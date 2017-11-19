@@ -27,18 +27,18 @@ class InstallTask extends AbstractTask implements Task {
     /**
      * Resolved component versions.
      *
-     * @var \ComponentManager\ResolvedComponentVersion[]
+     * @var ResolvedComponentVersion[]
      */
     protected $resolvedComponentVersions;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Project\Project        $project
-     * @param \ComponentManager\Platform\Platform      $platform
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param \ComponentManager\Moodle                 $moodle
-     * @param integer                                  $attempts
+     * @param Project    $project
+     * @param Platform   $platform
+     * @param Filesystem $filesystem
+     * @param Moodle     $moodle
+     * @param integer    $attempts
      */
     public function __construct(Project $project, Platform $platform,
                                 Filesystem $filesystem, Moodle $moodle,
@@ -61,7 +61,7 @@ class InstallTask extends AbstractTask implements Task {
     /**
      * Add a resolved component version.
      *
-     * @param \ComponentManager\ResolvedComponentVersion $resolvedComponentVersion
+     * @param ResolvedComponentVersion $resolvedComponentVersion
      */
     public function addResolvedComponentVersion(ResolvedComponentVersion $resolvedComponentVersion) {
         $this->resolvedComponentVersions[] = $resolvedComponentVersion;
@@ -70,7 +70,7 @@ class InstallTask extends AbstractTask implements Task {
     /**
      * Get resolved component versions.
      *
-     * @return \ComponentManager\ResolvedComponentVersion[]
+     * @return ResolvedComponentVersion[]
      */
     public function getResolvedComponentVersions() {
         return $this->resolvedComponentVersions;

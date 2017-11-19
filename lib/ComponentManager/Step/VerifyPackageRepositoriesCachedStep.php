@@ -12,6 +12,7 @@ namespace ComponentManager\Step;
 
 use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\PackageRepository\CachingPackageRepository;
+use ComponentManager\PackageRepository\PackageRepository;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -21,21 +22,21 @@ class VerifyPackageRepositoriesCachedStep implements Step {
     /**
      * Package repositories.
      *
-     * @var \ComponentManager\PackageRepository\PackageRepository[]
+     * @var PackageRepository[]
      */
     protected $packageRepositories;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\PackageRepository\PackageRepository[] $packageRepositories
+     * @param PackageRepository[] $packageRepositories
      */
     public function __construct($packageRepositories) {
         $this->packageRepositories = $packageRepositories;
     }
 
     /**
-     * @override \ComponentManager\Step\Step
+     * @override Step
      */
     public function execute($task, LoggerInterface $logger) {
         $logger->info('Ensuring necessary package repositories are cached');

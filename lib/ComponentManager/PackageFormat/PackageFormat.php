@@ -21,11 +21,11 @@ interface PackageFormat {
     /**
      * Package a Moodle site.
      *
-     * @param string                                    $moodleDir
-     * @param string                                    $destination
-     * @param \ComponentManager\Project\ProjectFile     $projectFile
-     * @param \ComponentManager\Project\ProjectLockFile $projectLockFile
-     * @param \Psr\Log\LoggerInterface                  $logger
+     * @param string          $moodleDir
+     * @param string          $destination
+     * @param ProjectFile     $projectFile
+     * @param ProjectLockFile $projectLockFile
+     * @param LoggerInterface $logger
      *
      * @return void
      */

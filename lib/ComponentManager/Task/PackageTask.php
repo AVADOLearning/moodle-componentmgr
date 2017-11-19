@@ -39,23 +39,23 @@ class PackageTask extends InstallTask implements Task {
     /**
      * Moodle version.
      *
-     * @var \ComponentManager\MoodleVersion
+     * @var MoodleVersion
      */
     protected $moodleVersion;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\MoodleApi              $moodleApi
-     * @param \ComponentManager\Project\Project        $project
-     * @param string                                   $moodleArchive
-     * @param string                                   $moodleDestination
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param HttpClient                               $httpClient
-     * @param \ComponentManager\Moodle                 $moodle
-     * @param string                                   $packageFormat
-     * @param string                                   $packageDestination
-     * @param integer                                  $retries
+     * @param MoodleApi  $moodleApi
+     * @param Project    $project
+     * @param string     $moodleArchive
+     * @param string     $moodleDestination
+     * @param Filesystem $filesystem
+     * @param HttpClient $httpClient
+     * @param Moodle     $moodle
+     * @param string     $packageFormat
+     * @param string     $packageDestination
+     * @param integer    $retries
      */
     public function __construct(MoodleApi $moodleApi, Project $project,
                                 $moodleArchive, $moodleDestination,
@@ -92,7 +92,7 @@ class PackageTask extends InstallTask implements Task {
     /**
      * Get the Moodle version.
      *
-     * @return \ComponentManager\MoodleVersion
+     * @return MoodleVersion
      */
     public function getMoodleVersion() {
         return $this->moodleVersion;
@@ -101,7 +101,7 @@ class PackageTask extends InstallTask implements Task {
     /**
      * Set the Moodle version.
      *
-     * @param \ComponentManager\MoodleVersion $moodleVersion
+     * @param MoodleVersion $moodleVersion
      *
      * @return void
      */

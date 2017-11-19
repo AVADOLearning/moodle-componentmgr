@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Command;
 
+use ComponentManager\Command\AbstractCommand;
 use ComponentManager\Console\Argument;
 use ComponentManager\HttpClient;
 use ComponentManager\Moodle;
@@ -59,14 +60,14 @@ HELP;
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\PackageRepository\PackageRepositoryFactory $packageRepositoryFactory
-     * @param \ComponentManager\PackageSource\PackageSourceFactory         $packageSourceFactory
-     * @param \ComponentManager\PackageFormat\PackageFormatFactory         $packageFormatFactory
-     * @param \ComponentManager\MoodleApi                                  $moodleApi
-     * @param \Symfony\Component\Filesystem\Filesystem                     $filesystem
-     * @param HttpClient                                                   $httpClient
-     * @param \ComponentManager\Platform\Platform                          $platform
-     * @param \Psr\Log\LoggerInterface                                     $logger
+     * @param PackageRepositoryFactory $packageRepositoryFactory
+     * @param PackageSourceFactory     $packageSourceFactory
+     * @param PackageFormatFactory     $packageFormatFactory
+     * @param MoodleApi                $moodleApi
+     * @param Filesystem               $filesystem
+     * @param HttpClient               $httpClient
+     * @param Platform                 $platform
+     * @param LoggerInterface          $logger
      */
     public function __construct(PackageRepositoryFactory $packageRepositoryFactory,
                                 PackageSourceFactory $packageSourceFactory,
@@ -83,7 +84,7 @@ HELP;
     }
 
     /**
-     * @override \ComponentManager\Command\AbstractCommand
+     * @override AbstractCommand
      */
     protected function configure() {
         $this
@@ -107,7 +108,7 @@ HELP;
     }
 
     /**
-     * @override \ComponentManager\Command\AbstractCommand
+     * @override AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $projectFilename = $input->getOption(Argument::OPTION_PROJECT_FILE);

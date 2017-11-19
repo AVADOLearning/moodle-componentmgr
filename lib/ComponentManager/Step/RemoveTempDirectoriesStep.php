@@ -20,21 +20,21 @@ class RemoveTempDirectoriesStep implements Step {
     /**
      * Platform.
      *
-     * @var \ComponentManager\Platform\Platform
+     * @var Platform
      */
     protected $platform;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Platform\Platform $platform
+     * @param Platform $platform
      */
     public function __construct(Platform $platform) {
         $this->platform = $platform;
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function execute($task, LoggerInterface $logger) {
         $logger->info('Removing temporary directories');

@@ -32,7 +32,7 @@ class ComponentProjectFile extends JsonFile {
     const SCRIPT_BUILD = 'build';
 
     /**
-     * @override \ComponentManager\Project\JsonFile
+     * @override JsonFile
      */
     public function dump() {
         throw new NotImplementedException();
@@ -45,7 +45,7 @@ class ComponentProjectFile extends JsonFile {
      *
      * @return string
      *
-     * @throws \ComponentManager\Exception\ComponentProjectException
+     * @throws ComponentProjectException
      */
     public function getScript($name) {
         if (!property_exists($this->contents, 'scripts')

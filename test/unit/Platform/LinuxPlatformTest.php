@@ -26,7 +26,7 @@ class LinuxPlatformTest extends TestCase {
     protected $oldPath;
 
     /**
-     * @var \ComponentManager\Platform\LinuxPlatform
+     * @var LinuxPlatform
      */
     protected $platform;
 

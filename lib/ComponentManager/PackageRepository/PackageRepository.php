@@ -10,8 +10,10 @@
 
 namespace ComponentManager\PackageRepository;
 
+use ComponentManager\Component;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
+use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\HttpClient;
 use ComponentManager\Platform\Platform;
 use stdClass;
@@ -27,10 +29,10 @@ interface PackageRepository {
     /**
      * Initialiser.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param HttpClient                               $httpClient
-     * @param \ComponentManager\Platform\Platform      $platform
-     * @param \stdClass                                $options
+     * @param Filesystem $filesystem
+     * @param HttpClient $httpClient
+     * @param Platform   $platform
+     * @param stdClass   $options
      */
     public function __construct(Filesystem $filesystem, HttpClient $httpClient,
                                 Platform $platform, stdClass $options);
@@ -52,19 +54,19 @@ interface PackageRepository {
     /**
      * Get available versions for the specified component.
      *
-     * @param \ComponentManager\ComponentSpecification $componentSpecification
+     * @param ComponentSpecification $componentSpecification
      *
-     * @return \ComponentManager\Component
+     * @return Component
      *
-     * @throws \ComponentManager\Exception\InvalidProjectException
+     * @throws InvalidProjectException
      */
     public function getComponent(ComponentSpecification $componentSpecification);
 
     /**
      * Determine whether the version specification is satisfied by the given version.
      *
-     * @param string                             $versionSpecification
-     * @param \ComponentManager\ComponentVersion $version
+     * @param string           $versionSpecification
+     * @param ComponentVersion $version
      *
      * @return boolean
      */

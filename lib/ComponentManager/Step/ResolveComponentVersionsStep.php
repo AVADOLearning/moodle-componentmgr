@@ -13,6 +13,7 @@ namespace ComponentManager\Step;
 use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\Project\Project;
 use ComponentManager\ResolvedComponentVersion;
+use ComponentManager\Task\InstallTask;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -22,23 +23,23 @@ class ResolveComponentVersionsStep implements Step {
     /**
      * Project.
      *
-     * @var \ComponentManager\Project\Project
+     * @var Project
      */
     protected $project;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Project\Project $project
+     * @param Project $project
      */
     public function __construct(Project $project) {
         $this->project = $project;
     }
 
     /**
-     * @override \ComponentManager\Step\Step
+     * @override Step
      *
-     * @param \ComponentManager\Task\InstallTask $task
+     * @param InstallTask $task
      */
     public function execute($task, LoggerInterface $logger) {
         $componentSpecifications = $this->project->getProjectFile()->getComponentSpecifications();

@@ -28,21 +28,21 @@ abstract class ComponentProjectAwareCommand extends Command {
      * Lazily loaded -- be sure to call getProject() in order to ensure the
      * value is defined.
      *
-     * @var \ComponentManager\Project\ComponentProjectFile
+     * @var ComponentProjectFile
      */
     protected $componentProjectFile;
 
     /**
      * Platform support library.
      *
-     * @var \ComponentManager\Platform\Platform
+     * @var Platform
      */
     protected $platform;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Platform\Platform $platform
+     * @param Platform $platform
      */
     public function __construct(Platform $platform) {
         $this->platform = $platform;
@@ -53,7 +53,7 @@ abstract class ComponentProjectAwareCommand extends Command {
     /**
      * Get component project file.
      *
-     * @return \ComponentManager\Project\ComponentProjectFile
+     * @return ComponentProjectFile
      */
     protected function getComponentProjectFile() {
         if ($this->componentProjectFile === null) {

@@ -10,6 +10,7 @@
 
 namespace ComponentManager\PackageSource;
 
+use ComponentManager\Exception\RetryablePackageFailureException;
 use ComponentManager\ResolvedComponentVersion;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -47,13 +48,13 @@ interface PackageSource {
      * the supplied specification.
      *
      * Implementations should raise an exception on failure.
-     * {@link \ComponentManager\Exception\RetryablePackageFailureException}
-     * will be treated as non-fatal until the last attempt.
+     * {@link RetryablePackageFailureException} will be treated as non-fatal
+     * until the last attempt.
      *
-     * @param string                                     $tempDirectory
-     * @param \ComponentManager\ResolvedComponentVersion $resolvedComponentVersion
-     * @param \Symfony\Component\Filesystem\Filesystem   $filesystem
-     * @param \Psr\Log\LoggerInterface                   $logger
+     * @param string                   $tempDirectory
+     * @param ResolvedComponentVersion $resolvedComponentVersion
+     * @param Filesystem               $filesystem
+     * @param LoggerInterface          $logger
      *
      * @return string The path to the module's root directory.
      */

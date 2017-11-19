@@ -72,17 +72,17 @@ class ComponentVersion {
     /**
      * Component sources.
      *
-     * @var \ComponentManager\ComponentSource\ComponentSource[]
+     * @var ComponentSource[]
      */
     protected $sources;
 
     /**
      * Initialiser.
      *
-     * @param integer                                             $version
-     * @param string                                              $release
-     * @param integer                                             $maturity
-     * @param \ComponentManager\ComponentSource\ComponentSource[] $sources
+     * @param integer                $version
+     * @param string                 $release
+     * @param integer                $maturity
+     * @param ComponentSource[]|null $sources
      */
     public function __construct($version, $release, $maturity, $sources=null) {
         $this->version  = $version;
@@ -99,7 +99,7 @@ class ComponentVersion {
     /**
      * Add a component source.
      *
-     * @param \ComponentManager\ComponentSource\ComponentSource $source
+     * @param ComponentSource $source
      *
      * @return void
      *
@@ -136,7 +136,7 @@ class ComponentVersion {
     /**
      * Get component sources.
      *
-     * @return \ComponentManager\ComponentSource\ComponentSource[]
+     * @return ComponentSource[]
      *
      * @codeCoverageIgnore
      */

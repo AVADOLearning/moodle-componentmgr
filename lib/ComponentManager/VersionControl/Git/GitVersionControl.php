@@ -64,7 +64,7 @@ class GitVersionControl {
      *
      * @param string[] $arguments Arguments to pass to the Git binary.
      *
-     * @return \Symfony\Component\Process\Process
+     * @return Process
      */
     public function createProcess($arguments) {
         array_unshift($arguments, $this->gitExecutable);

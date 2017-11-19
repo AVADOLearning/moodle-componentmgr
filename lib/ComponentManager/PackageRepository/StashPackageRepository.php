@@ -11,6 +11,7 @@
 namespace ComponentManager\PackageRepository;
 
 use ComponentManager\Component;
+use ComponentManager\ComponentSource\ComponentSource;
 use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
@@ -77,26 +78,26 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     /**
      * Package cache.
      *
-     * @var \stdClass
+     * @var stdClass
      */
     protected $packageCache;
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getId() {
         return 'Stash';
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getName() {
         return 'Atlassian Stash plugin repository';
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getComponent(ComponentSpecification $componentSpecification) {
         $this->maybeLoadPackageCache();
@@ -187,7 +188,7 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
         return $versionSpecification === $version->getRelease();
@@ -196,7 +197,7 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     /**
      * Determine whether to add a component source for the given clone link.
      *
-     * @param \stdClass $cloneSource Clone link from the Stash REST API.
+     * @param stdClass $cloneSource Clone link from the Stash REST API.
      *
      * @return boolean
      */
@@ -208,9 +209,9 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     /**
      * Sort component sources by link order and strip keys.
      *
-     * @param \ComponentManager\ComponentSource\ComponentSource[] $componentSources
+     * @param ComponentSource[] $componentSources
      *
-     * @return \ComponentManager\ComponentSource\ComponentSource[]
+     * @return ComponentSource[]
      */
     protected function sortComponentSources(array $componentSources) {
         if (property_exists($this->options, 'linkOrder')) {
@@ -226,7 +227,7 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\CachingPackageRepository
+     * @override CachingPackageRepository
      */
     public function metadataCacheLastRefreshed() {
         $filename = $this->getMetadataCacheFilename();
@@ -242,7 +243,7 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\CachingPackageRepository
+     * @override CachingPackageRepository
      */
     public function refreshMetadataCache(LoggerInterface $logger) {
         $path = $this->getProjectRepositoryListUrl();
@@ -303,7 +304,7 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     /**
      * Write the metadata cache to the disk.
      *
-     * @param \stdClass $components
+     * @param stdClass $components
      *
      * @return void
      */

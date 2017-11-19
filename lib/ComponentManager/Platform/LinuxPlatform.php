@@ -24,7 +24,7 @@ class LinuxPlatform extends AbstractPlatform implements Platform {
     const PATH_DELIMITER = ':';
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function expandPath($path) {
         /* Paths beginning with ~ and a directory separator are relative to
@@ -37,7 +37,7 @@ class LinuxPlatform extends AbstractPlatform implements Platform {
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function getExecutablePath($name) {
         $paths = explode(static::PATH_DELIMITER, getenv('PATH'));
@@ -54,14 +54,14 @@ class LinuxPlatform extends AbstractPlatform implements Platform {
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function getHomeDirectory() {
         return getenv('HOME');
     }
 
     /**
-     * @override \ComponentManager\Platform\Platform
+     * @override Platform
      */
     public function getLocalSharedDirectory() {
         return $this->joinPaths([

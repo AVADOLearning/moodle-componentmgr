@@ -14,6 +14,7 @@ use ComponentManager\Component;
 use ComponentManager\ComponentSource\GitComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
+use Github\Api\Repo;
 use Github\Client;
 
 /**
@@ -26,19 +27,19 @@ class GithubPackageRepository extends AbstractPackageRepository
      *
      * Lazily loaded -- use {@link getClient()} to ensure it's initialised.
      *
-     * @var \Github\Client;
+     * @var Client
      */
     protected $client;
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getId() {
         return 'Github';
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getName() {
         return 'GitHub package repository';
@@ -47,7 +48,7 @@ class GithubPackageRepository extends AbstractPackageRepository
     /**
      * Get the GitHub client.
      *
-     * @return \Github\Client
+     * @return Client
      */
     protected function getClient() {
         if ($this->client === null) {
@@ -58,10 +59,10 @@ class GithubPackageRepository extends AbstractPackageRepository
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function getComponent(ComponentSpecification $componentSpecification) {
-        /** @var \Github\Api\Repo $api */
+        /** @var Repo $api */
         $api = $this->getClient()->api('repo');
 
         list($user, $repositoryName) = explode(
@@ -86,7 +87,7 @@ class GithubPackageRepository extends AbstractPackageRepository
     }
 
     /**
-     * @override \ComponentManager\PackageRepository\PackageRepository
+     * @override PackageRepository
      */
     public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
         return $versionSpecification === $version->getRelease();

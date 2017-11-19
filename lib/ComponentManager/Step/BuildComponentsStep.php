@@ -16,6 +16,8 @@ use ComponentManager\Platform\Platform;
 use ComponentManager\Project\ComponentProject;
 use ComponentManager\Project\ComponentProjectFile;
 use ComponentManager\ResolvedComponentVersion;
+use ComponentManager\Task\InstallTask;
+use ComponentManager\Task\PackageTask;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -27,30 +29,30 @@ class BuildComponentsStep implements Step {
     /**
      * Moodle instance.
      *
-     * @var \ComponentManager\Moodle
+     * @var Moodle
      */
     protected $moodle;
 
     /**
      * Filesystem.
      *
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var Filesystem
      */
     private $filesystem;
 
     /**
      * Platform support library.
      *
-     * @var \ComponentManager\Platform\Platform
+     * @var Platform
      */
     protected $platform;
 
     /**
      * Initialiser.
      *
-     * @param \ComponentManager\Moodle                 $moodle
-     * @param \ComponentManager\Platform\Platform      $platform
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param Moodle     $moodle
+     * @param Platform   $platform
+     * @param Filesystem $filesystem
      */
     public function __construct(Moodle $moodle, Platform $platform,
                                 Filesystem $filesystem) {
@@ -61,9 +63,9 @@ class BuildComponentsStep implements Step {
     }
 
     /**
-     * @override \ComponentManager\Step\Step
+     * @override Step
      *
-     * @param \ComponentManager\Task\InstallTask|\ComponentManager\Task\PackageTask $task
+     * @param InstallTask|PackageTask $task
      */
     public function execute($task, LoggerInterface $logger) {
         $resolvedComponentVersions = $task->getResolvedComponentVersions();
@@ -76,12 +78,12 @@ class BuildComponentsStep implements Step {
     /**
      * Attempt to build an individual component.
      *
-     * @param \ComponentManager\ResolvedComponentVersion $resolvedComponentVersion
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param ResolvedComponentVersion $resolvedComponentVersion
+     * @param LoggerInterface          $logger
      *
      * @return void
      *
-     * @throws \ComponentManager\Exception\ComponentProjectException
+     * @throws ComponentProjectException
      */
     protected function tryComponent(ResolvedComponentVersion $resolvedComponentVersion,
                                     LoggerInterface $logger) {

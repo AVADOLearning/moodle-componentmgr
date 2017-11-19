@@ -10,6 +10,7 @@
 
 namespace ComponentManager\Platform;
 
+use ComponentManager\Exception\PlatformException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -22,7 +23,7 @@ interface Platform {
     /**
      * Initialiser.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
+     * @param Filesystem $filesystem
      */
     public function __construct(Filesystem $filesystem);
 
@@ -58,7 +59,7 @@ interface Platform {
      *
      * @return string
      *
-     * @throws \ComponentManager\Exception\PlatformException
+     * @throws PlatformException
      */
     public function getExecutablePath($name);
 

@@ -10,6 +10,8 @@
 
 namespace ComponentManager\Exception;
 
+use ComponentManager\Exception\AbstractException;
+
 /**
  * Not implemented exception.
  *
@@ -17,14 +19,14 @@ namespace ComponentManager\Exception;
  */
 class NotImplementedException extends AbstractException {
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionType() {
         return 'NotImplementedException';
     }
 
     /**
-     * @override \ComponentManager\Exception\AbstractException
+     * @override AbstractException
      */
     public function getExceptionCodeName() {
         return 'Functionality not yet implemented';

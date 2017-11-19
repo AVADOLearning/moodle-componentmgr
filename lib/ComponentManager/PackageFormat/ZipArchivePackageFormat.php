@@ -26,7 +26,7 @@ use ZipArchive;
 class ZipArchivePackageFormat extends AbstractPackageFormat
         implements PackageFormat {
     /**
-     * @override \ComponentManager\PackageFormat\PackageFormat
+     * @override PackageFormat
      */
     public function package($moodleDir, $destination,
                             ProjectFile $projectFile,
