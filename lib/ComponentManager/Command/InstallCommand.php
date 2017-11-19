@@ -36,7 +36,8 @@ class InstallCommand extends ProjectAwareCommand {
      * @var string
      */
     const HELP = <<<HELP
-Installs, into the Moodle installation in the present working directory, all of the components listed in its componentmgr.json file.
+Installs, into the Moodle installation in the present working directory, all of
+the components listed in its componentmgr.json file.
 HELP;
 
     /**
