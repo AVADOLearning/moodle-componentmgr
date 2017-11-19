@@ -27,6 +27,8 @@ interface CachingPackageRepository {
     /**
      * Update the metadata cache.
      *
+     * @param LoggerInterface $logger
+     *
      * @return void
      */
     public function refreshMetadataCache(LoggerInterface $logger);
