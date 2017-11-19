@@ -44,7 +44,7 @@ class PackageFormatFactory {
      * @param Platform   $platform
      * @param Filesystem $filesystem
      */
-    public function __construct(Platform $platform, $filesystem) {
+    public function __construct(Platform $platform, Filesystem $filesystem) {
         $this->platform   = $platform;
         $this->filesystem = $filesystem;
     }
