@@ -68,7 +68,9 @@ HELP;
                 $result = $moodle->getPluginTypes();
                 break;
             default:
-                throw new MoodleException("Invalid action \"{$action}\"", MoodleException::CODE_INVALID_ACTION);
+                throw new MoodleException(
+                        sprintf('Invalid action "%s"', $action),
+                        MoodleException::CODE_INVALID_ACTION);
         }
 
         $moodle->dispose();

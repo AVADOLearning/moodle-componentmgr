@@ -132,8 +132,8 @@ class ComponentSpecification {
      */
     public function getExtra($property) {
         if (!property_exists($this->extra, $property)) {
-            throw new OutOfBoundsException(
-                    "No value specified in project file for \"{$property}\"");
+            throw new OutOfBoundsException(sprintf(
+                    'No value specified in project file for "%s"', $property));
         }
 
         return $this->extra->{$property};
