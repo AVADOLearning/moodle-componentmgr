@@ -27,6 +27,13 @@ abstract class AbstractPlatform implements Platform {
     const TEMP_PREFIX = 'componentmgr-';
 
     /**
+     * Filesystem.
+     *
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
      * Temporary directories.
      *
      * @var string[]
