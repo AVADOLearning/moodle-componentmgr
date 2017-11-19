@@ -137,6 +137,8 @@ class Component {
      * @param string $versionSpecification
      *
      * @return ComponentVersion
+     *
+     * @throws UnsatisfiedVersionException
      */
     public function getVersion($versionSpecification) {
         foreach ($this->versions as $version) {
