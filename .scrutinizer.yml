@@ -32,7 +32,7 @@ checks:
       remove_unused: true
     function_in_camel_caps: true
     line_length:
-      max_length: 80
+      max_length: 120
     more_specific_types_in_doc_comments: true
     newline_at_end_of_file: true
     no_exit: true
