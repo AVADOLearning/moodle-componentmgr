@@ -35,6 +35,9 @@ class WindowsPlatformTest extends TestCase {
      */
     protected $platform;
 
+    /**
+     * @inheritdoc TestCase
+     */
     public function setUp() {
         $this->oldPath = getenv('PATH');
         putenv("PATH=C:\\windows\\system32;{$this->oldPath}");
@@ -45,6 +48,9 @@ class WindowsPlatformTest extends TestCase {
         $this->platform = new WindowsPlatform($filesystem);
     }
 
+    /**
+     * @inheritdoc TestCase
+     */
     public function tearDown() {
         putenv("PATH={$this->oldPath}");
 

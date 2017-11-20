@@ -31,7 +31,7 @@ class CheckoutIndexCommand implements Command {
     }
 
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     public function getCommandLine() {
         return [

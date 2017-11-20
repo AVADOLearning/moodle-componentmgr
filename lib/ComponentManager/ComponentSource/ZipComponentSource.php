@@ -40,14 +40,14 @@ class ZipComponentSource extends AbstractComponentSource
     }
 
     /**
-     * @override ComponentSource
+     * @inheritdoc ComponentSource
      */
     public function getName() {
         return 'Zip archive';
     }
 
     /**
-     * @override ComponentSource
+     * @inheritdoc ComponentSource
      */
     public function getId() {
         return 'Zip';

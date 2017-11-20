@@ -24,14 +24,14 @@ class WindowsPlatform extends AbstractPlatform implements Platform {
     const PATH_DELIMITER = ';';
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function expandPath($path) {
         return $path;
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function getExecutablePath($name) {
         $paths = explode(static::PATH_DELIMITER, getenv('PATH'));
@@ -53,14 +53,14 @@ class WindowsPlatform extends AbstractPlatform implements Platform {
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function getHomeDirectory() {
         return getenv('HOMEDRIVE') . getenv('HOMEPATH');
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function getLocalSharedDirectory() {
         return getenv('APPDATA');

@@ -48,14 +48,14 @@ class MoodleException extends AbstractException {
     const CODE_INVALID_STATE = 4;
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionType() {
         return 'MoodleException';
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

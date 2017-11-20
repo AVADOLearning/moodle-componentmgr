@@ -19,14 +19,14 @@ use ComponentManager\Exception\AbstractException;
  */
 class NotImplementedException extends AbstractException {
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionType() {
         return 'NotImplementedException';
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionCodeName() {
         return 'Functionality not yet implemented';

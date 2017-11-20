@@ -33,7 +33,7 @@ Executes the specified script for a component.
 HELP;
 
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     protected function configure() {
         $this
@@ -48,7 +48,7 @@ HELP;
     }
 
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $script = $this->getComponentProjectFile()->getScript(

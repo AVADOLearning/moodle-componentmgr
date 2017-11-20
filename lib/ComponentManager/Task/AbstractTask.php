@@ -34,14 +34,14 @@ abstract class AbstractTask {
     }
 
     /**
-     * @override Task
+     * @inheritdoc Task
      */
     public function addStep(Step $step) {
         $this->steps[] = $step;
     }
 
     /**
-     * @override Task
+     * @inheritdoc Task
      */
     public function execute(LoggerInterface $logger) {
         foreach ($this->steps as $step) {

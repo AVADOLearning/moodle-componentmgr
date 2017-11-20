@@ -61,7 +61,7 @@ HELP;
     }
 
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     protected function configure() {
         $this
@@ -76,7 +76,7 @@ HELP;
     }
 
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $project = $this->getProject();

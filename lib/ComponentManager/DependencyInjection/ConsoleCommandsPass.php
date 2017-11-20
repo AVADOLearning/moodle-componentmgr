@@ -59,7 +59,7 @@ class ConsoleCommandsPass implements CompilerPassInterface {
     }
 
     /**
-     * @override CompilerPassInterface
+     * @inheritdoc CompilerPassInterface
      */
     public function process(ContainerBuilder $container) {
         $services      = $container->findTaggedServiceIds($this->tagName);

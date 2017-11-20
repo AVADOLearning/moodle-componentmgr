@@ -50,7 +50,7 @@ abstract class AbstractPlatform implements Platform {
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function createTempDirectory() {
         $root      = sys_get_temp_dir();
@@ -65,49 +65,49 @@ abstract class AbstractPlatform implements Platform {
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function getDirectorySeparator() {
         return DIRECTORY_SEPARATOR;
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function getWorkingDirectory() {
         return getcwd();
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function joinPaths($parts) {
         return implode($this->getDirectorySeparator(), $parts);
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function getPhpExecutable() {
         return PHP_BINARY;
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function getPhpScript() {
         return $_SERVER['argv'][0];
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function removeTempDirectories() {
         $this->filesystem->remove($this->tempDirectories);
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function removeTempDirectory($directory) {
         $index = array_search($directory, $this->tempDirectories, true);

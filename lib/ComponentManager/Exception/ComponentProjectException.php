@@ -34,14 +34,14 @@ class ComponentProjectException extends AbstractException {
     const CODE_SCRIPT_FAILED = 2;
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionType() {
         return 'ComponentProjectException';
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

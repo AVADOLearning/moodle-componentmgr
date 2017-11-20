@@ -23,21 +23,21 @@ use ComponentManager\ComponentVersion;
 class GitPackageRepository extends AbstractCachingPackageRepository
         implements PackageRepository {
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getId() {
         return 'Git';
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getName() {
         return 'Git package repository';
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getComponent(ComponentSpecification $componentSpecification) {
         return new Component($componentSpecification->getName(), [
@@ -48,7 +48,7 @@ class GitPackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
         return true;

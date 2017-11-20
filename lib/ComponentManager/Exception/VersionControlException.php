@@ -61,14 +61,14 @@ class VersionControlException extends AbstractException {
     const CODE_REV_PARSE_FAILED = 6;
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionType() {
         return 'VersionControlException';
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

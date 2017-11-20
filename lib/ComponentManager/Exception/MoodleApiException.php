@@ -21,14 +21,14 @@ class MoodleApiException extends AbstractException {
     const CODE_REQUEST_FAILED = 1;
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionType() {
         return 'MoodleApiException';
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

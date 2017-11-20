@@ -133,7 +133,7 @@ class ResolvedComponentVersion implements JsonSerializable {
     }
 
     /**
-     * @override JsonSerializable
+     * @inheritdoc JsonSerializable
      */
     public function jsonSerialize() {
         return (object) [

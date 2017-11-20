@@ -41,14 +41,14 @@ class GitComponentSource extends AbstractComponentSource
     }
 
     /**
-     * @override ComponentSource
+     * @inheritdoc ComponentSource
      */
     public function getName() {
         return 'Git repository';
     }
 
     /**
-     * @override ComponentSource
+     * @inheritdoc ComponentSource
      */
     public function getId() {
         return 'Git';

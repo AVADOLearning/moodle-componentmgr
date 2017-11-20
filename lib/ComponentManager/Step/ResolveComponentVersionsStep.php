@@ -37,7 +37,7 @@ class ResolveComponentVersionsStep implements Step {
     }
 
     /**
-     * @override Step
+     * @inheritdoc Step
      *
      * @param InstallTask $task
      */

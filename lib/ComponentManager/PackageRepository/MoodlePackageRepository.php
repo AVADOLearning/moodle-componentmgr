@@ -73,21 +73,21 @@ class MoodlePackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getId() {
         return 'Moodle';
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getName() {
         return 'Moodle.org plugin repository';
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getComponent(ComponentSpecification $componentSpecification) {
         $this->maybeLoadPackageCache();
@@ -144,7 +144,7 @@ class MoodlePackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override CachingPackageRepository
+     * @inheritdoc CachingPackageRepository
      */
     public function metadataCacheLastRefreshed() {
         $filename = $this->getMetadataCacheFilename();
@@ -160,7 +160,7 @@ class MoodlePackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override CachingPackageRepository
+     * @inheritdoc CachingPackageRepository
      */
     public function refreshMetadataCache(LoggerInterface $logger) {
         $logger->debug('Fetching metadata', [
@@ -193,7 +193,7 @@ class MoodlePackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
         return $versionSpecification == $version->getVersion()

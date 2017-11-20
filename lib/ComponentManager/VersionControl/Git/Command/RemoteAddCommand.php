@@ -33,7 +33,7 @@ class RemoteAddCommand implements Command {
     }
 
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     public function getCommandLine() {
         return [

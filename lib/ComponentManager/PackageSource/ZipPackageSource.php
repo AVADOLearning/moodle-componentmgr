@@ -60,14 +60,14 @@ class ZipPackageSource extends AbstractPackageSource
     }
 
     /**
-     * @override PackageSource
+     * @inheritdoc PackageSource
      */
     public function getId() {
         return 'Zip';
     }
 
     /**
-     * @override PackageSource
+     * @inheritdoc PackageSource
      */
     public function getName() {
         return 'Zip';
@@ -102,7 +102,7 @@ class ZipPackageSource extends AbstractPackageSource
     }
 
     /**
-     * @override PackageSource
+     * @inheritdoc PackageSource
      */
     public function obtainPackage($tempDirectory,
                                   ResolvedComponentVersion $resolvedComponentVersion,

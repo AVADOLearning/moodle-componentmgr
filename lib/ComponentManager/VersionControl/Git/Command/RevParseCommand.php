@@ -31,7 +31,7 @@ class RevParseCommand implements Command {
     }
 
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     public function getCommandLine() {
         return ['rev-parse', $this->ref];

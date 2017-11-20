@@ -55,14 +55,14 @@ class InstallationFailureException extends AbstractException {
     const CODE_UNKNOWN_TARGET_DIRECTORY = 5;
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionType() {
         return 'InstallationFailureException';
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

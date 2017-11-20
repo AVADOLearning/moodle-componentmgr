@@ -61,7 +61,7 @@ class ObtainMoodleSourceStep implements Step {
     }
 
     /**
-     * @override Step
+     * @inheritdoc Step
      *
      * @param PackageTask $task
      */

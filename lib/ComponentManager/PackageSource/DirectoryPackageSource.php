@@ -22,21 +22,21 @@ use Symfony\Component\Filesystem\Filesystem;
 class DirectoryPackageSource extends AbstractPackageSource
         implements PackageSource {
     /**
-     * @override PackageSource
+     * @inheritdoc PackageSource
      */
     public function getId() {
         return 'Directory';
     }
 
     /**
-     * @override PackageSource
+     * @inheritdoc PackageSource
      */
     public function getName() {
         return 'Directory';
     }
 
     /**
-     * @override PackageSource
+     * @inheritdoc PackageSource
      */
     public function obtainPackage($tempDirectory,
                                   ResolvedComponentVersion $resolvedComponentVersion,

@@ -41,14 +41,14 @@ class PlatformException extends AbstractException {
     const CODE_UNKNOWN_TEMP_DIRECTORY = 3;
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionType() {
         return 'PlatformException';
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

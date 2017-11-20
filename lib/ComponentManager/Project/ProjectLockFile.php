@@ -48,7 +48,7 @@ class ProjectLockFile extends JsonFile {
     }
 
     /**
-     * @override JsonFile
+     * @inheritdoc JsonFile
      */
     public function dump() {
         return (object) [

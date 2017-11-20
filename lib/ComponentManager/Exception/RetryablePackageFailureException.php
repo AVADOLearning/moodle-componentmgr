@@ -19,7 +19,7 @@ use Throwable;
  */
 class RetryablePackageFailureException extends AbstractException {
     /**
-     * @override Exception
+     * @inheritdoc Exception
      */
     public function __construct(Throwable $previous) {
         parent::__construct(
@@ -27,14 +27,14 @@ class RetryablePackageFailureException extends AbstractException {
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionType() {
         return $this->getPrevious()->getExceptionType();
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionCodeName() {
         return $this->getPrevious()->getExceptionCodeName();

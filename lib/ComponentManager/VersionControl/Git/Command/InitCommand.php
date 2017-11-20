@@ -15,7 +15,7 @@ namespace ComponentManager\VersionControl\Git\Command;
  */
 class InitCommand implements Command {
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     public function getCommandLine() {
         return ['init'];

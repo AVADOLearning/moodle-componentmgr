@@ -63,7 +63,7 @@ class BuildComponentsStep implements Step {
     }
 
     /**
-     * @override Step
+     * @inheritdoc Step
      *
      * @param InstallTask|PackageTask $task
      */

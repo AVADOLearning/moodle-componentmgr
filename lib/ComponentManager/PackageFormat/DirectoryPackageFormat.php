@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
 class DirectoryPackageFormat extends AbstractPackageFormat
         implements PackageFormat {
     /**
-     * @override PackageFormat
+     * @inheritdoc PackageFormat
      */
     public function package($moodleDir, $destination,
                             ProjectFile $projectFile,

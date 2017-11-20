@@ -21,14 +21,14 @@ class PackageFailureException extends AbstractException {
     const CODE_OTHER = 1;
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionType() {
         return 'PackageFailureException';
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

@@ -32,14 +32,14 @@ class GithubPackageRepository extends AbstractPackageRepository
     protected $client;
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getId() {
         return 'Github';
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getName() {
         return 'GitHub package repository';
@@ -59,7 +59,7 @@ class GithubPackageRepository extends AbstractPackageRepository
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getComponent(ComponentSpecification $componentSpecification) {
         /** @var Repo $api */
@@ -87,7 +87,7 @@ class GithubPackageRepository extends AbstractPackageRepository
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
         return $versionSpecification === $version->getRelease();

@@ -36,7 +36,7 @@ class VerifyPackageRepositoriesCachedStep implements Step {
     }
 
     /**
-     * @override Step
+     * @inheritdoc Step
      */
     public function execute($task, LoggerInterface $logger) {
         $logger->info('Ensuring necessary package repositories are cached');

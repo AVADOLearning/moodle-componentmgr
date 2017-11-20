@@ -34,14 +34,14 @@ class UnsatisfiedVersionException extends AbstractException {
     const CODE_PACKAGE_SOURCE_FAILED = 2;
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionType() {
         return 'UnsatisfiedVersionException';
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

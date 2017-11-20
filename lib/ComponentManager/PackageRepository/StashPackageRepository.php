@@ -83,21 +83,21 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     protected $packageCache;
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getId() {
         return 'Stash';
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getName() {
         return 'Atlassian Stash plugin repository';
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function getComponent(ComponentSpecification $componentSpecification) {
         $this->maybeLoadPackageCache();
@@ -181,7 +181,7 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override PackageRepository
+     * @inheritdoc PackageRepository
      */
     public function satisfiesVersion($versionSpecification, ComponentVersion $version) {
         return $versionSpecification === $version->getRelease();
@@ -220,7 +220,7 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override CachingPackageRepository
+     * @inheritdoc CachingPackageRepository
      */
     public function metadataCacheLastRefreshed() {
         $filename = $this->getMetadataCacheFilename();
@@ -236,7 +236,7 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     }
 
     /**
-     * @override CachingPackageRepository
+     * @inheritdoc CachingPackageRepository
      */
     public function refreshMetadataCache(LoggerInterface $logger) {
         $path = $this->getProjectRepositoryListUrl();

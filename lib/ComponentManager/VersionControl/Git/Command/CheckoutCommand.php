@@ -31,7 +31,7 @@ class CheckoutCommand implements Command {
     }
 
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     public function getCommandLine() {
         return ['checkout', $this->ref];

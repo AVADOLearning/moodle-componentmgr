@@ -35,7 +35,7 @@ Refreshes cached package repository meta for all caching package repositories.
 HELP;
 
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     protected function configure() {
         $this
@@ -50,7 +50,7 @@ HELP;
     }
 
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $projectFilename = $input->getOption(Argument::OPTION_PROJECT_FILE);

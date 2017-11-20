@@ -27,7 +27,7 @@ use Symfony\Component\Process\ProcessUtils;
 class WebDeployPackageFormat extends AbstractPackageFormat
         implements PackageFormat {
     /**
-     * @override PackageFormat
+     * @inheritdoc PackageFormat
      */
     public function package($moodleDir, $destination,
                             ProjectFile $projectFile,

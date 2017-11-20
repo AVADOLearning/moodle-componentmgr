@@ -79,7 +79,7 @@ class InstallComponentsStep implements Step {
     }
 
     /**
-     * @override Step
+     * @inheritdoc Step
      *
      * @param InstallTask $task
      */

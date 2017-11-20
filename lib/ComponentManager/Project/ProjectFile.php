@@ -82,7 +82,7 @@ class ProjectFile extends JsonFile {
     }
 
     /**
-     * @override JsonFile
+     * @inheritdoc JsonFile
      */
     public function dump() {
         throw new NotImplementedException();

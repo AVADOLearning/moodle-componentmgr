@@ -46,7 +46,7 @@ class ResolveMoodleVersionStep implements Step {
     }
 
     /**
-     * @override Step
+     * @inheritdoc Step
      *
      * @param PackageTask $task
      */

@@ -31,7 +31,7 @@ class LinuxPlatformTest extends TestCase {
     protected $platform;
 
     /**
-     * @override \PHPUnit_Framework_TestCase
+     * @inheritdoc TestCase
      */
     public function setUp() {
         $this->oldPath = getenv('PATH');
@@ -42,7 +42,7 @@ class LinuxPlatformTest extends TestCase {
     }
 
     /**
-     * @override \PHPUnit_Framework_TestCase
+     * @inheritdoc TestCase
      */
     public function tearDown() {
         putenv("PATH={$this->oldPath}");

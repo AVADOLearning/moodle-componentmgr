@@ -84,7 +84,7 @@ HELP;
     }
 
     /**
-     * @override AbstractCommand
+     * @inheritdoc AbstractCommand
      */
     protected function configure() {
         $this
@@ -108,7 +108,7 @@ HELP;
     }
 
     /**
-     * @override AbstractCommand
+     * @inheritdoc AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $projectFilename = $input->getOption(Argument::OPTION_PROJECT_FILE);

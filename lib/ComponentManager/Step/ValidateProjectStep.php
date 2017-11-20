@@ -37,7 +37,7 @@ class ValidateProjectStep implements Step {
     }
 
     /**
-     * @override Step
+     * @inheritdoc Step
      */
     public function execute($task, LoggerInterface $logger) {
         $componentSpecifications = $this->project->getProjectFile()->getComponentSpecifications();

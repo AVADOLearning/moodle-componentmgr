@@ -38,7 +38,7 @@ class FetchCommand implements Command {
     }
 
     /**
-     * @override Command
+     * @inheritdoc Command
      */
     public function getCommandLine() {
         $args = ['fetch'];

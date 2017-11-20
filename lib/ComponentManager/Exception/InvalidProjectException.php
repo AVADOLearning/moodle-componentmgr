@@ -61,14 +61,14 @@ class InvalidProjectException extends AbstractException {
     const CODE_VALIDATION_FAILED = 6;
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionType() {
         return 'InvalidProjectException';
     }
 
     /**
-     * @override AbstractException
+     * @inheritdoc AbstractException
      */
     public function getExceptionCodeName() {
         switch ($this->code) {

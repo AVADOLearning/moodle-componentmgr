@@ -34,7 +34,7 @@ class RemoveTempDirectoriesStep implements Step {
     }
 
     /**
-     * @override Platform
+     * @inheritdoc Platform
      */
     public function execute($task, LoggerInterface $logger) {
         $logger->info('Removing temporary directories');

@@ -25,21 +25,21 @@ use Symfony\Component\Filesystem\Filesystem;
 class GitPackageSource extends AbstractPackageSource
         implements PackageSource {
     /**
-     * @override PackageSource
+     * @inheritdoc PackageSource
      */
     public function getId() {
         return 'Git';
     }
 
     /**
-     * @override PackageSource
+     * @inheritdoc PackageSource
      */
     public function getName() {
         return 'Git repository';
     }
 
     /**
-     * @override PackageSource
+     * @inheritdoc PackageSource
      */
     public function obtainPackage($tempDirectory,
                                   ResolvedComponentVersion $resolvedComponentVersion,

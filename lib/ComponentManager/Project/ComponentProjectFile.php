@@ -32,7 +32,7 @@ class ComponentProjectFile extends JsonFile {
     const SCRIPT_BUILD = 'build';
 
     /**
-     * @override JsonFile
+     * @inheritdoc JsonFile
      */
     public function dump() {
         throw new NotImplementedException();
