@@ -22,7 +22,7 @@ sudo DEBIAN_FRONTEND="$DEBIAN_FRONTEND" apt-get update
 sudo DEBIAN_FRONTEND="$DEBIAN_FRONTEND" apt-get install -y \
         curl git-core \
         php-cli php-curl php-json php-mbstring php-xml php-zip \
-        ruby1.9.1
+        ruby2.3
 
 pushd "$root"
 curl -o 'composer.phar' 'https://getcomposer.org/composer.phar'
