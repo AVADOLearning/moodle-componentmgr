@@ -20,33 +20,34 @@ use PHPUnit\Framework\TestCase;
  * @coversDefaultClass \ComponentManager\Component
  */
 class ComponentTest extends TestCase {
-   public function testGetNameParts() {
-       $component = new Component('type_name', []);
-       $this->assertEquals(['type', 'name'], $component->getNameParts());
-       $this->assertEquals('type', $component->getPluginType());
-       $this->assertEquals('name', $component->getPluginName());
-   }
+    public function testGetNameParts() {
+        $component = new Component('type_name', []);
+        $this->assertEquals(['type', 'name'], $component->getNameParts());
+        $this->assertEquals('type', $component->getPluginType());
+        $this->assertEquals('name', $component->getPluginName());
+    }
 
-   public function testGetVersion() {
-       $goodPackageRepository = $this->createMock(PackageRepository::class);
-       $goodPackageRepository->method('satisfiesVersion')
-           ->willReturn(true);
-       $badPackageRepository = $this->createMock(PackageRepository::class);
-       $badPackageRepository->method('satisfiesVersion')
-           ->willReturn(false);
+    public function testGetVersion() {
+        $goodPackageRepository = $this->createMock(PackageRepository::class);
+        $goodPackageRepository->method('satisfiesVersion')
+            ->willReturn(true);
 
-       $componentVersion = new ComponentVersion(
+        $badPackageRepository = $this->createMock(PackageRepository::class);
+        $badPackageRepository->method('satisfiesVersion')
+            ->willReturn(false);
+
+        $componentVersion = new ComponentVersion(
             '2015021800', 'Genesis', ComponentVersion::MATURITY_STABLE, []);
 
-       $component = new Component(
+        $component = new Component(
             'type_name', [$componentVersion], $goodPackageRepository);
-       $this->assertEquals(
+        $this->assertEquals(
             $componentVersion, $component->getVersion('2015021800'));
 
-       $this->expectException(UnsatisfiedVersionException::class);
-       $this->expectExceptionCode(UnsatisfiedVersionException::CODE_UNKNOWN_VERSION);
-       $component = new Component(
+        $this->expectException(UnsatisfiedVersionException::class);
+        $this->expectExceptionCode(UnsatisfiedVersionException::CODE_UNKNOWN_VERSION);
+        $component = new Component(
             'type_name', [$componentVersion], $badPackageRepository);
-       $component->getVersion('2015021800');
-   }
+        $component->getVersion('2015021800');
+    }
 }
