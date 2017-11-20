@@ -2,7 +2,7 @@
 driver:
   name: docker
   use_sudo: false
-  provision_command: sudo apt-get install -y rsync
+  provision_command: DEBIAN_FRONTEND=noninteractive sudo apt-get install -y rsync
 
 provisioner:
   name: shell

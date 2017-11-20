@@ -14,12 +14,12 @@ project_package="${root}/test/fixtures/componentmgr.package.json"
 moodle_tarball='moodle-31.tar.gz'
 moodle_url='https://download.moodle.org/download.php/direct/stable31/moodle-latest-31.tgz'
 
-sudo apt-get update
-sudo apt-get install -y software-properties-common
+sudo DEBIAN_FRONTEND="$DEBIAN_FRONTEND" apt-get update
+sudo DEBIAN_FRONTEND="$DEBIAN_FRONTEND" apt-get install -y software-properties-common
 LC_ALL=C.UTF-8 sudo add-apt-repository -y ppa:ondrej/php
 
-sudo apt-get update
-sudo apt-get install -y \
+sudo DEBIAN_FRONTEND="$DEBIAN_FRONTEND" apt-get update
+sudo DEBIAN_FRONTEND="$DEBIAN_FRONTEND" apt-get install -y \
         curl git-core \
         php-cli php-curl php-json php-mbstring php-xml php-zip \
         ruby1.9.1
