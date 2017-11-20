@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. 'test/travis/lib.sh'
+. 'test/env/travis/lib.sh'
 
 strict_enable
 

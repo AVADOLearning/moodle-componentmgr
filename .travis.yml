@@ -14,7 +14,7 @@ matrix:
       script:
         - bundle exec kitchen test
       after_failure:
-        - test/env/after_fail.sh
+        - test/env/travis/after_fail.sh
 
     - language: php
       php: '5.6'
