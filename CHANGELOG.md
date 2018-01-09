@@ -5,6 +5,7 @@
 Unreleased
 
 * macOS formally supported
+* Process timeout configurable via `--timeout` switch
 * `Github` package repository supports personal token authentication
 * Internal improvements
     * Increased access to logging

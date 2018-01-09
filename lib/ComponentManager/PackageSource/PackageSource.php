@@ -52,13 +52,14 @@ interface PackageSource {
      * until the last attempt.
      *
      * @param string                   $tempDirectory
+     * @param integer|null             $timeout
      * @param ResolvedComponentVersion $resolvedComponentVersion
      * @param Filesystem               $filesystem
      * @param LoggerInterface          $logger
      *
      * @return string The path to the module's root directory.
      */
-    public function obtainPackage($tempDirectory,
+    public function obtainPackage($tempDirectory, $timeout,
                                   ResolvedComponentVersion $resolvedComponentVersion,
                                   Filesystem $filesystem,
                                   LoggerInterface $logger);

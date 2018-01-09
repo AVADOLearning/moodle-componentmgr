@@ -40,6 +40,13 @@ class GitVersionControl {
     protected $gitExecutable;
 
     /**
+     * Process timeout.
+     *
+     * @var integer|null
+     */
+    protected $timeout;
+
+    /**
      * Remotes.
      *
      * @var GitRemote[]
@@ -49,11 +56,13 @@ class GitVersionControl {
     /**
      * Initialiser.
      *
-     * @param string $gitExecutable
-     * @param string $directory
+     * @param string       $gitExecutable
+     * @param string       $directory
+     * @param integer|null $timeout
      */
-    public function __construct($gitExecutable, $directory) {
+    public function __construct($gitExecutable, $directory, $timeout=60) {
         $this->gitExecutable = $gitExecutable;
+        $this->timeout       = $timeout;
 
         $this->directory = $directory;
         $this->remotes   = [];
@@ -70,6 +79,7 @@ class GitVersionControl {
         array_unshift($arguments, $this->gitExecutable);
 
         $builder = new ProcessBuilder($arguments);
+        $builder->setTimeout($this->timeout);
         $builder->setWorkingDirectory($this->directory);
 
         return $builder->getProcess();

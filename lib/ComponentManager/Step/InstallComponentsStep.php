@@ -51,6 +51,13 @@ class InstallComponentsStep implements Step {
     protected $platform;
 
     /**
+     * Process timeout.
+     *
+     * @var integer|null
+     */
+    protected $timeout;
+
+    /**
      * Number of retries.
      *
      * @var integer
@@ -60,21 +67,23 @@ class InstallComponentsStep implements Step {
     /**
      * Initialiser.
      *
-     * @param Project    $project
-     * @param Moodle     $moodle
-     * @param Platform   $platform
-     * @param Filesystem $filesystem
-     * @param integer    $attempts
+     * @param Project      $project
+     * @param Moodle       $moodle
+     * @param Platform     $platform
+     * @param Filesystem   $filesystem
+     * @param integer|null $timeout
+     * @param integer      $attempts
      */
     public function __construct(Project $project, Moodle $moodle,
                                 Platform $platform, Filesystem $filesystem,
-                                $attempts) {
+                                $timeout, $attempts) {
         $this->project = $project;
         $this->moodle  = $moodle;
 
         $this->filesystem = $filesystem;
         $this->platform   = $platform;
 
+        $this->timeout  = $timeout;
         $this->attempts = $attempts;
     }
 

@@ -104,6 +104,9 @@ HELP;
                 new InputOption(Argument::OPTION_ATTEMPTS, null,
                                 InputOption::VALUE_REQUIRED,
                                 Argument::OPTION_ATTEMPTS_HELP, 0),
+                new InputOption(Argument::OPTION_TIMEOUT, null,
+                                InputOption::VALUE_REQUIRED,
+                                Argument::OPTION_TIMEOUT_HELP, 60),
             ]));
     }
 
@@ -132,6 +135,7 @@ HELP;
                 $this->moodleApi, $project, $archive, $destination,
                 $this->platform, $this->filesystem, $this->httpClient, $moodle,
                 $packageFormat, $packageDestination,
+                $input->getOption(Argument::OPTION_TIMEOUT),
                 $input->getOption(Argument::OPTION_ATTEMPTS));
         $task->execute($this->logger);
     }

@@ -72,6 +72,9 @@ HELP;
                 new InputOption(Argument::OPTION_ATTEMPTS, null,
                                 InputOption::VALUE_REQUIRED,
                                 Argument::OPTION_ATTEMPTS_HELP),
+                new InputOption(Argument::OPTION_TIMEOUT, null,
+                                InputOption::VALUE_REQUIRED,
+                                Argument::OPTION_TIMEOUT_HELP, 60),
             ]);
     }
 
@@ -85,6 +88,7 @@ HELP;
 
         $task = new InstallTask(
                 $project, $this->platform, $this->filesystem, $moodle,
+                $input->getOption(Argument::OPTION_TIMEOUT),
                 $input->getOption(Argument::OPTION_ATTEMPTS));
         $task->execute($this->logger);
     }

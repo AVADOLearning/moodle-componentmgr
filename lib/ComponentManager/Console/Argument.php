@@ -78,6 +78,20 @@ class Argument {
     const OPTION_ATTEMPTS_HELP = 'Number of attempts for an operation before giving up';
 
     /**
+     * Option: process timeout.
+     *
+     * @var string
+     */
+    const OPTION_TIMEOUT = 'timeout';
+
+    /**
+     * Option help: process timeout.
+     *
+     * @var string
+     */
+    const OPTION_TIMEOUT_HELP = 'VCS and build subprocess timeout';
+
+    /**
      * Option: Moodle directory.
      *
      * @var string

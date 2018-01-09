@@ -38,7 +38,7 @@ class DirectoryPackageSource extends AbstractPackageSource
     /**
      * @inheritdoc PackageSource
      */
-    public function obtainPackage($tempDirectory,
+    public function obtainPackage($tempDirectory, $timeout,
                                   ResolvedComponentVersion $resolvedComponentVersion,
                                   Filesystem $filesystem,
                                   LoggerInterface $logger) {

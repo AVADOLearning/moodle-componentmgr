@@ -18,6 +18,7 @@ use ComponentManager\VersionControl\Git\GitRemote;
 use ComponentManager\VersionControl\Git\GitVersionControl;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 /**
  * Version control package source.
@@ -41,7 +42,7 @@ class GitPackageSource extends AbstractPackageSource
     /**
      * @inheritdoc PackageSource
      */
-    public function obtainPackage($tempDirectory,
+    public function obtainPackage($tempDirectory, $timeout,
                                   ResolvedComponentVersion $resolvedComponentVersion,
                                   Filesystem $filesystem,
                                   LoggerInterface $logger) {
@@ -89,13 +90,31 @@ class GitPackageSource extends AbstractPackageSource
 
                 $repository = new GitVersionControl(
                         $this->platform->getExecutablePath('git'),
-                        $repositoryPath);
+                        $repositoryPath, $timeout);
                 $repository->init();
                 $repository->addRemote(new GitRemote('origin', $repositoryUri));
 
+                $refsFetchOutput = $refsFetchErrors = '';
+                $tagsFetchOutput = $tagsFetchErrors = '';
                 try {
-                    $repository->fetch();
-                    $repository->fetchTags();
+                    $refsFetchProcess = $repository->fetch();
+                    $refsFetchOutput  = $refsFetchProcess->getOutput();
+                    $refsFetchErrors  = $refsFetchProcess->getErrorOutput();
+
+                    $tagsFetchProcess = $repository->fetchTags();
+                    $refsFetchOutput  = $tagsFetchProcess->getOutput();
+                    $refsFetchErrors  = $tagsFetchProcess->getErrorOutput();
+                } catch (ProcessTimedOutException $e) {
+                    $logger->debug('Fetch stdout', [
+                        $refsFetchOutput,
+                        $tagsFetchOutput,
+                    ]);
+                    $logger->debug('Fetch stderr', [
+                        $refsFetchErrors,
+                        $tagsFetchErrors,
+                    ]);
+                    $filesystem->remove($paths);
+                    throw new RetryablePackageFailureException($e);
                 } catch (VersionControlException $e) {
                     $filesystem->remove($paths);
                     throw new RetryablePackageFailureException($e);

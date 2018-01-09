@@ -34,15 +34,16 @@ class InstallTask extends AbstractTask implements Task {
     /**
      * Initialiser.
      *
-     * @param Project    $project
-     * @param Platform   $platform
-     * @param Filesystem $filesystem
-     * @param Moodle     $moodle
-     * @param integer    $attempts
+     * @param Project      $project
+     * @param Platform     $platform
+     * @param Filesystem   $filesystem
+     * @param Moodle       $moodle
+     * @param integer|null $timeouts
+     * @param integer      $attempts
      */
     public function __construct(Project $project, Platform $platform,
                                 Filesystem $filesystem, Moodle $moodle,
-                                $attempts) {
+                                $timeout, $attempts) {
         parent::__construct();
 
         $this->addStep(new ValidateProjectStep($project));
@@ -50,7 +51,8 @@ class InstallTask extends AbstractTask implements Task {
                 $project->getPackageRepositories()));
         $this->addStep(new ResolveComponentVersionsStep($project));
         $this->addStep(new InstallComponentsStep(
-                $project, $moodle, $platform, $filesystem, $attempts));
+                $project, $moodle, $platform, $filesystem, $timeout,
+                $attempts));
         $this->addStep(new BuildComponentsStep(
                 $moodle, $platform, $filesystem));
         $this->addStep(new CommitProjectLockFileStep(

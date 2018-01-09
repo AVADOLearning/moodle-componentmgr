@@ -46,23 +46,24 @@ class PackageTask extends InstallTask implements Task {
     /**
      * Initialiser.
      *
-     * @param MoodleApi  $moodleApi
-     * @param Project    $project
-     * @param string     $moodleArchive
-     * @param string     $moodleDestination
-     * @param Filesystem $filesystem
-     * @param HttpClient $httpClient
-     * @param Moodle     $moodle
-     * @param string     $packageFormat
-     * @param string     $packageDestination
-     * @param integer    $attempts
+     * @param MoodleApi    $moodleApi
+     * @param Project      $project
+     * @param string       $moodleArchive
+     * @param string       $moodleDestination
+     * @param Filesystem   $filesystem
+     * @param HttpClient   $httpClient
+     * @param Moodle       $moodle
+     * @param string       $packageFormat
+     * @param string       $packageDestination
+     * @param integer|null $timeout
+     * @param integer      $attempts
      */
     public function __construct(MoodleApi $moodleApi, Project $project,
                                 $moodleArchive, $moodleDestination,
                                 Platform $platform, Filesystem $filesystem,
                                 HttpClient $httpClient, Moodle $moodle,
                                 $packageFormat, $packageDestination,
-                                $attempts) {
+                                $timeout, $attempts) {
         /* Because we're reordering the installation steps, we don't want to
          * call InstallTask's constructor. */
         AbstractTask::__construct();
@@ -78,7 +79,7 @@ class PackageTask extends InstallTask implements Task {
         $this->addStep(new ObtainMoodleSourceStep(
                 $httpClient, $moodleArchive, dirname($moodleDestination)));
         $this->addStep(new InstallComponentsStep(
-                $project, $moodle, $platform, $filesystem, $attempts));
+                $project, $moodle, $platform, $filesystem, $timeout, $attempts));
         $this->addStep(new BuildComponentsStep(
                 $moodle, $platform, $filesystem));
         $this->addStep(new CommitProjectLockFileStep(
