@@ -10,7 +10,7 @@
 
 PHP=${PHP:-php}
 
-binDir="$(dirname "$(readlink -fn "$0")")"
+binDir="$(cd "$(dirname "$0")" && pwd -P)"
 rootDir="$(dirname "$binDir")"
 
 $PHP -d variables_order=EGPCS \

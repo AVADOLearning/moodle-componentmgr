@@ -4,6 +4,8 @@
 
 Unreleased
 
+* macOS formally supported
+
 ## 0.4.0: Beings
 
 Released 2017-11-08
