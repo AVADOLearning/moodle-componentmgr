@@ -1,5 +1,9 @@
 # Change log
 
+## 0.5.0: Slack
+
+Unreleased
+
 ## 0.4.0: Beings
 
 Released 2017-11-08
