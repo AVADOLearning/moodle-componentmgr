@@ -121,7 +121,7 @@ class InstallComponentsStep implements Step {
             do {
                 try {
                     $sourceDirectory = $packageSource->obtainPackage(
-                            $tempDirectory, $resolvedComponentVersion,
+                            $tempDirectory, $this->timeout, $resolvedComponentVersion,
                             $this->filesystem, $logger);
                     $obtained = true;
                 } catch (RetryablePackageFailureException $e) {

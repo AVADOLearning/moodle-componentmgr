@@ -99,7 +99,8 @@ class StashPackageRepository extends AbstractCachingPackageRepository
     /**
      * @inheritdoc PackageRepository
      */
-    public function getComponent(ComponentSpecification $componentSpecification) {
+    public function resolveComponent(ComponentSpecification $componentSpecification,
+                                     LoggerInterface $logger) {
         $this->maybeLoadPackageCache();
 
         $componentName = $componentSpecification->getName();

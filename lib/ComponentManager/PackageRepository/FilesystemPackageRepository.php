@@ -14,6 +14,7 @@ use ComponentManager\Component;
 use ComponentManager\ComponentSource\DirectoryComponentSource;
 use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
+use Psr\Log\LoggerInterface;
 
 /**
  * Filesystem package repository.
@@ -39,7 +40,8 @@ class FilesystemPackageRepository extends AbstractPackageRepository
     /**
      * @inheritdoc PackageRepository
      */
-    public function getComponent(ComponentSpecification $componentSpecification) {
+    public function resolveComponent(ComponentSpecification $componentSpecification,
+                                     LoggerInterface $logger) {
         return new Component($componentSpecification->getName(), [
             new ComponentVersion(null, null, null, [
                 new DirectoryComponentSource($componentSpecification->getExtra('directory')),

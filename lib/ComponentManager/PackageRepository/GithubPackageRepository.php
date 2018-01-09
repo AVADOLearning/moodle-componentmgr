@@ -16,6 +16,7 @@ use ComponentManager\ComponentSpecification;
 use ComponentManager\ComponentVersion;
 use Github\Api\Repo;
 use Github\Client;
+use Psr\Log\LoggerInterface;
 
 /**
  * GitHub package repository.
@@ -53,6 +54,11 @@ class GithubPackageRepository extends AbstractPackageRepository
     protected function getClient() {
         if ($this->client === null) {
             $this->client = new Client();
+            if (property_exists($this->options, 'token')) {
+                $this->client->authenticate(
+                        $this->options->token, null, Client::AUTH_HTTP_TOKEN);
+            }
+
         }
 
         return $this->client;
@@ -61,7 +67,8 @@ class GithubPackageRepository extends AbstractPackageRepository
     /**
      * @inheritdoc PackageRepository
      */
-    public function getComponent(ComponentSpecification $componentSpecification) {
+    public function resolveComponent(ComponentSpecification $componentSpecification,
+                                     LoggerInterface $logger) {
         /** @var Repo $api */
         $api = $this->getClient()->api('repo');
 

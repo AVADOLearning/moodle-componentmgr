@@ -58,7 +58,9 @@ class ResolveComponentVersionsStep implements Step {
             $componentVersion      = $componentSpecification->getVersion();
             $packageRepositoryName = $componentSpecification->getPackageRepository();
 
-            if (!$component = $packageRepository->getComponent($componentSpecification)) {
+            $component = $packageRepository->resolveComponent(
+                    $componentSpecification, $logger);
+            if (!$component) {
                 throw new InvalidProjectException(
                         "The component \"{$componentName}\" could not be found within repository \"{$packageRepositoryName}\"",
                         InvalidProjectException::CODE_MISSING_COMPONENT);

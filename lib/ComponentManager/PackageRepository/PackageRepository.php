@@ -16,6 +16,7 @@ use ComponentManager\ComponentVersion;
 use ComponentManager\Exception\InvalidProjectException;
 use ComponentManager\HttpClient;
 use ComponentManager\Platform\Platform;
+use Psr\Log\LoggerInterface;
 use stdClass;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -55,12 +56,14 @@ interface PackageRepository {
      * Get available versions for the specified component.
      *
      * @param ComponentSpecification $componentSpecification
+     * @param LoggerInterface        $logger
      *
      * @return Component
      *
      * @throws InvalidProjectException
      */
-    public function getComponent(ComponentSpecification $componentSpecification);
+    public function resolveComponent(ComponentSpecification $componentSpecification,
+                                     LoggerInterface $logger);
 
     /**
      * Determine whether the version specification is satisfied by the given version.

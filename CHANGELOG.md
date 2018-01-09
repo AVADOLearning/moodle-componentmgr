@@ -5,6 +5,10 @@
 Unreleased
 
 * macOS formally supported
+* `Github` package repository supports personal token authentication
+* Internal improvements
+    * Increased access to logging
+    * Improved API method naming
 
 ## 0.4.0: Beings
 

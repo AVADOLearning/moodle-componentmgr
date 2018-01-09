@@ -130,7 +130,10 @@ version control and distribution systems. At the moment:
 * `"Filesystem"` can be used to lookup components on the local disk.
 * `"Git"` lets you directly specify local and remote Git repository URIs.
 * `"Github"` allows Component Manager to query GitHub.com repositories,
-  specified with the `"repository"` property of each component.
+  specified with the `"repository"` property of each component. To enable a
+  greater API rate limit, consider setting the `token` field to a token
+  generated with the `public_repo` scope
+  [here](https://github.com/settings/tokens/new?description=componentmgr&scopes=public_repo).
 * `"Moodle"` allows access to the
   [Moodle.org/plugins](https://moodle.org/plugins/) repository, versioning
   plugins by either their plugin version (`YYYYMMDDXX`) or release name.
