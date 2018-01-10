@@ -2,7 +2,7 @@
 
 ## 0.5.0: Slack
 
-Unreleased
+Released 2018-01-10
 
 * macOS formally supported
 * Process timeout configurable via `--timeout` switch
