@@ -24,13 +24,6 @@ use stdClass;
  * instead. */
 class MoodleInstallation {
     /**
-     * Configuration file filename.
-     *
-     * @var string
-     */
-    const CONFIG_FILENAME = 'config.php';
-
-    /**
      * Instance state: new.
      *
      * The instance has not yet been configured, and is not ready to use.
@@ -144,34 +137,18 @@ class MoodleInstallation {
             define($constant, true);
         }
 
-        $path = $this->platform->joinPaths([
-            $this->rootDirectory,
-            static::CONFIG_FILENAME,
-        ]);
-        if (is_file($path)) {
-            require_once $path;
+        /* Only an extremely slim portion of Moodle will function correctly in
+         * this state, as we've not actually done most of the Moodle setup
+         * dance. It seems to be enough to run the plugin manager. */
 
-            if (!is_object($CFG)) {
-                throw new MoodleException(
-                        "The Moodle configuration file \"{$path}\" did not define \$CFG",
-                        MoodleException::CODE_NOT_CONFIGURED);
-            }
-        } else {
-            /* We don't have a configured site, so we'll have to fake it.
-             * Only an extremely slim portion of Moodle will function
-             * correctly in this state, as we've not actually done most of
-             * the Moodle setup dance. It seems to be enough to run the
-             * plugin manager. */
+        global $CFG;
+        $CFG = (object) [
+            'dirroot'  => $this->rootDirectory,
+            'dataroot' => $this->platform->createTempDirectory(),
+            'wwwroot'  => 'http://localhost',
+        ];
 
-            global $CFG;
-            $CFG = (object) [
-                'dirroot'  => $this->rootDirectory,
-                'dataroot' => $this->platform->createTempDirectory(),
-                'wwwroot'  => 'http://localhost',
-            ];
-
-            require_once "{$CFG->dirroot}/lib/setup.php";
-        }
+        require_once "{$CFG->dirroot}/lib/setup.php";
 
         $this->config = $CFG;
         $this->state  = static::STATE_READY;
